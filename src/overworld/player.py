@@ -36,13 +36,14 @@ class Player(Entity):
 
         return sprite
 
-    def handle_input(self, input_handler, current_map):
+    def handle_input(self, input_handler, current_map, npcs=None):
         """
         Handle player input for movement.
 
         Args:
             input_handler: Input instance with current input state
             current_map: Map instance for collision checking
+            npcs: Optional list of NPCs to check for collision
 
         Returns:
             True if player attempted to move, False otherwise
@@ -59,13 +60,23 @@ class Player(Entity):
         # Check if we can move in that direction
         target_x, target_y = self._get_target_tile(direction)
 
-        if current_map.is_walkable(target_x, target_y):
-            self.start_move(direction)
-            return True
-        else:
+        # Check map collision
+        if not current_map.is_walkable(target_x, target_y):
             # Just turn to face that direction
             self.direction = direction
             return False
+
+        # Check NPC collision
+        if npcs:
+            for npc in npcs:
+                if npc.tile_x == target_x and npc.tile_y == target_y:
+                    # Just turn to face that direction
+                    self.direction = direction
+                    return False
+
+        # All clear, start moving
+        self.start_move(direction)
+        return True
 
     def _get_target_tile(self, direction):
         """

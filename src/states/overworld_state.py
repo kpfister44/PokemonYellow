@@ -5,6 +5,8 @@ from src.states.base_state import BaseState
 from src.overworld.map import Map
 from src.overworld.camera import Camera
 from src.overworld.player import Player
+from src.overworld.npc import NPC
+from src.ui.dialog_box import DialogBox
 from src.engine import constants
 
 
@@ -26,6 +28,8 @@ class OverworldState(BaseState):
         self.current_map = None
         self.camera = None
         self.player = None
+        self.npcs = []
+        self.active_dialog = None
         self.player_start_x = player_start_x
         self.player_start_y = player_start_y
 
@@ -36,6 +40,19 @@ class OverworldState(BaseState):
 
         # Create player
         self.player = Player(self.player_start_x, self.player_start_y)
+
+        # Load NPCs from map data
+        self.npcs = []
+        npc_data = self.current_map.map_data.get("npcs", [])
+        for npc_info in npc_data:
+            npc = NPC(
+                npc_info["id"],
+                npc_info["tile_x"],
+                npc_info["tile_y"],
+                npc_info.get("direction", "down"),
+                npc_info.get("dialog", "...")
+            )
+            self.npcs.append(npc)
 
         # Create camera
         map_width = self.current_map.get_width_pixels()
@@ -72,6 +89,19 @@ class OverworldState(BaseState):
         # Load new map
         self.current_map = Map(map_path, self.game.renderer)
 
+        # Load NPCs from new map
+        self.npcs = []
+        npc_data = self.current_map.map_data.get("npcs", [])
+        for npc_info in npc_data:
+            npc = NPC(
+                npc_info["id"],
+                npc_info["tile_x"],
+                npc_info["tile_y"],
+                npc_info.get("direction", "down"),
+                npc_info.get("dialog", "...")
+            )
+            self.npcs.append(npc)
+
         # Reposition player (update both tile and pixel positions)
         self.player.tile_x = spawn_x
         self.player.tile_y = spawn_y
@@ -104,8 +134,42 @@ class OverworldState(BaseState):
         Args:
             input_handler: Input instance with current input state
         """
-        # Let player handle input
-        self.player.handle_input(input_handler, self.current_map)
+        # If dialog is active, A button closes it
+        if self.active_dialog:
+            if input_handler.is_just_pressed("a"):
+                self.active_dialog.close()
+                self.active_dialog = None
+            return  # Block other input during dialog
+
+        # Check for NPC interaction
+        if input_handler.is_just_pressed("a"):
+            npc = self._get_npc_in_front()
+            if npc:
+                dialog_text = npc.interact()
+                self.active_dialog = DialogBox(dialog_text, npc.npc_id)
+                return
+
+        # Normal player movement
+        self.player.handle_input(input_handler, self.current_map, self.npcs)
+
+    def _get_npc_in_front(self):
+        """Get NPC in tile player is facing."""
+        facing_x = self.player.tile_x
+        facing_y = self.player.tile_y
+
+        if self.player.direction == constants.DIR_UP:
+            facing_y -= 1
+        elif self.player.direction == constants.DIR_DOWN:
+            facing_y += 1
+        elif self.player.direction == constants.DIR_LEFT:
+            facing_x -= 1
+        elif self.player.direction == constants.DIR_RIGHT:
+            facing_x += 1
+
+        for npc in self.npcs:
+            if npc.tile_x == facing_x and npc.tile_y == facing_y:
+                return npc
+        return None
 
     def update(self, dt):
         """
@@ -116,6 +180,10 @@ class OverworldState(BaseState):
         """
         # Update player
         self.player.update()
+
+        # Update NPCs
+        for npc in self.npcs:
+            npc.update()
 
         # Check for warps after player finishes moving
         if not self.player.is_moving:
@@ -153,5 +221,13 @@ class OverworldState(BaseState):
         map_surface = self.current_map.render(camera_x, camera_y)
         renderer.draw_surface(map_surface, (0, 0))
 
+        # Render NPCs (same layer as player)
+        for npc in self.npcs:
+            npc.render(renderer, camera_x, camera_y)
+
         # Render the player
         self.player.render(renderer, camera_x, camera_y)
+
+        # Render dialog on top of everything
+        if self.active_dialog:
+            self.active_dialog.render(renderer)

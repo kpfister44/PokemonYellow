@@ -35,6 +35,30 @@ class Renderer:
         """Draw a rectangle on the game surface."""
         pygame.draw.rect(self.game_surface, color, rect, width)
 
+    def draw_text(self, text, x, y, color=(0, 0, 0), font_size=16):
+        """
+        Draw text at specified position.
+
+        Args:
+            text: String to render
+            x, y: Position on game surface (not window)
+            color: RGB tuple
+            font_size: Font size in pixels
+
+        Returns:
+            Tuple of (width, height) of rendered text
+        """
+        if not hasattr(self, '_font_cache'):
+            self._font_cache = {}
+
+        if font_size not in self._font_cache:
+            self._font_cache[font_size] = pygame.font.Font(None, font_size)
+
+        font = self._font_cache[font_size]
+        text_surface = font.render(text, True, color)
+        self.game_surface.blit(text_surface, (x, y))
+        return text_surface.get_width(), text_surface.get_height()
+
     def load_sprite(self, filepath):
         """Load a sprite with caching. Returns the loaded Surface."""
         if filepath not in self.sprite_cache:

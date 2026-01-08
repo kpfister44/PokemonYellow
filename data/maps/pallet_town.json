@@ -105,5 +105,21 @@
       "target_y": 11,
       "warp_type": "door"
     }
+  ],
+  "npcs": [
+    {
+      "id": "girl",
+      "tile_x": 10,
+      "tile_y": 12,
+      "direction": "down",
+      "dialog": "Technology is incredible!"
+    },
+    {
+      "id": "boy",
+      "tile_x": 5,
+      "tile_y": 10,
+      "direction": "right",
+      "dialog": "I love Pokemon!"
+    }
   ]
 }
