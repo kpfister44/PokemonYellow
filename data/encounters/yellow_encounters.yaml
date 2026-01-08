@@ -1,0 +1,1520 @@
+locations:
+  viridian-forest-area:
+  - pokemon: caterpie
+    method: walk
+    chance: 20
+    min_level: 3
+    max_level: 3
+  - pokemon: caterpie
+    method: walk
+    chance: 15
+    min_level: 4
+    max_level: 4
+  - pokemon: caterpie
+    method: walk
+    chance: 10
+    min_level: 5
+    max_level: 5
+  - pokemon: caterpie
+    method: walk
+    chance: 5
+    min_level: 6
+    max_level: 6
+  - pokemon: metapod
+    method: walk
+    chance: 20
+    min_level: 4
+    max_level: 4
+  - pokemon: metapod
+    method: walk
+    chance: 5
+    min_level: 6
+    max_level: 6
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 4
+    max_level: 4
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 6
+    max_level: 6
+  - pokemon: pidgey
+    method: walk
+    chance: 4
+    min_level: 8
+    max_level: 8
+  - pokemon: pidgeotto
+    method: walk
+    chance: 1
+    min_level: 9
+    max_level: 9
+  mt-moon-1f:
+  - pokemon: sandshrew
+    method: walk
+    chance: 4
+    min_level: 12
+    max_level: 12
+  - pokemon: clefairy
+    method: walk
+    chance: 1
+    min_level: 11
+    max_level: 11
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 9
+    max_level: 9
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 6
+    max_level: 6
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 7
+    max_level: 7
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: zubat
+    method: walk
+    chance: 5
+    min_level: 11
+    max_level: 11
+  - pokemon: geodude
+    method: walk
+    chance: 15
+    min_level: 10
+    max_level: 10
+  - pokemon: geodude
+    method: walk
+    chance: 5
+    min_level: 10
+    max_level: 10
+  mt-moon-b1f:
+  - pokemon: clefairy
+    method: walk
+    chance: 4
+    min_level: 10
+    max_level: 10
+  - pokemon: clefairy
+    method: walk
+    chance: 1
+    min_level: 12
+    max_level: 12
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 9
+    max_level: 9
+  - pokemon: zubat
+    method: walk
+    chance: 15
+    min_level: 10
+    max_level: 10
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: paras
+    method: walk
+    chance: 5
+    min_level: 9
+    max_level: 9
+  - pokemon: paras
+    method: walk
+    chance: 5
+    min_level: 11
+    max_level: 11
+  - pokemon: geodude
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: geodude
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  mt-moon-b2f:
+  - pokemon: clefairy
+    method: walk
+    chance: 5
+    min_level: 9
+    max_level: 9
+  - pokemon: clefairy
+    method: walk
+    chance: 4
+    min_level: 11
+    max_level: 11
+  - pokemon: clefairy
+    method: walk
+    chance: 1
+    min_level: 13
+    max_level: 13
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 10
+    max_level: 10
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 12
+    max_level: 12
+  - pokemon: zubat
+    method: walk
+    chance: 5
+    min_level: 13
+    max_level: 13
+  - pokemon: paras
+    method: walk
+    chance: 15
+    min_level: 13
+    max_level: 13
+  - pokemon: geodude
+    method: walk
+    chance: 20
+    min_level: 11
+    max_level: 11
+  rock-tunnel-b1f:
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: zubat
+    method: walk
+    chance: 15
+    min_level: 17
+    max_level: 17
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 19
+    max_level: 19
+  - pokemon: zubat
+    method: walk
+    chance: 5
+    min_level: 21
+    max_level: 21
+  - pokemon: machop
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: machop
+    method: walk
+    chance: 4
+    min_level: 19
+    max_level: 19
+  - pokemon: machop
+    method: walk
+    chance: 1
+    min_level: 21
+    max_level: 21
+  - pokemon: geodude
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: geodude
+    method: walk
+    chance: 10
+    min_level: 18
+    max_level: 18
+  - pokemon: geodude
+    method: walk
+    chance: 10
+    min_level: 20
+    max_level: 20
+  power-plant-area:
+  - pokemon: magnemite
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: magnemite
+    method: walk
+    chance: 20
+    min_level: 35
+    max_level: 35
+  - pokemon: magneton
+    method: walk
+    chance: 15
+    min_level: 33
+    max_level: 33
+  - pokemon: magneton
+    method: walk
+    chance: 5
+    min_level: 38
+    max_level: 38
+  - pokemon: grimer
+    method: walk
+    chance: 10
+    min_level: 33
+    max_level: 33
+  - pokemon: grimer
+    method: walk
+    chance: 5
+    min_level: 37
+    max_level: 37
+  - pokemon: muk
+    method: walk
+    chance: 4
+    min_level: 33
+    max_level: 33
+  - pokemon: muk
+    method: walk
+    chance: 1
+    min_level: 37
+    max_level: 37
+  - pokemon: voltorb
+    method: walk
+    chance: 10
+    min_level: 33
+    max_level: 33
+  - pokemon: voltorb
+    method: walk
+    chance: 10
+    min_level: 37
+    max_level: 37
+  - pokemon: voltorb
+    method: only-one
+    chance: 100
+    min_level: 40
+    max_level: 40
+  - pokemon: voltorb
+    method: only-one
+    chance: 100
+    min_level: 40
+    max_level: 40
+  - pokemon: voltorb
+    method: only-one
+    chance: 100
+    min_level: 40
+    max_level: 40
+  - pokemon: voltorb
+    method: only-one
+    chance: 100
+    min_level: 40
+    max_level: 40
+  - pokemon: voltorb
+    method: only-one
+    chance: 100
+    min_level: 40
+    max_level: 40
+  - pokemon: voltorb
+    method: only-one
+    chance: 100
+    min_level: 40
+    max_level: 40
+  - pokemon: electrode
+    method: only-one
+    chance: 100
+    min_level: 43
+    max_level: 43
+  - pokemon: electrode
+    method: only-one
+    chance: 100
+    min_level: 43
+    max_level: 43
+  - pokemon: zapdos
+    method: only-one
+    chance: 100
+    min_level: 50
+    max_level: 50
+  pokemon-tower-3f:
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 20
+    max_level: 20
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 21
+    max_level: 21
+  - pokemon: gastly
+    method: walk
+    chance: 15
+    min_level: 22
+    max_level: 22
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 23
+    max_level: 23
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 19
+    max_level: 19
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 25
+    max_level: 25
+  - pokemon: haunter
+    method: walk
+    chance: 4
+    min_level: 20
+    max_level: 20
+  - pokemon: haunter
+    method: walk
+    chance: 1
+    min_level: 25
+    max_level: 25
+  pokemon-tower-4f:
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 20
+    max_level: 20
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 21
+    max_level: 21
+  - pokemon: gastly
+    method: walk
+    chance: 15
+    min_level: 22
+    max_level: 22
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 23
+    max_level: 23
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 19
+    max_level: 19
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 25
+    max_level: 25
+  - pokemon: haunter
+    method: walk
+    chance: 4
+    min_level: 20
+    max_level: 20
+  - pokemon: haunter
+    method: walk
+    chance: 1
+    min_level: 25
+    max_level: 25
+  pokemon-tower-5f:
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 23
+    max_level: 23
+  - pokemon: gastly
+    method: walk
+    chance: 15
+    min_level: 24
+    max_level: 24
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 25
+    max_level: 25
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 21
+    max_level: 21
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 27
+    max_level: 27
+  - pokemon: haunter
+    method: walk
+    chance: 4
+    min_level: 22
+    max_level: 22
+  - pokemon: haunter
+    method: walk
+    chance: 1
+    min_level: 27
+    max_level: 27
+  - pokemon: cubone
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  pokemon-tower-6f:
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 23
+    max_level: 23
+  - pokemon: gastly
+    method: walk
+    chance: 15
+    min_level: 24
+    max_level: 24
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 25
+    max_level: 25
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 21
+    max_level: 21
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 27
+    max_level: 27
+  - pokemon: haunter
+    method: walk
+    chance: 4
+    min_level: 22
+    max_level: 22
+  - pokemon: haunter
+    method: walk
+    chance: 1
+    min_level: 27
+    max_level: 27
+  - pokemon: cubone
+    method: walk
+    chance: 5
+    min_level: 22
+    max_level: 22
+  pokemon-tower-7f:
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 24
+    max_level: 24
+  - pokemon: gastly
+    method: walk
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: gastly
+    method: walk
+    chance: 15
+    min_level: 26
+    max_level: 26
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: gastly
+    method: walk
+    chance: 10
+    min_level: 23
+    max_level: 23
+  - pokemon: gastly
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: haunter
+    method: walk
+    chance: 4
+    min_level: 24
+    max_level: 24
+  - pokemon: haunter
+    method: walk
+    chance: 1
+    min_level: 29
+    max_level: 29
+  - pokemon: cubone
+    method: walk
+    chance: 5
+    min_level: 24
+    max_level: 24
+  seafoam-islands-1f:
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 18
+    max_level: 18
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 36
+    max_level: 36
+  - pokemon: zubat
+    method: walk
+    chance: 5
+    min_level: 9
+    max_level: 9
+  - pokemon: golbat
+    method: walk
+    chance: 4
+    min_level: 27
+    max_level: 27
+  - pokemon: golbat
+    method: walk
+    chance: 1
+    min_level: 36
+    max_level: 36
+  - pokemon: slowpoke
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: slowpoke
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: krabby
+    method: walk
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: krabby
+    method: walk
+    chance: 15
+    min_level: 27
+    max_level: 27
+  seafoam-islands-b1f:
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 27
+    max_level: 27
+  - pokemon: zubat
+    method: walk
+    chance: 15
+    min_level: 36
+    max_level: 36
+  - pokemon: zubat
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: golbat
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: slowpoke
+    method: walk
+    chance: 10
+    min_level: 29
+    max_level: 29
+  - pokemon: seel
+    method: walk
+    chance: 4
+    min_level: 22
+    max_level: 22
+  - pokemon: seel
+    method: walk
+    chance: 1
+    min_level: 26
+    max_level: 26
+  - pokemon: krabby
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: krabby
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: kingler
+    method: walk
+    chance: 5
+    min_level: 28
+    max_level: 28
+  seafoam-islands-b2f:
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 27
+    max_level: 27
+  - pokemon: zubat
+    method: walk
+    chance: 15
+    min_level: 36
+    max_level: 36
+  - pokemon: golbat
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: golbat
+    method: walk
+    chance: 5
+    min_level: 36
+    max_level: 36
+  - pokemon: slowpoke
+    method: walk
+    chance: 4
+    min_level: 31
+    max_level: 31
+  - pokemon: slowbro
+    method: walk
+    chance: 1
+    min_level: 31
+    max_level: 31
+  - pokemon: seel
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: krabby
+    method: walk
+    chance: 20
+    min_level: 27
+    max_level: 27
+  - pokemon: krabby
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: kingler
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  seafoam-islands-b3f:
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 36
+    max_level: 36
+  - pokemon: zubat
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 27
+    max_level: 27
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: tentacool
+    method: surf
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: tentacool
+    method: surf
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: tentacool
+    method: surf
+    chance: 15
+    min_level: 20
+    max_level: 20
+  - pokemon: tentacool
+    method: surf
+    chance: 10
+    min_level: 35
+    max_level: 35
+  - pokemon: tentacool
+    method: surf
+    chance: 5
+    min_level: 40
+    max_level: 40
+  - pokemon: seel
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: seel
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: dewgong
+    method: walk
+    chance: 4
+    min_level: 28
+    max_level: 28
+  - pokemon: dewgong
+    method: walk
+    chance: 1
+    min_level: 32
+    max_level: 32
+  - pokemon: krabby
+    method: walk
+    chance: 15
+    min_level: 29
+    max_level: 29
+  - pokemon: krabby
+    method: walk
+    chance: 5
+    min_level: 31
+    max_level: 31
+  - pokemon: krabby
+    method: super-rod
+    chance: 40
+    min_level: 25
+    max_level: 25
+  - pokemon: kingler
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: kingler
+    method: super-rod
+    chance: 20
+    min_level: 35
+    max_level: 35
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: staryu
+    method: surf
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 4
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 1
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: super-rod
+    chance: 30
+    min_level: 20
+    max_level: 20
+  - pokemon: staryu
+    method: super-rod
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  seafoam-islands-b4f:
+  - pokemon: zubat
+    method: walk
+    chance: 20
+    min_level: 36
+    max_level: 36
+  - pokemon: zubat
+    method: walk
+    chance: 5
+    min_level: 45
+    max_level: 45
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 36
+    max_level: 36
+  - pokemon: golbat
+    method: walk
+    chance: 5
+    min_level: 27
+    max_level: 27
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: tentacool
+    method: surf
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: tentacool
+    method: surf
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: tentacool
+    method: surf
+    chance: 15
+    min_level: 20
+    max_level: 20
+  - pokemon: tentacool
+    method: surf
+    chance: 10
+    min_level: 35
+    max_level: 35
+  - pokemon: tentacool
+    method: surf
+    chance: 5
+    min_level: 40
+    max_level: 40
+  - pokemon: seel
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: seel
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: dewgong
+    method: walk
+    chance: 4
+    min_level: 30
+    max_level: 30
+  - pokemon: dewgong
+    method: walk
+    chance: 1
+    min_level: 34
+    max_level: 34
+  - pokemon: krabby
+    method: walk
+    chance: 15
+    min_level: 30
+    max_level: 30
+  - pokemon: krabby
+    method: super-rod
+    chance: 40
+    min_level: 25
+    max_level: 25
+  - pokemon: kingler
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: kingler
+    method: super-rod
+    chance: 20
+    min_level: 35
+    max_level: 35
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: staryu
+    method: surf
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 4
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: surf
+    chance: 1
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: super-rod
+    chance: 30
+    min_level: 20
+    max_level: 20
+  - pokemon: staryu
+    method: super-rod
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  - pokemon: articuno
+    method: only-one
+    chance: 100
+    min_level: 50
+    max_level: 50
+  pokemon-mansion-1f:
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 34
+    max_level: 34
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 37
+    max_level: 37
+  - pokemon: raticate
+    method: walk
+    chance: 20
+    min_level: 34
+    max_level: 34
+  - pokemon: raticate
+    method: walk
+    chance: 10
+    min_level: 37
+    max_level: 37
+  - pokemon: growlithe
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: growlithe
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: growlithe
+    method: walk
+    chance: 4
+    min_level: 34
+    max_level: 34
+  - pokemon: growlithe
+    method: walk
+    chance: 1
+    min_level: 38
+    max_level: 38
+  - pokemon: grimer
+    method: walk
+    chance: 15
+    min_level: 23
+    max_level: 23
+  - pokemon: grimer
+    method: walk
+    chance: 5
+    min_level: 26
+    max_level: 26
+  pokemon-mansion-2f:
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 37
+    max_level: 37
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: raticate
+    method: walk
+    chance: 20
+    min_level: 37
+    max_level: 37
+  - pokemon: raticate
+    method: walk
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: grimer
+    method: walk
+    chance: 15
+    min_level: 26
+    max_level: 26
+  - pokemon: grimer
+    method: walk
+    chance: 10
+    min_level: 29
+    max_level: 29
+  - pokemon: grimer
+    method: walk
+    chance: 5
+    min_level: 32
+    max_level: 32
+  - pokemon: grimer
+    method: walk
+    chance: 5
+    min_level: 35
+    max_level: 35
+  - pokemon: muk
+    method: walk
+    chance: 4
+    min_level: 35
+    max_level: 35
+  - pokemon: muk
+    method: walk
+    chance: 1
+    min_level: 38
+    max_level: 38
+  pokemon-mansion-3f:
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 40
+    max_level: 40
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 43
+    max_level: 43
+  - pokemon: raticate
+    method: walk
+    chance: 20
+    min_level: 40
+    max_level: 40
+  - pokemon: raticate
+    method: walk
+    chance: 10
+    min_level: 43
+    max_level: 43
+  - pokemon: grimer
+    method: walk
+    chance: 15
+    min_level: 32
+    max_level: 32
+  - pokemon: grimer
+    method: walk
+    chance: 10
+    min_level: 35
+    max_level: 35
+  - pokemon: grimer
+    method: walk
+    chance: 5
+    min_level: 38
+    max_level: 38
+  - pokemon: grimer
+    method: walk
+    chance: 5
+    min_level: 38
+    max_level: 38
+  - pokemon: muk
+    method: walk
+    chance: 4
+    min_level: 38
+    max_level: 38
+  - pokemon: muk
+    method: walk
+    chance: 1
+    min_level: 41
+    max_level: 41
+  pokemon-mansion-b1f:
+  - pokemon: raticate
+    method: walk
+    chance: 15
+    min_level: 37
+    max_level: 37
+  - pokemon: raticate
+    method: walk
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: raticate
+    method: walk
+    chance: 10
+    min_level: 43
+    max_level: 43
+  - pokemon: raticate
+    method: walk
+    chance: 5
+    min_level: 46
+    max_level: 46
+  - pokemon: grimer
+    method: walk
+    chance: 20
+    min_level: 35
+    max_level: 35
+  - pokemon: grimer
+    method: walk
+    chance: 20
+    min_level: 38
+    max_level: 38
+  - pokemon: muk
+    method: walk
+    chance: 10
+    min_level: 41
+    max_level: 41
+  - pokemon: ditto
+    method: walk
+    chance: 5
+    min_level: 24
+    max_level: 24
+  - pokemon: ditto
+    method: walk
+    chance: 4
+    min_level: 18
+    max_level: 18
+  - pokemon: ditto
+    method: walk
+    chance: 1
+    min_level: 12
+    max_level: 12
+  cerulean-cave-1f:
+  - pokemon: sandslash
+    method: walk
+    chance: 10
+    min_level: 52
+    max_level: 52
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 50
+    max_level: 50
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 55
+    max_level: 55
+  - pokemon: gloom
+    method: walk
+    chance: 10
+    min_level: 55
+    max_level: 55
+  - pokemon: parasect
+    method: walk
+    chance: 5
+    min_level: 54
+    max_level: 54
+  - pokemon: venomoth
+    method: walk
+    chance: 5
+    min_level: 54
+    max_level: 54
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: weepinbell
+    method: walk
+    chance: 10
+    min_level: 55
+    max_level: 55
+  - pokemon: graveler
+    method: walk
+    chance: 15
+    min_level: 45
+    max_level: 45
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: goldeen
+    method: super-rod
+    chance: 40
+    min_level: 25
+    max_level: 25
+  - pokemon: seaking
+    method: super-rod
+    chance: 30
+    min_level: 35
+    max_level: 35
+  - pokemon: seaking
+    method: super-rod
+    chance: 20
+    min_level: 45
+    max_level: 45
+  - pokemon: seaking
+    method: super-rod
+    chance: 10
+    min_level: 55
+    max_level: 55
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  - pokemon: ditto
+    method: walk
+    chance: 4
+    min_level: 55
+    max_level: 55
+  - pokemon: ditto
+    method: walk
+    chance: 1
+    min_level: 60
+    max_level: 60
+  cerulean-cave-2f:
+  - pokemon: sandslash
+    method: walk
+    chance: 10
+    min_level: 56
+    max_level: 56
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 52
+    max_level: 52
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 57
+    max_level: 57
+  - pokemon: gloom
+    method: walk
+    chance: 5
+    min_level: 58
+    max_level: 58
+  - pokemon: weepinbell
+    method: walk
+    chance: 5
+    min_level: 58
+    max_level: 58
+  - pokemon: graveler
+    method: walk
+    chance: 15
+    min_level: 50
+    max_level: 50
+  - pokemon: rhyhorn
+    method: walk
+    chance: 10
+    min_level: 50
+    max_level: 50
+  - pokemon: rhydon
+    method: walk
+    chance: 4
+    min_level: 60
+    max_level: 60
+  - pokemon: rhydon
+    method: walk
+    chance: 1
+    min_level: 58
+    max_level: 58
+  - pokemon: ditto
+    method: walk
+    chance: 10
+    min_level: 60
+    max_level: 60
+  cerulean-cave-b1f:
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 54
+    max_level: 54
+  - pokemon: golbat
+    method: walk
+    chance: 20
+    min_level: 59
+    max_level: 59
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: graveler
+    method: walk
+    chance: 15
+    min_level: 55
+    max_level: 55
+  - pokemon: lickitung
+    method: walk
+    chance: 4
+    min_level: 55
+    max_level: 55
+  - pokemon: lickitung
+    method: walk
+    chance: 1
+    min_level: 50
+    max_level: 50
+  - pokemon: rhyhorn
+    method: walk
+    chance: 10
+    min_level: 52
+    max_level: 52
+  - pokemon: rhydon
+    method: walk
+    chance: 10
+    min_level: 62
+    max_level: 62
+  - pokemon: chansey
+    method: walk
+    chance: 5
+    min_level: 56
+    max_level: 56
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: goldeen
+    method: super-rod
+    chance: 40
+    min_level: 30
+    max_level: 30
+  - pokemon: seaking
+    method: super-rod
+    chance: 30
+    min_level: 40
+    max_level: 40
+  - pokemon: seaking
+    method: super-rod
+    chance: 20
+    min_level: 50
+    max_level: 50
+  - pokemon: seaking
+    method: super-rod
+    chance: 10
+    min_level: 60
+    max_level: 60
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  - pokemon: ditto
+    method: walk
+    chance: 10
+    min_level: 60
+    max_level: 60
+  - pokemon: ditto
+    method: walk
+    chance: 5
+    min_level: 65
+    max_level: 65
+  - pokemon: mewtwo
+    method: only-one
+    chance: 100
+    min_level: 70
+    max_level: 70
+  digletts-cave-area:
+  - pokemon: diglett
+    method: walk
+    chance: 20
+    min_level: 18
+    max_level: 18
+  - pokemon: diglett
+    method: walk
+    chance: 20
+    min_level: 19
+    max_level: 19
+  - pokemon: diglett
+    method: walk
+    chance: 15
+    min_level: 17
+    max_level: 17
+  - pokemon: diglett
+    method: walk
+    chance: 10
+    min_level: 20
+    max_level: 20
+  - pokemon: diglett
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: diglett
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: diglett
+    method: walk
+    chance: 5
+    min_level: 21
+    max_level: 21
+  - pokemon: diglett
+    method: walk
+    chance: 5
+    min_level: 22
+    max_level: 22
+  - pokemon: dugtrio
+    method: walk
+    chance: 4
+    min_level: 29
+    max_level: 29
+  - pokemon: dugtrio
+    method: walk
+    chance: 1
+    min_level: 31
+    max_level: 31
