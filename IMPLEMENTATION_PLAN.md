@@ -136,19 +136,20 @@ pokemon_yellow/
 - ✅ Camera follows player smoothly
 - ✅ Player can't move while already moving
 
-### Phase 4: Map Transitions ← CURRENT PHASE
+### Phase 4: Map Transitions ✅ COMPLETE
 **Goal**: Connect multiple maps with warp points
 
-**Files to Create**:
-1. `data/maps/route_1.json` - Second map
-2. Update `src/overworld/map.py` for warp handling
-3. Update `src/states/overworld_state.py` for map switching
+**Files Created**:
+1. ✅ `data/maps/route_1.json` - Route 1 map (12×30 tiles)
+2. ✅ `src/states/overworld_state.py` - Added `switch_map()` method and warp detection
 
-**Success Criteria**:
-- Player can walk from Pallet Town to Route 1
-- Map switches smoothly
-- Player spawns at correct position after warp
-- Camera adjusts to new map boundaries
+**Success Criteria**: ✅ ALL COMPLETE
+- ✅ Player can walk from Pallet Town to Route 1
+- ✅ Map switches smoothly (instant transitions)
+- ✅ Player spawns at correct position after warp
+- ✅ Camera adjusts to new map boundaries
+- ✅ Route warps work bidirectionally
+- ✅ Door warps are ignored (Phase 5)
 
 ## Post-MVP Phases (Phase 5-8)
 
