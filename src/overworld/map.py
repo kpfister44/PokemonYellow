@@ -63,6 +63,8 @@ class Map:
                 surface.fill((50, 100, 200))
             elif tile_id == 4:  # Tree
                 surface.fill((34, 139, 34))
+            elif tile_id == 5:  # Sign
+                surface.fill((139, 69, 19))  # Brown color for signs
             else:  # Default
                 surface.fill(constants.COLOR_DARKEST)
 
