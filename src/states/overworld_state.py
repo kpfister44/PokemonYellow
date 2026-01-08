@@ -8,6 +8,10 @@ from src.overworld.player import Player
 from src.overworld.npc import NPC
 from src.ui.dialog_box import DialogBox
 from src.engine import constants
+from src.overworld import encounter_zones
+from src.states.battle_state import BattleState
+from src.battle.pokemon import Pokemon
+from src.battle.species_loader import SpeciesLoader
 
 
 class OverworldState(BaseState):
@@ -32,9 +36,14 @@ class OverworldState(BaseState):
         self.active_dialog = None
         self.player_start_x = player_start_x
         self.player_start_y = player_start_y
+        self.player_was_moving = False  # Track movement state for encounter checking
 
     def enter(self):
         """Called when entering this state."""
+        # Skip initialization if already loaded (resuming from another state)
+        if self.current_map is not None:
+            return
+
         # Load the map
         self.current_map = Map(self.map_path, self.game.renderer)
 
@@ -197,12 +206,53 @@ class OverworldState(BaseState):
                         warp["target_y"]
                     )
 
+        # Check for wild encounters after player finishes moving on grass
+        if not self.player.is_moving and self.player_was_moving:
+            # Player just stopped moving - check for encounter
+            encounter_zone = encounter_zones.get_encounter_zone(self.current_map.map_name)
+            if encounter_zone:
+                # Get the ground tile the player is standing on
+                ground_tile_id = self.current_map.ground_layer[self.player.tile_y][self.player.tile_x]
+
+                if encounter_zone.is_grass_tile(ground_tile_id):
+                    if encounter_zone.should_encounter():
+                        self._trigger_wild_battle(encounter_zone)
+
+        # Update movement tracking
+        self.player_was_moving = self.player.is_moving
+
         # Update camera to follow player
         player_pixel_x, player_pixel_y = self.player.get_pixel_position()
         self.camera.center_on(
             player_pixel_x + constants.TILE_SIZE // 2,
             player_pixel_y + constants.TILE_SIZE // 2
         )
+
+    def _trigger_wild_battle(self, encounter_zone):
+        """
+        Trigger a wild Pokemon battle.
+
+        Args:
+            encounter_zone: EncounterZone instance
+        """
+        # Get random encounter
+        species_id, level = encounter_zone.get_random_encounter()
+
+        # Load species data
+        species_loader = SpeciesLoader()
+        species = species_loader.get_species(species_id)
+
+        # Create wild Pokemon
+        wild_pokemon = Pokemon(species, level)
+
+        # Get player's Pokemon (for Phase 6, create a starter Pikachu)
+        # Later this will come from player's party
+        player_species = species_loader.get_species("pikachu")
+        player_pokemon = Pokemon(player_species, 5)
+
+        # Push battle state
+        battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
+        self.game.push_state(battle_state)
 
     def render(self, renderer):
         """

@@ -30,6 +30,35 @@ class DialogBox:
         self.border_color = (0, 0, 0)
         self.text_color = (0, 0, 0)
 
+    def _wrap_text(self, text, max_chars):
+        """
+        Wrap text to fit within max_chars per line.
+
+        Args:
+            text: Text to wrap
+            max_chars: Maximum characters per line
+
+        Returns:
+            List of text lines
+        """
+        words = text.split(' ')
+        lines = []
+        current_line = []
+
+        for word in words:
+            test_line = ' '.join(current_line + [word])
+            if len(test_line) <= max_chars:
+                current_line.append(word)
+            else:
+                if current_line:
+                    lines.append(' '.join(current_line))
+                current_line = [word]
+
+        if current_line:
+            lines.append(' '.join(current_line))
+
+        return lines
+
     def render(self, renderer):
         """Render the dialog box."""
         if not self.visible:
@@ -45,8 +74,10 @@ class DialogBox:
             renderer.draw_text(f"{self.npc_name}:", self.x + 6, text_y, self.text_color, 12)
             text_y += 14
 
-        # Draw dialog text (simple, no wrapping for MVP)
-        renderer.draw_text(self.text, self.x + 6, text_y, self.text_color, 12)
+        # Draw dialog text with word wrapping
+        wrapped_lines = self._wrap_text(self.text, max_chars=21)
+        for i, line in enumerate(wrapped_lines[:2]):  # Max 2 lines
+            renderer.draw_text(line, self.x + 6, text_y + (i * 13), self.text_color, 12)
 
     def close(self):
         """Hide the dialog box."""

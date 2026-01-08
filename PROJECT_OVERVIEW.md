@@ -6,8 +6,8 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 
 ## Current Status
 
-**Completed**: Phases 1-5 (Core Engine, Map Rendering, Player Movement, Map Transitions, NPCs & Dialog)
-**Next Phase**: Phase 6 - Battle System Foundation
+**Completed**: Phases 1-6 (Core Engine through Battle System Foundation)
+**Next Phase**: Phase 7 - Battle Mechanics
 
 The game currently has:
 - A working overworld with Pallet Town and Route 1 maps
@@ -17,6 +17,10 @@ The game currently has:
 - Map transitions between areas
 - NPCs with dialog interaction system
 - Dialog boxes with text rendering
+- **Wild Pokemon encounters on grass tiles**
+- **Authentic Pokemon Yellow battle UI with HP bars**
+- **Turn-based battle system with Gen 1 damage calculation**
+- **5 Pokemon species with moves (Rattata, Pidgey, Pikachu, Oddish, Geodude)**
 
 ## Tech Stack
 
@@ -32,7 +36,8 @@ The game currently has:
 
 ### Data Formats
 - **Maps**: JSON files in `data/maps/`
-- **Pokemon/Moves**: YAML files (future) in `data/pokemon/` and `data/moves/`
+- **Pokemon/Moves**: YAML files in `data/pokemon/` and `data/moves/`
+- **Type Chart**: YAML file in `data/types/`
 - **Config**: `pyproject.toml` for dependencies
 
 ## Project Structure
@@ -48,22 +53,38 @@ pokemon_yellow/
 │   │   └── renderer.py              # Rendering with sprite caching
 │   ├── states/                      # Game states
 │   │   ├── base_state.py            # Abstract state interface
-│   │   └── overworld_state.py       # Overworld (exploration)
+│   │   ├── overworld_state.py       # Overworld (exploration)
+│   │   └── battle_state.py          # Battle state with authentic UI
 │   ├── overworld/                   # Overworld system
 │   │   ├── tile.py                  # Tile definitions
 │   │   ├── map.py                   # Map loading and rendering
 │   │   ├── camera.py                # Viewport management
 │   │   ├── entity.py                # Base entity class
-│   │   └── player.py                # Player character
-│   ├── battle/                      # Battle system (NOT YET IMPLEMENTED)
+│   │   ├── player.py                # Player character
+│   │   ├── npc.py                   # NPCs with dialog
+│   │   └── encounter_zones.py       # Wild encounter definitions
+│   ├── battle/                      # Battle system
+│   │   ├── species.py               # Pokemon species data structures
+│   │   ├── move.py                  # Move data structures
+│   │   ├── pokemon.py               # Pokemon instances with Gen 1 stats
+│   │   ├── type_chart.py            # Type effectiveness
+│   │   ├── damage_calculator.py     # Gen 1 damage formula
+│   │   ├── species_loader.py        # Species YAML loader
+│   │   └── move_loader.py           # Move YAML loader
 │   ├── data/                        # Data loading
 │   │   └── data_loader.py           # JSON/YAML loader with caching
-│   └── ui/                          # UI components (NOT YET IMPLEMENTED)
+│   └── ui/                          # UI components
+│       └── dialog_box.py            # Dialog box for NPCs
 ├── data/
 │   ├── maps/
-│   │   └── pallet_town.json         # Pallet Town map data
-│   ├── pokemon/                     # (empty - future)
-│   └── moves/                       # (empty - future)
+│   │   ├── pallet_town.json         # Pallet Town map data
+│   │   └── route_1.json             # Route 1 map
+│   ├── pokemon/
+│   │   └── species.yaml             # 5 Pokemon species definitions
+│   ├── moves/
+│   │   └── moves.yaml               # Move definitions
+│   └── types/
+│       └── type_chart.yaml          # Gen 1 type effectiveness
 ├── assets/
 │   └── sprites/                     # (empty - using placeholder colors)
 ├── tests/                           # (empty - future)
@@ -179,16 +200,18 @@ States are managed via a stack in `Game` class.
 
 ## What's NOT Implemented Yet
 
-### Phase 6+ Features
-- ❌ Battle system
-- ❌ Pokemon data/instances
-- ❌ Moves and move effects
-- ❌ Wild encounters
-- ❌ Battle UI
+### Phase 7+ Features
+- ❌ Advanced battle mechanics (status effects, stat changes, accuracy)
+- ❌ Battle menu system (FIGHT/ITEM/PKM/RUN options)
+- ❌ Move selection UI (choosing from 4 moves)
+- ❌ Experience and leveling system
+- ❌ Pokemon catching mechanics
+- ❌ Trainer battles
 - ❌ Building interiors (door warps)
 - ❌ NPC movement/AI
 - ❌ Advanced dialog features (typewriter effect, branching, multi-page)
 - ❌ Menus (Pokemon, Bag, Save)
+- ❌ Party management screen
 - ❌ Save/Load system
 
 ### Technical Debt

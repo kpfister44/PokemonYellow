@@ -21,6 +21,10 @@ class Map:
         self.renderer = renderer
         self.map_data = data_loader.load_json(map_filepath)
 
+        # Extract map name from filepath (e.g., "route_1" from "data/maps/route_1.json")
+        import os
+        self.map_name = os.path.splitext(os.path.basename(map_filepath))[0]
+
         # Extract map properties
         self.width = self.map_data["width"]  # Width in tiles
         self.height = self.map_data["height"]  # Height in tiles

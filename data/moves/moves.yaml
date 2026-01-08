@@ -1,0 +1,42 @@
+# Gen 1 Move Definitions
+# All values are Gen 1 accurate
+
+tackle:
+  id: 33
+  name: "Tackle"
+  type: "normal"
+  power: 35
+  accuracy: 95
+  pp: 35
+  category: "damage"
+  description: "A physical attack in which the user charges and slams into the target with its whole body."
+
+gust:
+  id: 16
+  name: "Gust"
+  type: "flying"
+  power: 40
+  accuracy: 100
+  pp: 35
+  category: "damage"
+  description: "A gust of wind is whipped up by wings and launched at the target to inflict damage."
+
+thundershock:
+  id: 84
+  name: "Thunder Shock"
+  type: "electric"
+  power: 40
+  accuracy: 100
+  pp: 30
+  category: "damage"
+  description: "A jolt of electricity crashes down on the target to inflict damage."
+
+absorb:
+  id: 71
+  name: "Absorb"
+  type: "grass"
+  power: 20
+  accuracy: 100
+  pp: 20
+  category: "damage"
+  description: "A nutrient-draining attack. The user's HP is restored by half the damage taken by the target."
