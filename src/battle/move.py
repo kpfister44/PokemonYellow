@@ -2,6 +2,7 @@
 # ABOUTME: Defines move stats and effects
 
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -11,25 +12,26 @@ class Move:
     id_number: int  # Gen 1 move ID
     name: str  # Display name
     type: str
-    power: int  # 0 for status moves
-    accuracy: int  # 0-100, or -1 for "never miss"
+    power: Optional[int]  # None for status moves
+    accuracy: Optional[int]  # 0-100, or None for "never miss"
     pp: int  # Power points
-    category: str  # "damage", "status", etc.
-    description: str
+    category: str  # "physical", "special", "status"
+    description: str = ""  # Optional description
 
     @classmethod
-    def from_dict(cls, move_id: str, data: dict):
-        """Create Move from YAML data."""
+    def from_dict(cls, data: dict):
+        """Create Move from YAML data (PokéAPI format)."""
+        move_id = data["name"]
         return cls(
             move_id=move_id,
             id_number=data["id"],
             name=data["name"],
             type=data["type"],
-            power=data["power"],
-            accuracy=data["accuracy"],
+            power=data.get("power"),
+            accuracy=data.get("accuracy"),
             pp=data["pp"],
             category=data["category"],
-            description=data["description"]
+            description=data.get("description", "")
         )
 
     def is_physical(self) -> bool:
@@ -43,4 +45,4 @@ class Move:
 
     def is_special(self) -> bool:
         """Check if move is special (Gen 1 mechanics)."""
-        return not self.is_physical() and self.power > 0
+        return not self.is_physical() and self.power is not None and self.power > 0

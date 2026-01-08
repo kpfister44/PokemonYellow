@@ -15,10 +15,12 @@ class SpeciesLoader:
 
     def _load_all_species(self):
         """Load all species from YAML."""
-        species_data = data_loader.load_yaml("data/pokemon/species.yaml")
+        data = data_loader.load_yaml("data/pokemon/species.yaml")
+        species_list = data.get("species", [])
 
-        for species_id, spec_data in species_data.items():
-            self.species_cache[species_id] = Species.from_dict(species_id, spec_data)
+        for spec_data in species_list:
+            species = Species.from_dict(spec_data)
+            self.species_cache[species.species_id] = species
 
     def get_species(self, species_id: str) -> Species:
         """

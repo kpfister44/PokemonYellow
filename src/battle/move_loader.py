@@ -15,10 +15,12 @@ class MoveLoader:
 
     def _load_all_moves(self):
         """Load all moves from YAML."""
-        moves_data = data_loader.load_yaml("data/moves/moves.yaml")
+        data = data_loader.load_yaml("data/moves/moves.yaml")
+        moves_list = data.get("moves", [])
 
-        for move_id, move_data in moves_data.items():
-            self.moves_cache[move_id] = Move.from_dict(move_id, move_data)
+        for move_data in moves_list:
+            move = Move.from_dict(move_data)
+            self.moves_cache[move.move_id] = move
 
     def get_move(self, move_id: str) -> Move:
         """

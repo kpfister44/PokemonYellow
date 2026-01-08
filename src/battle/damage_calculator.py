@@ -30,7 +30,7 @@ class DamageCalculator:
         Returns:
             Damage amount (integer)
         """
-        if move.power == 0:
+        if move.power is None or move.power == 0:
             return 0  # Status moves don't deal damage
 
         level = attacker.level
