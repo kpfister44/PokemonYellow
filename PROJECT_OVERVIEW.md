@@ -20,7 +20,9 @@ The game currently has:
 - **Wild Pokemon encounters on grass tiles**
 - **Authentic Pokemon Yellow battle UI with HP bars**
 - **Turn-based battle system with Gen 1 damage calculation**
-- **5 Pokemon species with moves (Rattata, Pidgey, Pikachu, Oddish, Geodude)**
+- **All 151 Gen 1 Pokemon with Yellow version learnsets**
+- **All 165 Gen 1 moves with accurate stats**
+- **Pokemon sprites (front and back) from PokéAPI**
 
 ## Tech Stack
 
@@ -28,6 +30,7 @@ The game currently has:
 - **Python 3.11+** (using Python 3.13.5)
 - **PyGame 2.6.1** - Game framework
 - **PyYAML** - For Pokemon/move data files
+- **Requests** - For PokéAPI data hydration (build-time only)
 
 ### Package Management
 - **uv** - Fast Python package manager (globally installed)
@@ -80,13 +83,16 @@ pokemon_yellow/
 │   │   ├── pallet_town.json         # Pallet Town map data
 │   │   └── route_1.json             # Route 1 map
 │   ├── pokemon/
-│   │   └── species.yaml             # 5 Pokemon species definitions
+│   │   └── species.yaml             # All 151 Gen 1 Pokemon
 │   ├── moves/
-│   │   └── moves.yaml               # Move definitions
+│   │   └── moves.yaml               # All 165 Gen 1 moves
 │   └── types/
 │       └── type_chart.yaml          # Gen 1 type effectiveness
 ├── assets/
-│   └── sprites/                     # (empty - using placeholder colors)
+│   └── sprites/
+│       └── pokemon/                 # 302 Pokemon sprites (front + back)
+├── scripts/
+│   └── hydrate_data.py              # PokéAPI data fetching script
 ├── tests/                           # (empty - future)
 ├── pyproject.toml                   # uv project config
 ├── README.md                        # User-facing documentation
@@ -111,6 +117,18 @@ uv run python -c "from src.main import main; print('✓ Imports OK')"
 
 # Run tests (when we have them)
 uv run pytest
+```
+
+### Data Hydration
+```bash
+# Re-fetch Pokemon data from PokéAPI (only needed if data is missing or outdated)
+uv run python scripts/hydrate_data.py
+
+# This will:
+# - Fetch all 151 Gen 1 Pokemon with Yellow version learnsets
+# - Fetch all 165 Gen 1 moves
+# - Download front and back sprites for each Pokemon
+# - Overwrite existing data/pokemon/species.yaml and data/moves/moves.yaml
 ```
 
 ### Git Workflow
@@ -218,7 +236,7 @@ States are managed via a stack in `Game` class.
 - Using colored rectangles as placeholders for tiles
 - Player sprite is a yellow circle
 - NPC sprites are blue circles
-- No actual sprite sheets loaded
+- Pokemon sprites loaded but not yet displayed in battle (using placeholders)
 - No animation frames (player doesn't animate when walking)
 - No sound/music
 - Dialog text has no word wrapping

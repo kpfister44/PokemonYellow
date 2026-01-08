@@ -4,8 +4,8 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 
 ## Project Status
 
-**Current Phase**: Phase 3 Complete - Player Movement ✓
-**Next Phase**: Phase 4 - Map Transitions
+**Current Phase**: Phase 6 Complete - Battle System Foundation ✓
+**Next Phase**: Phase 7 - Advanced Battle Mechanics
 
 ### Completed Features
 - ✅ Core game loop with 60 FPS frame timing
@@ -17,17 +17,19 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 - ✅ Tile-based map system with multi-layer rendering
 - ✅ Camera/viewport management with boundary checking
 - ✅ JSON data loading for maps
-- ✅ Accurate Pallet Town map layout
-- ✅ Warp point system (data structure ready)
+- ✅ Pallet Town and Route 1 maps
+- ✅ Map transitions via warp points
 - ✅ Player sprite with grid-based movement
 - ✅ Smooth pixel interpolation (8 frames per tile)
-- ✅ Collision detection against map
+- ✅ Collision detection (tiles + NPCs)
 - ✅ Camera follows player smoothly
-
-### In Progress
-- Map transitions via warp points
-- Building interiors
-- Route 1 map
+- ✅ NPC interaction with dialog system
+- ✅ Wild Pokemon encounters on grass tiles
+- ✅ Authentic Pokemon Yellow battle UI with HP bars
+- ✅ Turn-based battle system with Gen 1 damage calculation
+- ✅ All 151 Gen 1 Pokemon with Yellow version learnsets
+- ✅ All 165 Gen 1 moves with accurate stats
+- ✅ Pokemon sprites (front and back) from PokéAPI
 
 ## Setup
 
@@ -43,6 +45,10 @@ uv sync --all-extras
 
 # Run the game
 uv run python -m src.main
+
+# (Optional) Re-fetch Pokemon data from PokéAPI
+# Only needed if data files are missing or you want fresh data
+uv run python scripts/hydrate_data.py
 ```
 
 ## Controls
@@ -98,16 +104,40 @@ pokemon_yellow/
 - Camera follows player
 - Movement respects building/water/tree boundaries
 
-### Phase 4: Map Transitions
+### Phase 4: Map Transitions ✅ COMPLETE
 - Warp points between maps
 - Map switching
 - Player repositioning after warps
+- Route 1 map
 
-### Phase 5+: Advanced Features
-- NPCs and dialog system
-- Battle system with Gen 1 mechanics
-- Pokemon data and moves
-- Menu system
+### Phase 5: NPCs and Dialog ✅ COMPLETE
+- NPC sprites and collision
+- Dialog box system
+- Text rendering
+- Interaction system (press Z near NPCs)
+
+### Phase 6: Battle System Foundation ✅ COMPLETE
+- Wild encounter system
+- Battle state with authentic Pokemon Yellow UI
+- Gen 1 damage calculation (STAB, type effectiveness, random factor)
+- Turn-based battle flow
+- All 151 Gen 1 Pokemon with learnsets
+- All 165 Gen 1 moves
+- Pokemon sprites from PokéAPI
+
+### Phase 7: Advanced Battle Mechanics (Next)
+- Battle menu system (FIGHT/ITEM/PKM/RUN)
+- Move selection UI
+- Status effects (paralysis, sleep, poison, burn, freeze)
+- Stat changes and accuracy/evasion
+- Experience and leveling
+- Pokemon catching mechanics
+- Trainer battles
+
+### Phase 8+: Advanced Features
+- Start menu (Pokemon, Bag, Save)
+- Party management screen
+- Inventory system
 - Save/Load functionality
 
 ## Technical Details
