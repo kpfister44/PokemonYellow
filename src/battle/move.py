@@ -16,6 +16,8 @@ class Move:
     accuracy: Optional[int]  # 0-100, or None for "never miss"
     pp: int  # Power points
     category: str  # "physical", "special", "status"
+    priority: int = 0  # Move priority (-7 to +5, default 0)
+    effect_chance: Optional[int] = None  # Percentage chance for secondary effect
     description: str = ""  # Optional description
 
     @classmethod
@@ -31,6 +33,8 @@ class Move:
             accuracy=data.get("accuracy"),
             pp=data["pp"],
             category=data["category"],
+            priority=data.get("priority", 0),
+            effect_chance=data.get("effect_chance"),
             description=data.get("description", "")
         )
 
