@@ -4,8 +4,8 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 
 ## Project Status
 
-**Current Phase**: Phase 2 Complete - Map Rendering System ✓
-**Next Phase**: Phase 3 - Player Movement
+**Current Phase**: Phase 3 Complete - Player Movement ✓
+**Next Phase**: Phase 4 - Map Transitions
 
 ### Completed Features
 - ✅ Core game loop with 60 FPS frame timing
@@ -17,13 +17,17 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 - ✅ Tile-based map system with multi-layer rendering
 - ✅ Camera/viewport management with boundary checking
 - ✅ JSON data loading for maps
-- ✅ Pallet Town map with collision layer
+- ✅ Accurate Pallet Town map layout
 - ✅ Warp point system (data structure ready)
+- ✅ Player sprite with grid-based movement
+- ✅ Smooth pixel interpolation (8 frames per tile)
+- ✅ Collision detection against map
+- ✅ Camera follows player smoothly
 
 ### In Progress
-- Player sprite and movement
-- Grid-based collision detection
-- Walking animations
+- Map transitions via warp points
+- Building interiors
+- Route 1 map
 
 ## Setup
 
@@ -87,11 +91,12 @@ pokemon_yellow/
 - Multi-layer rendering (ground, decorations, collision)
 - Pallet Town map data created
 
-### Phase 3: Player Movement
-- Player sprite and animation
+### Phase 3: Player Movement ✅ COMPLETE
+- Player sprite (yellow circle placeholder)
 - Grid-based movement with smooth interpolation
-- Collision detection
-- 4-direction walking animation
+- Collision detection against map collision layer
+- Camera follows player
+- Movement respects building/water/tree boundaries
 
 ### Phase 4: Map Transitions
 - Warp points between maps
