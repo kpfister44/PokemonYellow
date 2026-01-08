@@ -6,15 +6,17 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 
 ## Current Status
 
-**Completed**: Phases 1-3 (Core Engine, Map Rendering, Player Movement)
-**Next Phase**: Phase 4 - Map Transitions
+**Completed**: Phases 1-5 (Core Engine, Map Rendering, Player Movement, Map Transitions, NPCs & Dialog)
+**Next Phase**: Phase 6 - Battle System Foundation
 
 The game currently has:
-- A working overworld with Pallet Town map
-- Player character that can walk around
-- Collision detection
+- A working overworld with Pallet Town and Route 1 maps
+- Player character that can walk around with smooth movement
+- Collision detection (tiles and NPCs)
 - Smooth camera following
-- All ready for connecting multiple maps
+- Map transitions between areas
+- NPCs with dialog interaction system
+- Dialog boxes with text rendering
 
 ## Tech Stack
 
@@ -177,24 +179,26 @@ States are managed via a stack in `Game` class.
 
 ## What's NOT Implemented Yet
 
-### Phase 4+ Features
-- ❌ Map transitions / warps
-- ❌ Building interiors
-- ❌ Route 1 map
-- ❌ NPCs
-- ❌ Dialog system
+### Phase 6+ Features
 - ❌ Battle system
-- ❌ Pokemon
-- ❌ Moves
-- ❌ Menus
-- ❌ Save/Load
+- ❌ Pokemon data/instances
+- ❌ Moves and move effects
+- ❌ Wild encounters
+- ❌ Battle UI
+- ❌ Building interiors (door warps)
+- ❌ NPC movement/AI
+- ❌ Advanced dialog features (typewriter effect, branching, multi-page)
+- ❌ Menus (Pokemon, Bag, Save)
+- ❌ Save/Load system
 
 ### Technical Debt
 - Using colored rectangles as placeholders for tiles
 - Player sprite is a yellow circle
+- NPC sprites are blue circles
 - No actual sprite sheets loaded
 - No animation frames (player doesn't animate when walking)
 - No sound/music
+- Dialog text has no word wrapping
 
 ## Key Files to Know
 
@@ -203,39 +207,55 @@ States are managed via a stack in `Game` class.
 
 ### Core Systems
 - `src/engine/game.py` - Main game loop (60 FPS, state stack)
-- `src/engine/renderer.py` - Rendering with 3x scaling
+- `src/engine/renderer.py` - Rendering with 3x scaling and text rendering
 - `src/engine/input.py` - Keyboard input mapping
 
 ### Overworld
-- `src/states/overworld_state.py` - Manages map, player, camera
-- `src/overworld/player.py` - Player movement and collision
+- `src/states/overworld_state.py` - Manages map, player, camera, NPCs, dialog
+- `src/overworld/player.py` - Player movement and collision (tiles + NPCs)
+- `src/overworld/npc.py` - NPC class with dialog interaction
 - `src/overworld/map.py` - Map loading and tile rendering
 - `src/overworld/camera.py` - Viewport following player
 
+### UI
+- `src/ui/dialog_box.py` - Dialog box for NPC conversations
+
 ### Data
-- `data/maps/pallet_town.json` - Map data (ground, decorations, collision, warps)
+- `data/maps/pallet_town.json` - Pallet Town map (with NPCs and warps)
+- `data/maps/route_1.json` - Route 1 map
 
 ## Implementation Plan Reference
 
 The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 
-**Where we are**: End of Phase 3
-**What's next**: Phase 4 - Map Transitions
+**Where we are**: End of Phase 5
+**What's next**: Phase 6 - Battle System Foundation
 
-Phase 4 will implement:
-1. Create Route 1 map JSON
-2. Warp detection (when player steps on warp tile)
-3. Map switching functionality
-4. Player repositioning after warp
-5. Camera adjustment to new map
+### Completed Phases:
+- ✅ Phase 1: Core Engine Setup
+- ✅ Phase 2: Map Rendering System
+- ✅ Phase 3: Player Movement
+- ✅ Phase 4: Map Transitions
+- ✅ Phase 5: NPCs and Dialog System
+
+### Next Up (Phase 6):
+- Pokemon data structures
+- Battle state implementation
+- Basic battle UI
+- Wild encounter system
 
 ## Testing Checklist
 
-Before moving to Phase 4, verify:
+Before moving to Phase 6, verify:
 - ✅ Player moves smoothly in all 4 directions
-- ✅ Collision blocks buildings, water, trees, signs
+- ✅ Collision blocks buildings, water, trees, signs, NPCs
 - ✅ Camera follows player
 - ✅ Map boundaries respected
+- ✅ Map transitions work (Pallet Town ↔ Route 1)
+- ✅ NPCs are visible and block movement
+- ✅ Dialog appears when pressing Z near NPCs
+- ✅ Dialog closes with Z button
+- ✅ Input blocked during dialog
 - ✅ No performance issues
 
 ## Common Issues & Solutions
