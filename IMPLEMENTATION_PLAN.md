@@ -153,11 +153,35 @@ pokemon_yellow/
 
 ## Post-MVP Phases (Phase 5-8)
 
-### Phase 5: NPCs and Dialog System
-- NPC sprites and movement patterns
-- Dialog boxes with typewriter effect
-- Interaction system (face NPC, press A button)
-- Dialog branching
+### Phase 5: NPCs and Dialog System ✅ COMPLETE
+**Goal**: Basic NPC interaction with dialog
+
+**Files Created**:
+1. ✅ `src/ui/dialog_box.py` - Dialog box UI component
+2. ✅ `src/overworld/npc.py` - NPC class
+3. ✅ `src/ui/__init__.py` - UI package init
+
+**Files Updated**:
+1. ✅ `src/engine/renderer.py` - Added `draw_text()` method
+2. ✅ `src/overworld/player.py` - Added NPC collision detection
+3. ✅ `src/states/overworld_state.py` - NPC integration (loading, updating, rendering, interaction)
+4. ✅ `data/maps/pallet_town.json` - Added 2 test NPCs
+
+**What Was Implemented**:
+- ✅ Stationary NPCs (blue circles as placeholders)
+- ✅ Dialog boxes with simple text display
+- ✅ Interaction system (face NPC, press Z/A button)
+- ✅ NPC collision (can't walk through NPCs)
+- ✅ Input blocking during dialog
+- ✅ Text rendering with font caching
+
+**What Was Deferred** (future phases):
+- NPC movement/AI patterns
+- Typewriter effect for text
+- Dialog branching/choices
+- Multi-page dialogs
+- Word wrapping
+- NPC sprites (using placeholder circles)
 
 ### Phase 6: Battle System Foundation
 - Pokemon data structures (stats, moves, types)
