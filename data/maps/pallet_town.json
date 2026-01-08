@@ -70,7 +70,7 @@
       "y": 0,
       "target_map": "route_1",
       "target_x": 8,
-      "target_y": 1,
+      "target_y": 28,
       "warp_type": "route"
     },
     {
@@ -78,7 +78,7 @@
       "y": 0,
       "target_map": "route_1",
       "target_x": 10,
-      "target_y": 1,
+      "target_y": 28,
       "warp_type": "route"
     },
     {
