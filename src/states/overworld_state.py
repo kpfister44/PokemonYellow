@@ -57,6 +57,46 @@ class OverworldState(BaseState):
         """Called when exiting this state."""
         pass
 
+    def switch_map(self, map_name, spawn_x, spawn_y):
+        """
+        Switch to a different map and reposition player.
+
+        Args:
+            map_name: Name of map file (without .json extension)
+            spawn_x: Tile X coordinate to spawn player
+            spawn_y: Tile Y coordinate to spawn player
+        """
+        # Build path to new map
+        map_path = f"data/maps/{map_name}.json"
+
+        # Load new map
+        self.current_map = Map(map_path, self.game.renderer)
+
+        # Reposition player (update both tile and pixel positions)
+        self.player.tile_x = spawn_x
+        self.player.tile_y = spawn_y
+        self.player.pixel_x = spawn_x * constants.TILE_SIZE
+        self.player.pixel_y = spawn_y * constants.TILE_SIZE
+
+        # Reset movement state (safety)
+        self.player.is_moving = False
+        self.player.move_progress = 0
+        self.player.target_tile_x = spawn_x
+        self.player.target_tile_y = spawn_y
+
+        # Update camera boundaries for new map
+        map_width = self.current_map.get_width_pixels()
+        map_height = self.current_map.get_height_pixels()
+        self.camera.map_width = map_width
+        self.camera.map_height = map_height
+
+        # Center camera on player's new position
+        player_pixel_x, player_pixel_y = self.player.get_pixel_position()
+        self.camera.center_on(
+            player_pixel_x + constants.TILE_SIZE // 2,
+            player_pixel_y + constants.TILE_SIZE // 2
+        )
+
     def handle_input(self, input_handler):
         """
         Handle player input.
@@ -76,6 +116,18 @@ class OverworldState(BaseState):
         """
         # Update player
         self.player.update()
+
+        # Check for warps after player finishes moving
+        if not self.player.is_moving:
+            warp = self.current_map.get_warp_at(self.player.tile_x, self.player.tile_y)
+            if warp:
+                # Only process "route" warps for Phase 4 (ignore "door" warps)
+                if warp.get("warp_type") == "route":
+                    self.switch_map(
+                        warp["target_map"],
+                        warp["target_x"],
+                        warp["target_y"]
+                    )
 
         # Update camera to follow player
         player_pixel_x, player_pixel_y = self.player.get_pixel_position()
