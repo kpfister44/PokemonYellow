@@ -18,14 +18,36 @@ PROJECT_ROOT = Path(__file__).parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 POKEMON_DIR = DATA_DIR / "pokemon"
 MOVES_DIR = DATA_DIR / "moves"
+ENCOUNTERS_DIR = DATA_DIR / "encounters"
 SPRITES_DIR = PROJECT_ROOT / "assets" / "sprites" / "pokemon"
 
 # Gen 1 constants
 GEN1_POKEMON_COUNT = 151
 GEN1_MOVE_IDS = range(1, 166)  # Gen 1 moves are IDs 1-165
+GEN1_LOCATION_AREAS = [
+    # Kanto routes
+    "route-1-area", "route-2-area", "route-3-area", "route-4-area", "route-5-area",
+    "route-6-area", "route-7-area", "route-8-area", "route-9-area", "route-10-area",
+    "route-11-area", "route-12-area", "route-13-area", "route-14-area", "route-15-area",
+    "route-16-area", "route-17-area", "route-18-area", "route-19-area", "route-20-area",
+    "route-21-area", "route-22-area", "route-23-area", "route-24-area", "route-25-area",
+    # Special areas
+    "viridian-forest-area", "mt-moon-1f", "mt-moon-b1f", "mt-moon-b2f",
+    "rock-tunnel-1f", "rock-tunnel-b1f", "power-plant-area",
+    "pokemon-tower-3f", "pokemon-tower-4f", "pokemon-tower-5f", "pokemon-tower-6f", "pokemon-tower-7f",
+    "seafoam-islands-1f", "seafoam-islands-b1f", "seafoam-islands-b2f", "seafoam-islands-b3f", "seafoam-islands-b4f",
+    "pokemon-mansion-1f", "pokemon-mansion-2f", "pokemon-mansion-3f", "pokemon-mansion-b1f",
+    "victory-road-1f-rb", "victory-road-2f-rb", "victory-road-3f-rb",
+    "cerulean-cave-1f", "cerulean-cave-2f", "cerulean-cave-b1f",
+    "digletts-cave-area", "safari-zone-center-area"
+]
 
 # Rate limiting
 REQUEST_DELAY = 0.1  # 100ms between requests to be respectful
+
+# Cache for fetched data to avoid duplicate requests
+evolution_chain_cache = {}
+growth_rate_cache = {}
 
 
 def fetch_json(url: str) -> Optional[Dict[str, Any]]:
@@ -56,6 +78,64 @@ def download_sprite(url: str, filepath: Path) -> bool:
         return False
 
 
+def get_yellow_flavor_text(species_data: Dict[str, Any]) -> str:
+    """Extract Yellow version Pokedex entry."""
+    flavor_texts = species_data.get('flavor_text_entries', [])
+
+    # Try to find Yellow version first
+    for entry in flavor_texts:
+        if entry.get('language', {}).get('name') == 'en':
+            version = entry.get('version', {}).get('name')
+            if version == 'yellow':
+                # Clean up the text (remove newlines/form feeds)
+                text = entry.get('flavor_text', '').replace('\n', ' ').replace('\f', ' ')
+                return ' '.join(text.split())  # Normalize whitespace
+
+    # Fallback to Red/Blue if Yellow not available
+    for entry in flavor_texts:
+        if entry.get('language', {}).get('name') == 'en':
+            version = entry.get('version', {}).get('name')
+            if version in ['red', 'blue']:
+                text = entry.get('flavor_text', '').replace('\n', ' ').replace('\f', ' ')
+                return ' '.join(text.split())
+
+    return ""
+
+
+def fetch_evolution_chain(chain_url: str) -> Dict[str, Any]:
+    """Fetch and parse evolution chain."""
+    if chain_url in evolution_chain_cache:
+        return evolution_chain_cache[chain_url]
+
+    chain_data = fetch_json(chain_url)
+    if not chain_data:
+        return {}
+
+    def parse_chain(chain_link: Dict[str, Any]) -> Dict[str, Any]:
+        """Recursively parse evolution chain."""
+        species_name = chain_link.get('species', {}).get('name')
+        evolves_to = []
+
+        for evolution in chain_link.get('evolves_to', []):
+            evo_details = evolution.get('evolution_details', [{}])[0]
+            evolves_to.append({
+                'species': evolution.get('species', {}).get('name'),
+                'trigger': evo_details.get('trigger', {}).get('name'),
+                'min_level': evo_details.get('min_level'),
+                'item': evo_details.get('item', {}).get('name') if evo_details.get('item') else None,
+                'evolves_to': parse_chain(evolution)  # Recursive for 3-stage evolutions
+            })
+
+        return {
+            'species': species_name,
+            'evolves_to': evolves_to
+        }
+
+    result = parse_chain(chain_data.get('chain', {}))
+    evolution_chain_cache[chain_url] = result
+    return result
+
+
 def get_yellow_learnset(pokemon_data: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Extract Yellow version learnset from Pokemon data."""
     learnset = []
@@ -68,19 +148,34 @@ def get_yellow_learnset(pokemon_data: Dict[str, Any]) -> List[Dict[str, Any]]:
             if version_group == 'yellow':
                 learn_method = version_detail.get('move_learn_method', {}).get('name')
 
-                # Only include level-up moves for now
-                if learn_method == 'level-up':
+                # Include level-up and machine moves
+                if learn_method in ['level-up', 'machine']:
                     level = version_detail.get('level_learned_at', 0)
                     move_name = move_entry.get('move', {}).get('name')
 
                     learnset.append({
                         'level': level,
-                        'move': move_name
+                        'move': move_name,
+                        'method': learn_method
                     })
 
-    # Sort by level
-    learnset.sort(key=lambda x: x['level'])
+    # Sort by level, then by method (level-up first)
+    learnset.sort(key=lambda x: (x['level'], x['method'] != 'level-up'))
     return learnset
+
+
+def fetch_growth_rate(growth_rate_url: str) -> str:
+    """Fetch growth rate name."""
+    if growth_rate_url in growth_rate_cache:
+        return growth_rate_cache[growth_rate_url]
+
+    growth_data = fetch_json(growth_rate_url)
+    if not growth_data:
+        return "medium"  # Default fallback
+
+    rate_name = growth_data.get('name', 'medium')
+    growth_rate_cache[growth_rate_url] = rate_name
+    return rate_name
 
 
 def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
@@ -93,6 +188,15 @@ def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
 
     if not pokemon_data:
         return None
+
+    # Fetch species data
+    species_url = f"{POKEAPI_BASE}/pokemon-species/{pokemon_id}"
+    species_data = fetch_json(species_url)
+
+    if not species_data:
+        return None
+
+    pokemon_name = pokemon_data.get('name')
 
     # Extract base stats
     stats_map = {
@@ -118,12 +222,28 @@ def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
     # Get Yellow version learnset
     learnset = get_yellow_learnset(pokemon_data)
 
+    # Get species-specific data
+    pokedex_entry = get_yellow_flavor_text(species_data)
+    capture_rate = species_data.get('capture_rate', 255)
+    base_happiness = species_data.get('base_happiness', 70)
+    gender_rate = species_data.get('gender_rate', -1)  # -1 = genderless
+
+    # Get growth rate
+    growth_rate_url = species_data.get('growth_rate', {}).get('url')
+    growth_rate = fetch_growth_rate(growth_rate_url) if growth_rate_url else "medium"
+
+    # Get evolution chain
+    evo_chain_url = species_data.get('evolution_chain', {}).get('url')
+    evolution_chain = fetch_evolution_chain(evo_chain_url) if evo_chain_url else {}
+
+    # Get base experience (for XP yield when defeated)
+    base_experience = pokemon_data.get('base_experience', 0)
+
     # Download sprites
     sprites = pokemon_data.get('sprites', {})
     front_sprite_url = sprites.get('front_default')
     back_sprite_url = sprites.get('back_default')
 
-    pokemon_name = pokemon_data.get('name')
     sprite_paths = {}
 
     if front_sprite_url:
@@ -150,6 +270,13 @@ def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
             'special': special,
             'speed': stats_map['speed']
         },
+        'base_experience': base_experience,
+        'growth_rate': growth_rate,
+        'capture_rate': capture_rate,
+        'base_happiness': base_happiness,
+        'gender_rate': gender_rate,
+        'pokedex_entry': pokedex_entry,
+        'evolution_chain': evolution_chain,
         'learnset': learnset
     }
 
@@ -177,6 +304,10 @@ def fetch_move(move_id: int) -> Optional[Dict[str, Any]]:
     accuracy = move_data.get('accuracy')
     pp = move_data.get('pp')
     damage_class = move_data.get('damage_class', {}).get('name')  # physical, special, status
+    priority = move_data.get('priority', 0)
+
+    # Get effect chance (e.g., 10% chance to freeze)
+    effect_chance = move_data.get('effect_chance')
 
     # Build move entry
     move_entry = {
@@ -186,10 +317,59 @@ def fetch_move(move_id: int) -> Optional[Dict[str, Any]]:
         'power': power,
         'accuracy': accuracy,
         'pp': pp,
-        'category': damage_class
+        'category': damage_class,
+        'priority': priority,
+        'effect_chance': effect_chance
     }
 
     return move_entry
+
+
+def fetch_location_encounters() -> Dict[str, List[Dict[str, Any]]]:
+    """Fetch encounter data for Gen 1 location areas."""
+    print(f"\n🗺️  Fetching Gen 1 encounter data...\n")
+
+    encounters_by_location = {}
+
+    for location_area in GEN1_LOCATION_AREAS:
+        print(f"  📍 Fetching {location_area}...")
+
+        location_url = f"{POKEAPI_BASE}/location-area/{location_area}"
+        location_data = fetch_json(location_url)
+
+        if not location_data:
+            continue
+
+        # Get encounters for Yellow version
+        pokemon_encounters = location_data.get('pokemon_encounters', [])
+
+        location_encounters = []
+        for encounter in pokemon_encounters:
+            pokemon_name = encounter.get('pokemon', {}).get('name')
+
+            # Filter for Yellow version
+            for version_detail in encounter.get('version_details', []):
+                if version_detail.get('version', {}).get('name') == 'yellow':
+                    # Get encounter details
+                    for encounter_detail in version_detail.get('encounter_details', []):
+                        method = encounter_detail.get('method', {}).get('name')
+                        chance = encounter_detail.get('chance', 0)
+                        min_level = encounter_detail.get('min_level', 1)
+                        max_level = encounter_detail.get('max_level', 1)
+
+                        location_encounters.append({
+                            'pokemon': pokemon_name,
+                            'method': method,  # walking, surfing, fishing, etc.
+                            'chance': chance,
+                            'min_level': min_level,
+                            'max_level': max_level
+                        })
+
+        if location_encounters:
+            encounters_by_location[location_area] = location_encounters
+            print(f"    ✅ Found {len(location_encounters)} encounters")
+
+    return encounters_by_location
 
 
 def hydrate_pokemon():
@@ -234,6 +414,20 @@ def hydrate_moves():
     print(f"\n✅ Saved {len(moves_list)} moves to {output_file}")
 
 
+def hydrate_encounters():
+    """Fetch Gen 1 encounter data."""
+    encounters = fetch_location_encounters()
+
+    # Write to YAML
+    output_file = ENCOUNTERS_DIR / "yellow_encounters.yaml"
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(output_file, 'w') as f:
+        yaml.dump({'locations': encounters}, f, default_flow_style=False, sort_keys=False)
+
+    print(f"\n✅ Saved encounters for {len(encounters)} locations to {output_file}")
+
+
 def main():
     """Main hydration script."""
     print("=" * 60)
@@ -247,10 +441,12 @@ def main():
     SPRITES_DIR.mkdir(parents=True, exist_ok=True)
     POKEMON_DIR.mkdir(parents=True, exist_ok=True)
     MOVES_DIR.mkdir(parents=True, exist_ok=True)
+    ENCOUNTERS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Hydrate data
     hydrate_pokemon()
     hydrate_moves()
+    hydrate_encounters()
 
     print("\n" + "=" * 60)
     print("✅ HYDRATION COMPLETE!")
