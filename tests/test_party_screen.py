@@ -185,24 +185,26 @@ def test_party_state_handles_a_with_no_selection(species_loader):
 
 
 def test_party_state_handles_a_with_selection_no_summary_state(species_loader):
-    """Should handle A press gracefully when SummaryState not implemented."""
+    """Should push SummaryState when A is pressed on Pokemon selection."""
     mock_game = Mock()
     party = Party()
 
     # Add a Pokemon
     pikachu_species = species_loader.get_species("pikachu")
-    party.add(Pokemon(pikachu_species, 5))
+    pikachu = Pokemon(pikachu_species, 5)
+    party.add(pikachu)
 
     mock_input = Mock()
     mock_input.is_just_pressed = Mock(side_effect=lambda key: key == "a")
 
     state = PartyState(mock_game, party)
 
-    # Should not crash even though SummaryState doesn't exist
     state.handle_input(mock_input)
 
-    # SummaryState doesn't exist, so push_state should not be called
-    mock_game.push_state.assert_not_called()
+    # SummaryState should be pushed
+    mock_game.push_state.assert_called_once()
+    pushed_state = mock_game.push_state.call_args[0][0]
+    assert pushed_state.screen.pokemon == pikachu
 
 
 def test_party_state_update_does_nothing(species_loader):
