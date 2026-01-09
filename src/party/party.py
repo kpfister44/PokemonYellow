@@ -84,7 +84,12 @@ class Party:
         return False
 
     def get_all_alive(self) -> list[Pokemon]:
-        """Get all non-fainted Pokemon."""
+        """
+        Get all non-fainted Pokemon.
+
+        Returns:
+            List of non-fainted Pokemon
+        """
         return [p for p in self.pokemon if not p.is_fainted()]
 
     def has_alive_pokemon(self) -> bool:
