@@ -19,7 +19,7 @@ class StartMenuState(BaseState):
         """
         super().__init__(game)
         self.previous_state = previous_state
-        self.menu = StartMenu(player_name="RED")  # TODO: Get from player data
+        self.menu = StartMenu(player_name="PLAYER")  # TODO: Get from player data when implemented
 
     def handle_input(self, input_handler):
         """Handle menu input."""
