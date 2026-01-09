@@ -1,6 +1,10 @@
 # ABOUTME: Rendering system for Pokemon Yellow with sprite caching
 # ABOUTME: Handles display initialization, layer-based rendering, and sprite loading
 
+import os
+# Force nearest-neighbor scaling (no blur) - MUST be set before pygame import
+os.environ["SDL_HINT_RENDER_SCALE_QUALITY"] = "0"
+
 import pygame
 from src.engine import constants
 
@@ -10,15 +14,14 @@ class Renderer:
 
     def __init__(self):
         """Initialize the renderer and display."""
+        # Run at native Game Boy resolution (no scaling - perfectly crisp)
         self.screen = pygame.display.set_mode(
-            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)
+            (constants.GAME_WIDTH, constants.GAME_HEIGHT)
         )
         pygame.display.set_caption("Pokemon Yellow")
 
-        # Create game surface at native resolution
-        self.game_surface = pygame.Surface(
-            (constants.GAME_WIDTH, constants.GAME_HEIGHT)
-        )
+        # Render directly to screen (no separate surface needed)
+        self.game_surface = self.screen
 
         # Sprite cache {filepath: Surface}
         self.sprite_cache = {}
@@ -79,13 +82,8 @@ class Renderer:
         return self.load_sprite(filepath)
 
     def present(self):
-        """Scale the game surface to window size and display it."""
-        # Scale the game surface up to the window size
-        scaled_surface = pygame.transform.scale(
-            self.game_surface,
-            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)
-        )
-        self.screen.blit(scaled_surface, (0, 0))
+        """Display the screen."""
+        # No scaling needed - rendering directly to screen at native resolution
         pygame.display.flip()
 
     def clear_sprite_cache(self):

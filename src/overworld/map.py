@@ -43,36 +43,39 @@ class Map:
 
     def _load_tileset(self):
         """
-        Load the tileset sprite sheet.
+        Load the tileset sprites.
 
         Returns:
             Dictionary mapping tile_id to pygame Surface
         """
-        # For now, we'll create colored placeholder tiles
-        # Later this will load from actual sprite sheets
         tileset = {}
 
-        # Create some basic colored tiles as placeholders
-        for tile_id in range(10):
-            surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE))
+        # Map tile IDs to sprite files
+        tile_sprites = {
+            0: "assets/tiles/grass.png",
+            1: "assets/tiles/building.png",
+            2: "assets/tiles/path.png",
+            3: "assets/tiles/water.png",
+            4: "assets/tiles/tree.png",
+            5: "assets/tiles/sign.png",
+        }
 
-            # Assign different colors to different tile IDs
-            if tile_id == 0:  # Empty/grass
-                surface.fill(constants.COLOR_LIGHT)
-            elif tile_id == 1:  # Wall/building
-                surface.fill(constants.COLOR_DARK)
-            elif tile_id == 2:  # Path
-                surface.fill((180, 180, 150))
-            elif tile_id == 3:  # Water
-                surface.fill((50, 100, 200))
-            elif tile_id == 4:  # Tree
-                surface.fill((34, 139, 34))
-            elif tile_id == 5:  # Sign
-                surface.fill((139, 69, 19))  # Brown color for signs
-            else:  # Default
-                surface.fill(constants.COLOR_DARKEST)
+        # Load sprites for each tile ID
+        for tile_id, sprite_path in tile_sprites.items():
+            try:
+                tileset[tile_id] = self.renderer.load_sprite(sprite_path)
+            except Exception as e:
+                print(f"Warning: Failed to load tile sprite {sprite_path}: {e}")
+                # Fallback to colored rectangle
+                surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE))
+                surface.fill(constants.COLOR_DEBUG)
+                tileset[tile_id] = surface
 
-            tileset[tile_id] = surface
+        # Create default tile for any unmapped IDs
+        default_tile = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE))
+        default_tile.fill(constants.COLOR_DARKEST)
+        for tile_id in range(6, 10):
+            tileset[tile_id] = default_tile
 
         return tileset
 

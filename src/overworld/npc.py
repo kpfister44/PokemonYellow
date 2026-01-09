@@ -9,7 +9,16 @@ from src.overworld.entity import Entity
 class NPC(Entity):
     """Non-player character."""
 
-    def __init__(self, npc_id, tile_x, tile_y, direction="down", dialog_text=None):
+    def __init__(
+        self,
+        npc_id,
+        tile_x,
+        tile_y,
+        direction="down",
+        dialog_text=None,
+        is_trainer=False,
+        trainer_data=None
+    ):
         """
         Initialize NPC.
 
@@ -25,6 +34,9 @@ class NPC(Entity):
         self.npc_id = npc_id
         self.dialog_text = dialog_text or "..."
         self.direction = direction
+        self.is_trainer = is_trainer
+        self.trainer_data = trainer_data
+        self.defeated = False
 
     def _create_placeholder_sprite(self):
         """Create placeholder sprite (different color from player)."""

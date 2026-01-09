@@ -12,6 +12,7 @@ from src.overworld import encounter_zones
 from src.states.battle_state import BattleState
 from src.battle.pokemon import Pokemon
 from src.battle.species_loader import SpeciesLoader
+from src.battle.trainer import Trainer
 
 
 class OverworldState(BaseState):
@@ -59,7 +60,9 @@ class OverworldState(BaseState):
                 npc_info["tile_x"],
                 npc_info["tile_y"],
                 npc_info.get("direction", "down"),
-                npc_info.get("dialog", "...")
+                npc_info.get("dialog", "..."),
+                npc_info.get("is_trainer", False),
+                npc_info.get("trainer")
             )
             self.npcs.append(npc)
 
@@ -107,7 +110,9 @@ class OverworldState(BaseState):
                 npc_info["tile_x"],
                 npc_info["tile_y"],
                 npc_info.get("direction", "down"),
-                npc_info.get("dialog", "...")
+                npc_info.get("dialog", "..."),
+                npc_info.get("is_trainer", False),
+                npc_info.get("trainer")
             )
             self.npcs.append(npc)
 
@@ -154,8 +159,11 @@ class OverworldState(BaseState):
         if input_handler.is_just_pressed("a"):
             npc = self._get_npc_in_front()
             if npc:
-                dialog_text = npc.interact()
-                self.active_dialog = DialogBox(dialog_text, npc.npc_id)
+                if npc.is_trainer and not npc.defeated:
+                    self._start_trainer_battle(npc)
+                else:
+                    dialog_text = npc.interact()
+                    self.active_dialog = DialogBox(dialog_text, npc.npc_id)
                 return
 
         # Normal player movement
@@ -253,6 +261,35 @@ class OverworldState(BaseState):
         # Push battle state
         battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
         self.game.push_state(battle_state)
+
+    def _start_trainer_battle(self, npc: NPC):
+        """Start a trainer battle when interacting with a trainer NPC."""
+        trainer_info = npc.trainer_data or {}
+
+        trainer = Trainer(
+            name=trainer_info.get("name", "Trainer"),
+            trainer_class=trainer_info.get("class", "Trainer"),
+            team=trainer_info.get("team", []),
+            prize_money=trainer_info.get("prize_money", 0)
+        )
+
+        species_loader = SpeciesLoader()
+        trainer_party = trainer.get_party(species_loader)
+
+        player_species = species_loader.get_species("pikachu")
+        player_pokemon = Pokemon(player_species, 5)
+
+        battle_state = BattleState(
+            self.game,
+            player_pokemon,
+            trainer_party[0],
+            is_trainer_battle=True,
+            trainer=trainer,
+            trainer_pokemon_remaining=trainer_party[1:]
+        )
+
+        self.game.push_state(battle_state)
+        npc.defeated = True
 
     def render(self, renderer):
         """

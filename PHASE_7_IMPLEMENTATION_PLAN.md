@@ -4,8 +4,10 @@
 Implement complete battle system with menus, status effects, stat changes, accuracy, critical hits, priority, experience/leveling, catching, and trainer battles. All data is fetched from PokéAPI.
 
 **Total Tasks:** 30
-**Completed:** 11 (37%)
-**Remaining:** 19 (63%)
+**Completed:** 30 (100%)
+**Remaining:** 0 (0%)
+
+**Status (2026-01-09):** Phase 7 complete. Catching is wired to `RUN` as a placeholder, and trainer battles currently trigger on A-button interaction (not line-of-sight).
 
 ---
 
@@ -53,7 +55,7 @@ Implement complete battle system with menus, status effects, stat changes, accur
 
 ---
 
-## 🚧 Remaining Phases
+## ✅ Completed Phases (7.3–7.7)
 
 ### Phase 7.3: Core Battle Mechanics (6 tasks)
 

@@ -58,6 +58,11 @@ class Pokemon:
         # Stat stage modifiers
         self.stat_stages: StatStages = StatStages()
 
+        # Experience tracking
+        self.experience: int = 0
+        self.exp_to_next_level: int = 0
+        self._update_exp_requirements()
+
     def _calculate_hp_iv(self) -> int:
         """
         Calculate HP IV from other IVs (Gen 1 mechanic).
@@ -173,3 +178,46 @@ class Pokemon:
                 return (False, "won't go any higher")
             else:
                 return (False, "won't go any lower")
+
+    def _update_exp_requirements(self):
+        """Update experience required for next level."""
+        from src.battle.experience_calculator import ExperienceCalculator
+
+        calc = ExperienceCalculator()
+        current_level_exp = calc.get_exp_for_level(self.species.growth_rate, self.level)
+        next_level_exp = calc.get_exp_for_level(self.species.growth_rate, self.level + 1)
+
+        if self.experience == 0:
+            self.experience = current_level_exp
+
+        self.exp_to_next_level = next_level_exp
+
+    def gain_experience(self, amount: int) -> bool:
+        """
+        Add experience and check for level up.
+
+        Args:
+            amount: Experience points to add
+
+        Returns:
+            True if Pokemon leveled up
+        """
+        self.experience += amount
+
+        if self.experience >= self.exp_to_next_level:
+            return True
+
+        return False
+
+    def level_up(self):
+        """Increase level and recalculate stats."""
+        self.level += 1
+
+        old_stats = self.stats
+        self.stats = self._calculate_stats()
+
+        self.current_hp = self.stats.hp
+
+        self._update_exp_requirements()
+
+        return old_stats

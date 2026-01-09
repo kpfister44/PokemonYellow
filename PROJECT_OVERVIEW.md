@@ -6,8 +6,8 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 
 ## Current Status
 
-**Completed**: Phases 1-6 (Core Engine through Battle System Foundation)
-**Next Phase**: Phase 7 - Battle Mechanics
+**Completed**: Phases 1-7 (Core Engine through Advanced Battle Mechanics)
+**Next Phase**: Phase 8 - Advanced Features (party, items, menus, save/load)
 
 The game currently has:
 - A working overworld with Pallet Town and Route 1 maps
@@ -20,6 +20,14 @@ The game currently has:
 - **Wild Pokemon encounters on grass tiles**
 - **Authentic Pokemon Yellow battle UI with HP bars**
 - **Turn-based battle system with Gen 1 damage calculation**
+- **Battle menu + move selection UI**
+- **Accuracy/critical hits/priority-based turn order**
+- **Status effects (paralysis, burn, freeze, poison, sleep)**
+- **Stat stage changes and modifiers**
+- **Advanced move effects (drain, multi-hit, flinch)**
+- **Experience gain and level-ups**
+- **Catching flow (placeholder: RUN triggers catch sequence)**
+- **Trainer battles (via NPC interaction)**
 - **All 151 Gen 1 Pokemon with Yellow version learnsets**
 - **All 165 Gen 1 moves with accurate stats**
 - **Pokemon sprites (front and back) from PokéAPI**
@@ -294,25 +302,20 @@ States are managed via a stack in `Game` class.
 
 ## What's NOT Implemented Yet
 
-### Phase 7+ Features
-- ❌ Advanced battle mechanics (status effects, stat changes, accuracy)
-- ❌ Battle menu system (FIGHT/ITEM/PKM/RUN options)
-- ❌ Move selection UI (choosing from 4 moves)
-- ❌ Experience and leveling system
-- ❌ Pokemon catching mechanics
-- ❌ Trainer battles
+### Phase 8+ Features
 - ❌ Building interiors (door warps)
 - ❌ NPC movement/AI
 - ❌ Advanced dialog features (typewriter effect, branching, multi-page)
 - ❌ Menus (Pokemon, Bag, Save)
 - ❌ Party management screen
+- ❌ Move learning on level up
+- ❌ Inventory/Bag system + item effects
 - ❌ Save/Load system
 
 ### Technical Debt
 - Using colored rectangles as placeholders for tiles
 - Player sprite is a yellow circle
 - NPC sprites are blue circles
-- Pokemon sprites loaded but not yet displayed in battle (using placeholders)
 - No animation frames (player doesn't animate when walking)
 - No sound/music
 - Dialog text has no word wrapping
@@ -342,9 +345,16 @@ States are managed via a stack in `Game` class.
 - `src/battle/move.py` - Move data structures (with priority, effect chance)
 - `src/battle/pokemon.py` - Pokemon instances with Gen 1 stats
 - `src/battle/damage_calculator.py` - Gen 1 damage formula
+- `src/battle/experience_calculator.py` - Gen 1 EXP formulas and level thresholds
+- `src/battle/catch_calculator.py` - Gen 1 catch rate formula
+- `src/battle/trainer.py` - Trainer data structure
+- `src/battle/status_effects.py` - Status condition enum
+- `src/battle/stat_stages.py` - Stat stage tracking
 - `src/battle/species_loader.py` - Loads species from YAML
 - `src/battle/move_loader.py` - Loads moves from YAML
 - `src/states/battle_state.py` - Battle state with authentic UI
+- `src/ui/battle_menu.py` - FIGHT/ITEM/PKM/RUN menu
+- `src/ui/move_menu.py` - Move selection UI
 
 ### Data Files
 - `data/maps/pallet_town.json` - Pallet Town map (with NPCs and warps)
@@ -475,15 +485,15 @@ From `CLAUDE.md`:
 
 ## Next Session Onboarding
 
-When picking up Phase 4:
+When picking up Phase 8:
 
-1. **Read** `IMPLEMENTATION_PLAN.md` Phase 4 section
+1. **Read** `IMPLEMENTATION_PLAN.md` Phase 8 section
 2. **Run** `uv run python -m src.main` to see current state
-3. **Test** player movement in Pallet Town
-4. **Check** `data/maps/pallet_town.json` to see warp points defined
-5. **Start** by creating `data/maps/route_1.json`
+3. **Test** a wild battle (status effects, multi-hit, drain, EXP)
+4. **Test** a trainer battle on Route 1 (RUN blocked, next Pokemon sent)
+5. **Decide** whether to split Phase 8 into party UI vs. inventory vs. save/load
 
-The foundation is solid. All the hard architectural decisions are made. Phase 4 is straightforward implementation.
+The foundation is solid. All battle mechanics and trainer battles are in place, so Phase 8 can focus on menus, party management, and persistence.
 
 ## Questions?
 

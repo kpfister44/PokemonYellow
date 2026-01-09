@@ -239,6 +239,66 @@ pokemon_yellow/
 - Save/Load system
 - Pokedex
 
+### Phase 9: Authentic Map Graphics Overhaul
+**Goal**: Replace placeholder tile graphics with authentic Pokemon Yellow tileset from original Game Boy ROM
+
+**Motivation**: Current maps use colored rectangles as placeholder tiles. This phase replaces them with pixel-perfect Gen 1 graphics for visual authenticity.
+
+**Resources**:
+1. **Map Sheets** (reference): [The Spriters Resource - Pokemon Yellow World Map](https://www.spriters-resource.com/game_boy_gbc/pokemonyellow/sheet/63031/)
+2. **Tilesets** (assets): [The Spriters Resource - Pokemon Yellow Tilesets](https://www.spriters-resource.com/game_boy_gbc/pokemonyellow/sheet/10649/)
+3. **Map Data** (logic): [pokeyellow decomp - Map Headers](https://github.com/pret/pokeyellow/tree/master/maps)
+
+**Tools**:
+- **Tiled Map Editor** (free, industry-standard 2D tile editor)
+- **PolishedMap** (optional, for opening pokeyellow .blk files)
+
+**Workflow**:
+1. Download overworld tileset from Spriters Resource
+2. Set up Tiled Map Editor with 16x16 grid (Game Boy standard)
+3. Import tileset into Tiled as a tileset palette
+4. Use pokeyellow decomp .blk files or world map image as reference
+5. Rebuild Pallet Town and Route 1 in Tiled
+6. Export to JSON (Tiled's native format, compatible with PyGame)
+7. Update `src/overworld/map.py` to load Tiled JSON format
+8. Create tile ID mapping system (grass tiles might be IDs 3,4,5 instead of single ID 0)
+9. Update `src/overworld/encounter_loader.py` to handle new grass tile IDs
+10. Test all map transitions, collisions, and encounters still work
+
+**Files to Create**:
+- `assets/tilesets/overworld.png` - Gen 1 overworld tileset (16x16 tiles)
+- `assets/tilesets/overworld.tsx` - Tiled tileset definition (optional)
+- Updated `data/maps/pallet_town.json` - Rebuilt in Tiled
+- Updated `data/maps/route_1.json` - Rebuilt in Tiled
+
+**Files to Update**:
+- `src/overworld/map.py` - Support Tiled JSON format (if different from current)
+- `src/overworld/tile.py` - Add tile sprite rendering (replace colored rectangles)
+- `src/overworld/encounter_zones.py` - Update grass tile ID list
+- `src/overworld/encounter_loader.py` - Map new tile IDs to encounter zones
+
+**Technical Notes**:
+- Tiled exports multiple JSON formats; choose the one closest to current structure
+- Tileset should be a single PNG with all tiles in a grid
+- Each 16x16 tile gets a unique ID (0, 1, 2, etc.)
+- Collision layer can stay boolean (0/1) or use tile properties in Tiled
+- Warp points remain in JSON metadata (Tiled supports custom properties)
+
+**Success Criteria**:
+- ✅ Maps render with authentic Gen 1 graphics instead of colored rectangles
+- ✅ Grass tiles use real grass sprites from tileset
+- ✅ Buildings, trees, water, paths all use authentic sprites
+- ✅ All collisions still work correctly
+- ✅ Map transitions (Pallet Town ↔ Route 1) still work
+- ✅ Wild encounters still trigger on grass tiles
+- ✅ Camera and rendering performance unchanged
+
+**Deferred** (Future Phases):
+- Rebuilding all 25 Kanto routes + dungeons (Phase 10+)
+- Animated tiles (water animation, grass rustling)
+- Weather effects
+- Day/night cycle
+
 ## Key Technical Decisions
 
 ### Input Mapping

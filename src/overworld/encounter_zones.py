@@ -64,19 +64,8 @@ class EncounterZone:
         return (slot.species_id, slot.min_level)
 
 
-# Define encounter zones for each map
-ENCOUNTER_ZONES = {
-    "route_1": EncounterZone(
-        map_name="route_1",
-        grass_tiles=[0],  # Tile ID 0 is grass in our tileset
-        encounters=[
-            EncounterSlot("rattata", 2, 5, 50),  # 50% chance
-            EncounterSlot("pidgey", 2, 5, 50),   # 50% chance
-        ],
-        encounter_rate=10  # 10% per step
-    ),
-    # Pallet Town has no encounters
-}
+# Global encounter loader instance (initialized on first use)
+_encounter_loader = None
 
 
 def get_encounter_zone(map_name: str):
@@ -89,4 +78,11 @@ def get_encounter_zone(map_name: str):
     Returns:
         EncounterZone or None if no encounters on this map
     """
-    return ENCOUNTER_ZONES.get(map_name)
+    global _encounter_loader
+
+    # Lazy load encounter data
+    if _encounter_loader is None:
+        from src.overworld.encounter_loader import EncounterLoader
+        _encounter_loader = EncounterLoader()
+
+    return _encounter_loader.get_encounter_zone(map_name)

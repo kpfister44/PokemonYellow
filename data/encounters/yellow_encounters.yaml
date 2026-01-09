@@ -1,4 +1,2520 @@
 locations:
+  kanto-route-1-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 3
+    max_level: 3
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 4
+    max_level: 4
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 2
+    max_level: 2
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 3
+    max_level: 3
+  - pokemon: pidgey
+    method: walk
+    chance: 5
+    min_level: 5
+    max_level: 5
+  - pokemon: pidgey
+    method: walk
+    chance: 4
+    min_level: 6
+    max_level: 6
+  - pokemon: pidgey
+    method: walk
+    chance: 1
+    min_level: 7
+    max_level: 7
+  - pokemon: rattata
+    method: walk
+    chance: 15
+    min_level: 2
+    max_level: 2
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 3
+    max_level: 3
+  - pokemon: rattata
+    method: walk
+    chance: 5
+    min_level: 4
+    max_level: 4
+  kanto-route-3-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 6
+    max_level: 6
+  - pokemon: pidgey
+    method: walk
+    chance: 15
+    min_level: 7
+    max_level: 7
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 8
+    max_level: 8
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: rattata
+    method: walk
+    chance: 5
+    min_level: 12
+    max_level: 12
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 9
+    max_level: 9
+  - pokemon: spearow
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: spearow
+    method: walk
+    chance: 4
+    min_level: 11
+    max_level: 11
+  - pokemon: spearow
+    method: walk
+    chance: 1
+    min_level: 12
+    max_level: 12
+  - pokemon: sandshrew
+    method: walk
+    chance: 10
+    min_level: 8
+    max_level: 8
+  - pokemon: sandshrew
+    method: walk
+    chance: 5
+    min_level: 10
+    max_level: 10
+  - pokemon: jigglypuff
+    method: walk
+    chance: 5
+    min_level: 3
+    max_level: 3
+  - pokemon: jigglypuff
+    method: walk
+    chance: 4
+    min_level: 5
+    max_level: 5
+  - pokemon: jigglypuff
+    method: walk
+    chance: 1
+    min_level: 7
+    max_level: 7
+  - pokemon: mankey
+    method: walk
+    chance: 15
+    min_level: 9
+    max_level: 9
+  kanto-route-4-area:
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: rattata
+    method: walk
+    chance: 5
+    min_level: 12
+    max_level: 12
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 9
+    max_level: 9
+  - pokemon: spearow
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: spearow
+    method: walk
+    chance: 4
+    min_level: 11
+    max_level: 11
+  - pokemon: spearow
+    method: walk
+    chance: 1
+    min_level: 12
+    max_level: 12
+  - pokemon: ekans
+    method: walk
+    chance: 10
+    min_level: 6
+    max_level: 6
+  - pokemon: ekans
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: ekans
+    method: walk
+    chance: 4
+    min_level: 8
+    max_level: 8
+  - pokemon: ekans
+    method: walk
+    chance: 1
+    min_level: 12
+    max_level: 12
+  - pokemon: sandshrew
+    method: walk
+    chance: 10
+    min_level: 8
+    max_level: 8
+  - pokemon: sandshrew
+    method: walk
+    chance: 5
+    min_level: 10
+    max_level: 10
+  - pokemon: mankey
+    method: walk
+    chance: 15
+    min_level: 9
+    max_level: 9
+  kanto-route-5-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: pidgeotto
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 14
+    max_level: 14
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: jigglypuff
+    method: walk
+    chance: 5
+    min_level: 3
+    max_level: 3
+  - pokemon: jigglypuff
+    method: walk
+    chance: 4
+    min_level: 5
+    max_level: 5
+  - pokemon: jigglypuff
+    method: walk
+    chance: 1
+    min_level: 7
+    max_level: 7
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 13
+    max_level: 13
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: oddish
+    method: walk
+    chance: 5
+    min_level: 16
+    max_level: 16
+  - pokemon: meowth
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: meowth
+    method: walk
+    chance: 10
+    min_level: 12
+    max_level: 12
+  - pokemon: meowth
+    method: walk
+    chance: 4
+    min_level: 14
+    max_level: 14
+  - pokemon: meowth
+    method: walk
+    chance: 1
+    min_level: 16
+    max_level: 16
+  - pokemon: mankey
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: mankey
+    method: walk
+    chance: 10
+    min_level: 12
+    max_level: 12
+  - pokemon: mankey
+    method: walk
+    chance: 4
+    min_level: 14
+    max_level: 14
+  - pokemon: mankey
+    method: walk
+    chance: 1
+    min_level: 16
+    max_level: 16
+  - pokemon: abra
+    method: walk
+    chance: 15
+    min_level: 7
+    max_level: 7
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 13
+    max_level: 13
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: bellsprout
+    method: walk
+    chance: 5
+    min_level: 16
+    max_level: 16
+  kanto-route-6-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: pidgeotto
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 14
+    max_level: 14
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: jigglypuff
+    method: walk
+    chance: 5
+    min_level: 3
+    max_level: 3
+  - pokemon: jigglypuff
+    method: walk
+    chance: 4
+    min_level: 5
+    max_level: 5
+  - pokemon: jigglypuff
+    method: walk
+    chance: 1
+    min_level: 7
+    max_level: 7
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 13
+    max_level: 13
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: oddish
+    method: walk
+    chance: 5
+    min_level: 16
+    max_level: 16
+  - pokemon: meowth
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: meowth
+    method: walk
+    chance: 10
+    min_level: 12
+    max_level: 12
+  - pokemon: meowth
+    method: walk
+    chance: 4
+    min_level: 14
+    max_level: 14
+  - pokemon: meowth
+    method: walk
+    chance: 1
+    min_level: 16
+    max_level: 16
+  - pokemon: psyduck
+    method: surf
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 15
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: surf
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: golduck
+    method: surf
+    chance: 4
+    min_level: 15
+    max_level: 15
+  - pokemon: golduck
+    method: surf
+    chance: 1
+    min_level: 20
+    max_level: 20
+  - pokemon: mankey
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: mankey
+    method: walk
+    chance: 10
+    min_level: 12
+    max_level: 12
+  - pokemon: mankey
+    method: walk
+    chance: 4
+    min_level: 14
+    max_level: 14
+  - pokemon: mankey
+    method: walk
+    chance: 1
+    min_level: 16
+    max_level: 16
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: abra
+    method: walk
+    chance: 15
+    min_level: 7
+    max_level: 7
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 13
+    max_level: 13
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: bellsprout
+    method: walk
+    chance: 5
+    min_level: 16
+    max_level: 16
+  - pokemon: shellder
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: shellder
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: shellder
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: goldeen
+    method: super-rod
+    chance: 40
+    min_level: 5
+    max_level: 5
+  - pokemon: goldeen
+    method: super-rod
+    chance: 30
+    min_level: 10
+    max_level: 10
+  - pokemon: goldeen
+    method: super-rod
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: goldeen
+    method: super-rod
+    chance: 10
+    min_level: 20
+    max_level: 20
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-7-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 20
+    max_level: 20
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: pidgeotto
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: rattata
+    method: walk
+    chance: 15
+    min_level: 20
+    max_level: 20
+  - pokemon: vulpix
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: vulpix
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  - pokemon: jigglypuff
+    method: walk
+    chance: 5
+    min_level: 19
+    max_level: 19
+  - pokemon: jigglypuff
+    method: walk
+    chance: 4
+    min_level: 24
+    max_level: 24
+  - pokemon: jigglypuff
+    method: walk
+    chance: 1
+    min_level: 24
+    max_level: 24
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 19
+    max_level: 19
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 22
+    max_level: 22
+  - pokemon: meowth
+    method: walk
+    chance: 15
+    min_level: 17
+    max_level: 17
+  - pokemon: meowth
+    method: walk
+    chance: 10
+    min_level: 18
+    max_level: 18
+  - pokemon: meowth
+    method: walk
+    chance: 4
+    min_level: 19
+    max_level: 19
+  - pokemon: meowth
+    method: walk
+    chance: 1
+    min_level: 20
+    max_level: 20
+  - pokemon: mankey
+    method: walk
+    chance: 15
+    min_level: 17
+    max_level: 17
+  - pokemon: mankey
+    method: walk
+    chance: 10
+    min_level: 18
+    max_level: 18
+  - pokemon: mankey
+    method: walk
+    chance: 4
+    min_level: 19
+    max_level: 19
+  - pokemon: mankey
+    method: walk
+    chance: 1
+    min_level: 20
+    max_level: 20
+  - pokemon: growlithe
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: growlithe
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  - pokemon: abra
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: abra
+    method: walk
+    chance: 10
+    min_level: 19
+    max_level: 19
+  - pokemon: abra
+    method: walk
+    chance: 5
+    min_level: 26
+    max_level: 26
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 19
+    max_level: 19
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 22
+    max_level: 22
+  kanto-route-8-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 20
+    max_level: 20
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: pidgeotto
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: rattata
+    method: walk
+    chance: 15
+    min_level: 20
+    max_level: 20
+  - pokemon: ekans
+    method: walk
+    chance: 15
+    min_level: 17
+    max_level: 17
+  - pokemon: ekans
+    method: walk
+    chance: 5
+    min_level: 19
+    max_level: 19
+  - pokemon: sandshrew
+    method: walk
+    chance: 15
+    min_level: 17
+    max_level: 17
+  - pokemon: sandshrew
+    method: walk
+    chance: 5
+    min_level: 19
+    max_level: 19
+  - pokemon: vulpix
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: vulpix
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: vulpix
+    method: walk
+    chance: 4
+    min_level: 15
+    max_level: 15
+  - pokemon: vulpix
+    method: walk
+    chance: 1
+    min_level: 18
+    max_level: 18
+  - pokemon: jigglypuff
+    method: walk
+    chance: 5
+    min_level: 19
+    max_level: 19
+  - pokemon: jigglypuff
+    method: walk
+    chance: 5
+    min_level: 24
+    max_level: 24
+  - pokemon: meowth
+    method: walk
+    chance: 20
+    min_level: 18
+    max_level: 18
+  - pokemon: meowth
+    method: walk
+    chance: 10
+    min_level: 20
+    max_level: 20
+  - pokemon: mankey
+    method: walk
+    chance: 20
+    min_level: 18
+    max_level: 18
+  - pokemon: mankey
+    method: walk
+    chance: 10
+    min_level: 20
+    max_level: 20
+  - pokemon: growlithe
+    method: walk
+    chance: 10
+    min_level: 16
+    max_level: 16
+  - pokemon: growlithe
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: growlithe
+    method: walk
+    chance: 4
+    min_level: 15
+    max_level: 15
+  - pokemon: growlithe
+    method: walk
+    chance: 1
+    min_level: 18
+    max_level: 18
+  - pokemon: abra
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: abra
+    method: walk
+    chance: 10
+    min_level: 19
+    max_level: 19
+  - pokemon: kadabra
+    method: walk
+    chance: 4
+    min_level: 20
+    max_level: 20
+  - pokemon: kadabra
+    method: walk
+    chance: 1
+    min_level: 27
+    max_level: 27
+  kanto-route-9-area:
+  - pokemon: rattata
+    method: walk
+    chance: 15
+    min_level: 18
+    max_level: 18
+  - pokemon: raticate
+    method: walk
+    chance: 4
+    min_level: 20
+    max_level: 20
+  - pokemon: spearow
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: fearow
+    method: walk
+    chance: 1
+    min_level: 19
+    max_level: 19
+  - pokemon: ekans
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: ekans
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: ekans
+    method: walk
+    chance: 4
+    min_level: 13
+    max_level: 13
+  - pokemon: ekans
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: sandshrew
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: sandshrew
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: sandshrew
+    method: walk
+    chance: 4
+    min_level: 13
+    max_level: 13
+  - pokemon: sandshrew
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: nidoran-f
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: nidoran-f
+    method: walk
+    chance: 10
+    min_level: 18
+    max_level: 18
+  - pokemon: nidorina
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: nidoran-m
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: nidoran-m
+    method: walk
+    chance: 10
+    min_level: 18
+    max_level: 18
+  - pokemon: nidorino
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  kanto-route-10-area:
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 18
+    max_level: 18
+  - pokemon: raticate
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: spearow
+    method: walk
+    chance: 10
+    min_level: 13
+    max_level: 13
+  - pokemon: spearow
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: ekans
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: ekans
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: ekans
+    method: walk
+    chance: 4
+    min_level: 13
+    max_level: 13
+  - pokemon: ekans
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: sandshrew
+    method: walk
+    chance: 10
+    min_level: 11
+    max_level: 11
+  - pokemon: sandshrew
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: sandshrew
+    method: walk
+    chance: 4
+    min_level: 13
+    max_level: 13
+  - pokemon: sandshrew
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: nidoran-f
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: nidoran-m
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: poliwhirl
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
+  - pokemon: poliwhirl
+    method: super-rod
+    chance: 8
+    min_level: 23
+    max_level: 23
+  - pokemon: poliwhirl
+    method: super-rod
+    chance: 17
+    min_level: 23
+    max_level: 23
+  - pokemon: machop
+    method: walk
+    chance: 4
+    min_level: 16
+    max_level: 16
+  - pokemon: machop
+    method: walk
+    chance: 1
+    min_level: 18
+    max_level: 18
+  - pokemon: slowpoke
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: magnemite
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: magnemite
+    method: walk
+    chance: 15
+    min_level: 18
+    max_level: 18
+  - pokemon: magnemite
+    method: walk
+    chance: 10
+    min_level: 20
+    max_level: 20
+  - pokemon: magnemite
+    method: walk
+    chance: 5
+    min_level: 22
+    max_level: 22
+  - pokemon: krabby
+    method: super-rod
+    chance: 40
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 30
+    min_level: 20
+    max_level: 20
+  - pokemon: kingler
+    method: super-rod
+    chance: 10
+    min_level: 25
+    max_level: 25
+  - pokemon: voltorb
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: voltorb
+    method: walk
+    chance: 15
+    min_level: 14
+    max_level: 14
+  - pokemon: voltorb
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: horsea
+    method: super-rod
+    chance: 20
+    min_level: 10
+    max_level: 10
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-11-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 16
+    max_level: 16
+  - pokemon: pidgey
+    method: walk
+    chance: 15
+    min_level: 18
+    max_level: 18
+  - pokemon: pidgeotto
+    method: walk
+    chance: 5
+    min_level: 18
+    max_level: 18
+  - pokemon: pidgeotto
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  - pokemon: rattata
+    method: walk
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: raticate
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: spearow
+    method: walk
+    chance: 10
+    min_level: 13
+    max_level: 13
+  - pokemon: spearow
+    method: walk
+    chance: 5
+    min_level: 17
+    max_level: 17
+  - pokemon: ekans
+    method: walk
+    chance: 20
+    min_level: 14
+    max_level: 14
+  - pokemon: ekans
+    method: walk
+    chance: 15
+    min_level: 12
+    max_level: 12
+  - pokemon: ekans
+    method: walk
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: sandshrew
+    method: walk
+    chance: 20
+    min_level: 14
+    max_level: 14
+  - pokemon: sandshrew
+    method: walk
+    chance: 15
+    min_level: 12
+    max_level: 12
+  - pokemon: sandshrew
+    method: walk
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: tentacool
+    method: super-rod
+    chance: 40
+    min_level: 15
+    max_level: 15
+  - pokemon: tentacool
+    method: super-rod
+    chance: 30
+    min_level: 20
+    max_level: 20
+  - pokemon: tentacool
+    method: super-rod
+    chance: 20
+    min_level: 10
+    max_level: 10
+  - pokemon: shellder
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: shellder
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: shellder
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: drowzee
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: drowzee
+    method: walk
+    chance: 10
+    min_level: 17
+    max_level: 17
+  - pokemon: drowzee
+    method: walk
+    chance: 4
+    min_level: 19
+    max_level: 19
+  - pokemon: krabby
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: horsea
+    method: super-rod
+    chance: 10
+    min_level: 5
+    max_level: 5
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-12-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 15
+    min_level: 28
+    max_level: 28
+  - pokemon: pidgeotto
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: gloom
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: venonat
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: venonat
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: weepinbell
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: tentacool
+    method: super-rod
+    chance: 25
+    min_level: 5
+    max_level: 5
+  - pokemon: slowpoke
+    method: surf
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 15
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: slowbro
+    method: surf
+    chance: 4
+    min_level: 15
+    max_level: 15
+  - pokemon: slowbro
+    method: surf
+    chance: 1
+    min_level: 20
+    max_level: 20
+  - pokemon: farfetchd
+    method: walk
+    chance: 4
+    min_level: 26
+    max_level: 26
+  - pokemon: farfetchd
+    method: walk
+    chance: 1
+    min_level: 31
+    max_level: 31
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: horsea
+    method: super-rod
+    chance: 40
+    min_level: 20
+    max_level: 20
+  - pokemon: horsea
+    method: super-rod
+    chance: 30
+    min_level: 25
+    max_level: 25
+  - pokemon: seadra
+    method: super-rod
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: seadra
+    method: super-rod
+    chance: 10
+    min_level: 35
+    max_level: 35
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  - pokemon: snorlax
+    method: pokeflute
+    chance: 100
+    min_level: 30
+    max_level: 30
+  kanto-route-13-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: pidgeotto
+    method: walk
+    chance: 15
+    min_level: 28
+    max_level: 28
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: gloom
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: venonat
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: venonat
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: weepinbell
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: tentacool
+    method: super-rod
+    chance: 20
+    min_level: 10
+    max_level: 10
+  - pokemon: slowpoke
+    method: surf
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 15
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: slowpoke
+    method: surf
+    chance: 5
+    min_level: 15
+    max_level: 15
+  - pokemon: slowbro
+    method: surf
+    chance: 4
+    min_level: 15
+    max_level: 15
+  - pokemon: slowbro
+    method: surf
+    chance: 1
+    min_level: 20
+    max_level: 20
+  - pokemon: farfetchd
+    method: walk
+    chance: 4
+    min_level: 26
+    max_level: 26
+  - pokemon: farfetchd
+    method: walk
+    chance: 1
+    min_level: 31
+    max_level: 31
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: horsea
+    method: super-rod
+    chance: 40
+    min_level: 15
+    max_level: 15
+  - pokemon: horsea
+    method: super-rod
+    chance: 30
+    min_level: 20
+    max_level: 20
+  - pokemon: seadra
+    method: super-rod
+    chance: 10
+    min_level: 20
+    max_level: 20
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  - pokemon: ditto
+    method: walk
+    chance: 5
+    min_level: 25
+    max_level: 25
+  kanto-route-14-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: pidgeotto
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: gloom
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: venonat
+    method: walk
+    chance: 15
+    min_level: 24
+    max_level: 24
+  - pokemon: venonat
+    method: walk
+    chance: 4
+    min_level: 27
+    max_level: 27
+  - pokemon: venomoth
+    method: walk
+    chance: 1
+    min_level: 30
+    max_level: 30
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: weepinbell
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: ditto
+    method: walk
+    chance: 15
+    min_level: 23
+    max_level: 23
+  kanto-route-15-area:
+  - pokemon: pidgey
+    method: walk
+    chance: 15
+    min_level: 23
+    max_level: 23
+  - pokemon: pidgeotto
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: gloom
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: venonat
+    method: walk
+    chance: 15
+    min_level: 24
+    max_level: 24
+  - pokemon: venonat
+    method: walk
+    chance: 4
+    min_level: 27
+    max_level: 27
+  - pokemon: venomoth
+    method: walk
+    chance: 1
+    min_level: 30
+    max_level: 30
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: weepinbell
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: ditto
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  kanto-route-16-area:
+  - pokemon: rattata
+    method: walk
+    chance: 15
+    min_level: 23
+    max_level: 23
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: raticate
+    method: walk
+    chance: 4
+    min_level: 25
+    max_level: 25
+  - pokemon: raticate
+    method: walk
+    chance: 1
+    min_level: 26
+    max_level: 26
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: spearow
+    method: walk
+    chance: 5
+    min_level: 23
+    max_level: 23
+  - pokemon: fearow
+    method: walk
+    chance: 5
+    min_level: 24
+    max_level: 24
+  - pokemon: doduo
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: doduo
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: doduo
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: snorlax
+    method: pokeflute
+    chance: 100
+    min_level: 30
+    max_level: 30
+  kanto-route-17-area:
+  - pokemon: raticate
+    method: walk
+    chance: 15
+    min_level: 25
+    max_level: 25
+  - pokemon: raticate
+    method: walk
+    chance: 10
+    min_level: 27
+    max_level: 27
+  - pokemon: raticate
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 20
+    max_level: 20
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: fearow
+    method: walk
+    chance: 20
+    min_level: 27
+    max_level: 27
+  - pokemon: fearow
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: tentacool
+    method: super-rod
+    chance: 40
+    min_level: 5
+    max_level: 5
+  - pokemon: tentacool
+    method: super-rod
+    chance: 30
+    min_level: 15
+    max_level: 15
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: ponyta
+    method: walk
+    chance: 4
+    min_level: 32
+    max_level: 32
+  - pokemon: doduo
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: doduo
+    method: walk
+    chance: 15
+    min_level: 27
+    max_level: 27
+  - pokemon: doduo
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: doduo
+    method: walk
+    chance: 5
+    min_level: 28
+    max_level: 28
+  - pokemon: dodrio
+    method: walk
+    chance: 1
+    min_level: 29
+    max_level: 29
+  - pokemon: shellder
+    method: super-rod
+    chance: 20
+    min_level: 25
+    max_level: 25
+  - pokemon: shellder
+    method: super-rod
+    chance: 10
+    min_level: 35
+    max_level: 35
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-18-area:
+  - pokemon: rattata
+    method: walk
+    chance: 15
+    min_level: 23
+    max_level: 23
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: raticate
+    method: walk
+    chance: 4
+    min_level: 25
+    max_level: 25
+  - pokemon: raticate
+    method: walk
+    chance: 1
+    min_level: 26
+    max_level: 26
+  - pokemon: spearow
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: spearow
+    method: walk
+    chance: 5
+    min_level: 23
+    max_level: 23
+  - pokemon: fearow
+    method: walk
+    chance: 5
+    min_level: 24
+    max_level: 24
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: tentacool
+    method: super-rod
+    chance: 40
+    min_level: 15
+    max_level: 15
+  - pokemon: doduo
+    method: walk
+    chance: 20
+    min_level: 22
+    max_level: 22
+  - pokemon: doduo
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: doduo
+    method: walk
+    chance: 10
+    min_level: 26
+    max_level: 26
+  - pokemon: shellder
+    method: super-rod
+    chance: 30
+    min_level: 20
+    max_level: 20
+  - pokemon: shellder
+    method: super-rod
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: shellder
+    method: super-rod
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-22-area:
+  - pokemon: rattata
+    method: walk
+    chance: 10
+    min_level: 3
+    max_level: 3
+  - pokemon: spearow
+    method: walk
+    chance: 5
+    min_level: 2
+    max_level: 2
+  - pokemon: spearow
+    method: walk
+    chance: 4
+    min_level: 4
+    max_level: 4
+  - pokemon: spearow
+    method: walk
+    chance: 1
+    min_level: 6
+    max_level: 6
+  - pokemon: nidoran-f
+    method: walk
+    chance: 20
+    min_level: 2
+    max_level: 2
+  - pokemon: nidoran-f
+    method: walk
+    chance: 10
+    min_level: 4
+    max_level: 4
+  - pokemon: nidoran-m
+    method: walk
+    chance: 20
+    min_level: 2
+    max_level: 2
+  - pokemon: nidoran-m
+    method: walk
+    chance: 10
+    min_level: 4
+    max_level: 4
+  - pokemon: mankey
+    method: walk
+    chance: 15
+    min_level: 3
+    max_level: 3
+  - pokemon: mankey
+    method: walk
+    chance: 5
+    min_level: 5
+    max_level: 5
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: poliwag
+    method: super-rod
+    chance: 40
+    min_level: 5
+    max_level: 5
+  - pokemon: poliwag
+    method: super-rod
+    chance: 30
+    min_level: 10
+    max_level: 10
+  - pokemon: poliwag
+    method: super-rod
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: poliwhirl
+    method: super-rod
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-23-area:
+  - pokemon: spearow
+    method: walk
+    chance: 15
+    min_level: 26
+    max_level: 26
+  - pokemon: fearow
+    method: walk
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: fearow
+    method: walk
+    chance: 5
+    min_level: 45
+    max_level: 45
+  - pokemon: ekans
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: arbok
+    method: walk
+    chance: 5
+    min_level: 41
+    max_level: 41
+  - pokemon: sandshrew
+    method: walk
+    chance: 20
+    min_level: 26
+    max_level: 26
+  - pokemon: sandslash
+    method: walk
+    chance: 5
+    min_level: 41
+    max_level: 41
+  - pokemon: nidorina
+    method: walk
+    chance: 20
+    min_level: 41
+    max_level: 41
+  - pokemon: nidorina
+    method: walk
+    chance: 10
+    min_level: 44
+    max_level: 44
+  - pokemon: nidorino
+    method: walk
+    chance: 20
+    min_level: 41
+    max_level: 41
+  - pokemon: nidorino
+    method: walk
+    chance: 10
+    min_level: 44
+    max_level: 44
+  - pokemon: mankey
+    method: walk
+    chance: 15
+    min_level: 36
+    max_level: 36
+  - pokemon: mankey
+    method: walk
+    chance: 5
+    min_level: 41
+    max_level: 41
+  - pokemon: primeape
+    method: walk
+    chance: 4
+    min_level: 41
+    max_level: 41
+  - pokemon: primeape
+    method: walk
+    chance: 1
+    min_level: 46
+    max_level: 46
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: poliwag
+    method: super-rod
+    chance: 40
+    min_level: 25
+    max_level: 25
+  - pokemon: poliwag
+    method: super-rod
+    chance: 30
+    min_level: 30
+    max_level: 30
+  - pokemon: poliwhirl
+    method: super-rod
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: poliwhirl
+    method: super-rod
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: slowbro
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
+  - pokemon: kingler
+    method: super-rod
+    chance: 17
+    min_level: 23
+    max_level: 23
+  - pokemon: kingler
+    method: super-rod
+    chance: 8
+    min_level: 23
+    max_level: 23
+  - pokemon: seadra
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: seaking
+    method: super-rod
+    chance: 8
+    min_level: 23
+    max_level: 23
+  - pokemon: seaking
+    method: super-rod
+    chance: 17
+    min_level: 23
+    max_level: 23
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  - pokemon: ditto
+    method: walk
+    chance: 20
+    min_level: 33
+    max_level: 33
+  - pokemon: ditto
+    method: walk
+    chance: 10
+    min_level: 38
+    max_level: 38
+  - pokemon: ditto
+    method: walk
+    chance: 5
+    min_level: 43
+    max_level: 43
+  kanto-route-24-area:
+  - pokemon: charmander
+    method: gift
+    chance: 100
+    min_level: 10
+    max_level: 10
+  - pokemon: caterpie
+    method: walk
+    chance: 20
+    min_level: 7
+    max_level: 7
+  - pokemon: metapod
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: weedle
+    method: walk
+    chance: 20
+    min_level: 7
+    max_level: 7
+  - pokemon: kakuna
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: pidgey
+    method: walk
+    chance: 15
+    min_level: 13
+    max_level: 13
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: pidgey
+    method: walk
+    chance: 4
+    min_level: 17
+    max_level: 17
+  - pokemon: pidgeotto
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 12
+    max_level: 12
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 14
+    max_level: 14
+  - pokemon: venonat
+    method: walk
+    chance: 5
+    min_level: 13
+    max_level: 13
+  - pokemon: venonat
+    method: walk
+    chance: 5
+    min_level: 16
+    max_level: 16
+  - pokemon: psyduck
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: abra
+    method: walk
+    chance: 10
+    min_level: 10
+    max_level: 10
+  - pokemon: abra
+    method: walk
+    chance: 4
+    min_level: 8
+    max_level: 8
+  - pokemon: abra
+    method: walk
+    chance: 1
+    min_level: 12
+    max_level: 12
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 12
+    max_level: 12
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 14
+    max_level: 14
+  - pokemon: krabby
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: krabby
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: goldeen
+    method: super-rod
+    chance: 40
+    min_level: 20
+    max_level: 20
+  - pokemon: goldeen
+    method: super-rod
+    chance: 30
+    min_level: 25
+    max_level: 25
+  - pokemon: goldeen
+    method: super-rod
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: seaking
+    method: super-rod
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
+  kanto-route-25-area:
+  - pokemon: caterpie
+    method: walk
+    chance: 1
+    min_level: 8
+    max_level: 8
+  - pokemon: caterpie
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: metapod
+    method: walk
+    chance: 4
+    min_level: 7
+    max_level: 7
+  - pokemon: metapod
+    method: walk
+    chance: 20
+    min_level: 9
+    max_level: 9
+  - pokemon: weedle
+    method: walk
+    chance: 20
+    min_level: 8
+    max_level: 8
+  - pokemon: weedle
+    method: walk
+    chance: 1
+    min_level: 8
+    max_level: 8
+  - pokemon: kakuna
+    method: walk
+    chance: 20
+    min_level: 9
+    max_level: 9
+  - pokemon: kakuna
+    method: walk
+    chance: 4
+    min_level: 7
+    max_level: 7
+  - pokemon: pidgey
+    method: walk
+    chance: 15
+    min_level: 13
+    max_level: 13
+  - pokemon: pidgey
+    method: walk
+    chance: 10
+    min_level: 15
+    max_level: 15
+  - pokemon: pidgey
+    method: walk
+    chance: 4
+    min_level: 17
+    max_level: 17
+  - pokemon: pidgeotto
+    method: walk
+    chance: 1
+    min_level: 17
+    max_level: 17
+  - pokemon: oddish
+    method: walk
+    chance: 20
+    min_level: 12
+    max_level: 12
+  - pokemon: oddish
+    method: walk
+    chance: 10
+    min_level: 14
+    max_level: 14
+  - pokemon: venonat
+    method: walk
+    chance: 5
+    min_level: 13
+    max_level: 13
+  - pokemon: venonat
+    method: walk
+    chance: 5
+    min_level: 16
+    max_level: 16
+  - pokemon: psyduck
+    method: super-rod
+    chance: 25
+    min_level: 15
+    max_level: 15
+  - pokemon: psyduck
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: poliwag
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: abra
+    method: walk
+    chance: 10
+    min_level: 12
+    max_level: 12
+  - pokemon: abra
+    method: walk
+    chance: 5
+    min_level: 10
+    max_level: 10
+  - pokemon: bellsprout
+    method: walk
+    chance: 20
+    min_level: 12
+    max_level: 12
+  - pokemon: bellsprout
+    method: walk
+    chance: 10
+    min_level: 14
+    max_level: 14
+  - pokemon: krabby
+    method: super-rod
+    chance: 40
+    min_level: 10
+    max_level: 10
+  - pokemon: krabby
+    method: super-rod
+    chance: 30
+    min_level: 15
+    max_level: 15
+  - pokemon: kingler
+    method: super-rod
+    chance: 20
+    min_level: 15
+    max_level: 15
+  - pokemon: kingler
+    method: super-rod
+    chance: 10
+    min_level: 25
+    max_level: 25
+  - pokemon: goldeen
+    method: good-rod
+    chance: 50
+    min_level: 10
+    max_level: 10
+  - pokemon: magikarp
+    method: old-rod
+    chance: 100
+    min_level: 5
+    max_level: 5
   viridian-forest-area:
   - pokemon: caterpie
     method: walk
@@ -30,6 +2546,46 @@ locations:
     chance: 5
     min_level: 6
     max_level: 6
+  - pokemon: weedle
+    method: walk
+    chance: 20
+    min_level: 4
+    max_level: 4
+  - pokemon: weedle
+    method: walk
+    chance: 15
+    min_level: 3
+    max_level: 3
+  - pokemon: weedle
+    method: walk
+    chance: 10
+    min_level: 5
+    max_level: 5
+  - pokemon: weedle
+    method: walk
+    chance: 5
+    min_level: 3
+    max_level: 3
+  - pokemon: kakuna
+    method: walk
+    chance: 20
+    min_level: 5
+    max_level: 5
+  - pokemon: kakuna
+    method: walk
+    chance: 10
+    min_level: 4
+    max_level: 4
+  - pokemon: kakuna
+    method: walk
+    chance: 10
+    min_level: 6
+    max_level: 6
+  - pokemon: kakuna
+    method: walk
+    chance: 5
+    min_level: 4
+    max_level: 4
   - pokemon: pidgey
     method: walk
     chance: 10
@@ -50,6 +2606,16 @@ locations:
     chance: 1
     min_level: 9
     max_level: 9
+  - pokemon: pikachu
+    method: walk
+    chance: 4
+    min_level: 3
+    max_level: 3
+  - pokemon: pikachu
+    method: walk
+    chance: 1
+    min_level: 5
+    max_level: 5
   mt-moon-1f:
   - pokemon: sandshrew
     method: walk
@@ -91,6 +2657,11 @@ locations:
     chance: 5
     min_level: 11
     max_level: 11
+  - pokemon: paras
+    method: walk
+    chance: 5
+    min_level: 8
+    max_level: 8
   - pokemon: geodude
     method: walk
     chance: 15
@@ -254,7 +2825,37 @@ locations:
     chance: 10
     min_level: 20
     max_level: 20
+  - pokemon: onix
+    method: walk
+    chance: 4
+    min_level: 13
+    max_level: 13
+  - pokemon: onix
+    method: walk
+    chance: 1
+    min_level: 15
+    max_level: 15
   power-plant-area:
+  - pokemon: pikachu
+    method: walk
+    chance: 15
+    min_level: 20
+    max_level: 20
+  - pokemon: pikachu
+    method: walk
+    chance: 10
+    min_level: 24
+    max_level: 24
+  - pokemon: raichu
+    method: walk
+    chance: 4
+    min_level: 33
+    max_level: 33
+  - pokemon: raichu
+    method: walk
+    chance: 1
+    min_level: 36
+    max_level: 36
   - pokemon: magnemite
     method: walk
     chance: 20
@@ -345,6 +2946,16 @@ locations:
     chance: 100
     min_level: 43
     max_level: 43
+  - pokemon: electabuzz
+    method: walk
+    chance: 4
+    min_level: 33
+    max_level: 33
+  - pokemon: electabuzz
+    method: walk
+    chance: 1
+    min_level: 36
+    max_level: 36
   - pokemon: zapdos
     method: only-one
     chance: 100
@@ -401,6 +3012,16 @@ locations:
     chance: 1
     min_level: 25
     max_level: 25
+  - pokemon: cubone
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  - pokemon: cubone
+    method: walk
+    chance: 4
+    min_level: 22
+    max_level: 22
   pokemon-tower-4f:
   - pokemon: gastly
     method: walk
@@ -452,6 +3073,16 @@ locations:
     chance: 1
     min_level: 25
     max_level: 25
+  - pokemon: cubone
+    method: walk
+    chance: 5
+    min_level: 20
+    max_level: 20
+  - pokemon: cubone
+    method: walk
+    chance: 4
+    min_level: 22
+    max_level: 22
   pokemon-tower-5f:
   - pokemon: gastly
     method: walk
@@ -636,6 +3267,21 @@ locations:
     chance: 1
     min_level: 36
     max_level: 36
+  - pokemon: psyduck
+    method: walk
+    chance: 5
+    min_level: 28
+    max_level: 28
+  - pokemon: psyduck
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: golduck
+    method: walk
+    chance: 1
+    min_level: 38
+    max_level: 38
   - pokemon: slowpoke
     method: walk
     chance: 10
@@ -646,6 +3292,26 @@ locations:
     chance: 5
     min_level: 30
     max_level: 30
+  - pokemon: slowbro
+    method: walk
+    chance: 1
+    min_level: 38
+    max_level: 38
+  - pokemon: seel
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: shellder
+    method: walk
+    chance: 15
+    min_level: 30
+    max_level: 30
+  - pokemon: shellder
+    method: walk
+    chance: 4
+    min_level: 28
+    max_level: 28
   - pokemon: krabby
     method: walk
     chance: 20
@@ -656,6 +3322,26 @@ locations:
     chance: 15
     min_level: 27
     max_level: 27
+  - pokemon: horsea
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: horsea
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: staryu
+    method: walk
+    chance: 15
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: walk
+    chance: 4
+    min_level: 28
+    max_level: 28
   seafoam-islands-b1f:
   - pokemon: zubat
     method: walk
@@ -677,6 +3363,16 @@ locations:
     chance: 10
     min_level: 27
     max_level: 27
+  - pokemon: psyduck
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: psyduck
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
   - pokemon: slowpoke
     method: walk
     chance: 10
@@ -692,6 +3388,21 @@ locations:
     chance: 1
     min_level: 26
     max_level: 26
+  - pokemon: dewgong
+    method: walk
+    chance: 4
+    min_level: 38
+    max_level: 38
+  - pokemon: shellder
+    method: walk
+    chance: 15
+    min_level: 32
+    max_level: 32
+  - pokemon: shellder
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
   - pokemon: krabby
     method: walk
     chance: 20
@@ -707,6 +3418,31 @@ locations:
     chance: 5
     min_level: 28
     max_level: 28
+  - pokemon: horsea
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: horsea
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: seadra
+    method: walk
+    chance: 1
+    min_level: 37
+    max_level: 37
+  - pokemon: staryu
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: walk
+    chance: 15
+    min_level: 32
+    max_level: 32
   seafoam-islands-b2f:
   - pokemon: zubat
     method: walk
@@ -728,6 +3464,21 @@ locations:
     chance: 5
     min_level: 36
     max_level: 36
+  - pokemon: psyduck
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: psyduck
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: golduck
+    method: walk
+    chance: 1
+    min_level: 37
+    max_level: 37
   - pokemon: slowpoke
     method: walk
     chance: 4
@@ -743,6 +3494,16 @@ locations:
     chance: 10
     min_level: 24
     max_level: 24
+  - pokemon: shellder
+    method: walk
+    chance: 5
+    min_level: 28
+    max_level: 28
+  - pokemon: shellder
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
   - pokemon: krabby
     method: walk
     chance: 20
@@ -756,6 +3517,26 @@ locations:
   - pokemon: kingler
     method: walk
     chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: horsea
+    method: walk
+    chance: 10
+    min_level: 28
+    max_level: 28
+  - pokemon: horsea
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: staryu
+    method: walk
+    chance: 5
     min_level: 28
     max_level: 28
   seafoam-islands-b3f:
@@ -774,6 +3555,16 @@ locations:
     chance: 20
     min_level: 27
     max_level: 27
+  - pokemon: psyduck
+    method: walk
+    chance: 20
+    min_level: 31
+    max_level: 31
+  - pokemon: psyduck
+    method: walk
+    chance: 15
+    min_level: 33
+    max_level: 33
   - pokemon: poliwag
     method: good-rod
     chance: 50
@@ -804,6 +3595,16 @@ locations:
     chance: 5
     min_level: 40
     max_level: 40
+  - pokemon: slowpoke
+    method: walk
+    chance: 20
+    min_level: 31
+    max_level: 31
+  - pokemon: slowpoke
+    method: walk
+    chance: 15
+    min_level: 33
+    max_level: 33
   - pokemon: seel
     method: walk
     chance: 10
@@ -824,6 +3625,26 @@ locations:
     chance: 1
     min_level: 32
     max_level: 32
+  - pokemon: shellder
+    method: walk
+    chance: 10
+    min_level: 31
+    max_level: 31
+  - pokemon: shellder
+    method: walk
+    chance: 5
+    min_level: 29
+    max_level: 29
+  - pokemon: shellder
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: shellder
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
   - pokemon: krabby
     method: walk
     chance: 15
@@ -849,6 +3670,31 @@ locations:
     chance: 20
     min_level: 35
     max_level: 35
+  - pokemon: horsea
+    method: walk
+    chance: 10
+    min_level: 29
+    max_level: 29
+  - pokemon: horsea
+    method: walk
+    chance: 5
+    min_level: 31
+    max_level: 31
+  - pokemon: horsea
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: horsea
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: seadra
+    method: walk
+    chance: 4
+    min_level: 39
+    max_level: 39
   - pokemon: goldeen
     method: good-rod
     chance: 50
@@ -915,6 +3761,21 @@ locations:
     chance: 5
     min_level: 27
     max_level: 27
+  - pokemon: psyduck
+    method: walk
+    chance: 10
+    min_level: 29
+    max_level: 29
+  - pokemon: psyduck
+    method: walk
+    chance: 5
+    min_level: 31
+    max_level: 31
+  - pokemon: golduck
+    method: walk
+    chance: 4
+    min_level: 39
+    max_level: 39
   - pokemon: poliwag
     method: good-rod
     chance: 50
@@ -945,6 +3806,21 @@ locations:
     chance: 5
     min_level: 40
     max_level: 40
+  - pokemon: slowpoke
+    method: walk
+    chance: 10
+    min_level: 29
+    max_level: 29
+  - pokemon: slowpoke
+    method: walk
+    chance: 5
+    min_level: 31
+    max_level: 31
+  - pokemon: slowbro
+    method: walk
+    chance: 4
+    min_level: 39
+    max_level: 39
   - pokemon: seel
     method: walk
     chance: 10
@@ -965,6 +3841,26 @@ locations:
     chance: 1
     min_level: 34
     max_level: 34
+  - pokemon: shellder
+    method: walk
+    chance: 20
+    min_level: 31
+    max_level: 31
+  - pokemon: shellder
+    method: walk
+    chance: 10
+    min_level: 33
+    max_level: 33
+  - pokemon: shellder
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
+  - pokemon: shellder
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
   - pokemon: krabby
     method: walk
     chance: 15
@@ -985,6 +3881,26 @@ locations:
     chance: 20
     min_level: 35
     max_level: 35
+  - pokemon: horsea
+    method: walk
+    chance: 20
+    min_level: 31
+    max_level: 31
+  - pokemon: horsea
+    method: walk
+    chance: 15
+    min_level: 33
+    max_level: 33
+  - pokemon: horsea
+    method: super-rod
+    chance: 8
+    min_level: 15
+    max_level: 15
+  - pokemon: horsea
+    method: super-rod
+    chance: 17
+    min_level: 15
+    max_level: 15
   - pokemon: goldeen
     method: good-rod
     chance: 50
@@ -1056,6 +3972,11 @@ locations:
     chance: 10
     min_level: 37
     max_level: 37
+  - pokemon: vulpix
+    method: walk
+    chance: 10
+    min_level: 34
+    max_level: 34
   - pokemon: growlithe
     method: walk
     chance: 10
@@ -1076,6 +3997,26 @@ locations:
     chance: 1
     min_level: 38
     max_level: 38
+  - pokemon: ponyta
+    method: walk
+    chance: 15
+    min_level: 34
+    max_level: 34
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: ponyta
+    method: walk
+    chance: 5
+    min_level: 28
+    max_level: 28
   - pokemon: grimer
     method: walk
     chance: 15
@@ -1086,6 +4027,41 @@ locations:
     chance: 5
     min_level: 26
     max_level: 26
+  - pokemon: muk
+    method: walk
+    chance: 1
+    min_level: 39
+    max_level: 39
+  - pokemon: muk
+    method: walk
+    chance: 4
+    min_level: 37
+    max_level: 37
+  - pokemon: koffing
+    method: walk
+    chance: 20
+    min_level: 32
+    max_level: 32
+  - pokemon: koffing
+    method: walk
+    chance: 20
+    min_level: 30
+    max_level: 30
+  - pokemon: koffing
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: weezing
+    method: walk
+    chance: 4
+    min_level: 37
+    max_level: 37
+  - pokemon: weezing
+    method: walk
+    chance: 1
+    min_level: 39
+    max_level: 39
   pokemon-mansion-2f:
   - pokemon: rattata
     method: walk
@@ -1107,6 +4083,31 @@ locations:
     chance: 10
     min_level: 40
     max_level: 40
+  - pokemon: vulpix
+    method: walk
+    chance: 20
+    min_level: 32
+    max_level: 32
+  - pokemon: growlithe
+    method: walk
+    chance: 20
+    min_level: 32
+    max_level: 32
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: ponyta
+    method: walk
+    chance: 5
+    min_level: 28
+    max_level: 28
   - pokemon: grimer
     method: walk
     chance: 15
@@ -1137,6 +4138,36 @@ locations:
     chance: 1
     min_level: 38
     max_level: 38
+  - pokemon: koffing
+    method: walk
+    chance: 20
+    min_level: 34
+    max_level: 34
+  - pokemon: koffing
+    method: walk
+    chance: 15
+    min_level: 34
+    max_level: 34
+  - pokemon: koffing
+    method: walk
+    chance: 10
+    min_level: 30
+    max_level: 30
+  - pokemon: koffing
+    method: walk
+    chance: 5
+    min_level: 30
+    max_level: 30
+  - pokemon: weezing
+    method: walk
+    chance: 4
+    min_level: 39
+    max_level: 39
+  - pokemon: weezing
+    method: walk
+    chance: 1
+    min_level: 37
+    max_level: 37
   pokemon-mansion-3f:
   - pokemon: rattata
     method: walk
@@ -1158,6 +4189,31 @@ locations:
     chance: 10
     min_level: 43
     max_level: 43
+  - pokemon: vulpix
+    method: walk
+    chance: 20
+    min_level: 33
+    max_level: 33
+  - pokemon: growlithe
+    method: walk
+    chance: 20
+    min_level: 33
+    max_level: 33
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 34
+    max_level: 34
+  - pokemon: ponyta
+    method: walk
+    chance: 4
+    min_level: 36
+    max_level: 36
   - pokemon: grimer
     method: walk
     chance: 15
@@ -1188,6 +4244,41 @@ locations:
     chance: 1
     min_level: 41
     max_level: 41
+  - pokemon: koffing
+    method: walk
+    chance: 20
+    min_level: 31
+    max_level: 31
+  - pokemon: koffing
+    method: walk
+    chance: 15
+    min_level: 35
+    max_level: 35
+  - pokemon: koffing
+    method: walk
+    chance: 5
+    min_level: 34
+    max_level: 34
+  - pokemon: weezing
+    method: walk
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: weezing
+    method: walk
+    chance: 5
+    min_level: 38
+    max_level: 38
+  - pokemon: weezing
+    method: walk
+    chance: 1
+    min_level: 42
+    max_level: 42
+  - pokemon: magmar
+    method: walk
+    chance: 10
+    min_level: 34
+    max_level: 34
   pokemon-mansion-b1f:
   - pokemon: raticate
     method: walk
@@ -1209,6 +4300,26 @@ locations:
     chance: 5
     min_level: 46
     max_level: 46
+  - pokemon: vulpix
+    method: walk
+    chance: 15
+    min_level: 35
+    max_level: 35
+  - pokemon: growlithe
+    method: walk
+    chance: 15
+    min_level: 35
+    max_level: 35
+  - pokemon: ponyta
+    method: walk
+    chance: 10
+    min_level: 32
+    max_level: 32
+  - pokemon: ponyta
+    method: walk
+    chance: 5
+    min_level: 34
+    max_level: 34
   - pokemon: grimer
     method: walk
     chance: 20
@@ -1224,6 +4335,46 @@ locations:
     chance: 10
     min_level: 41
     max_level: 41
+  - pokemon: koffing
+    method: walk
+    chance: 20
+    min_level: 33
+    max_level: 33
+  - pokemon: koffing
+    method: walk
+    chance: 20
+    min_level: 31
+    max_level: 31
+  - pokemon: koffing
+    method: walk
+    chance: 10
+    min_level: 31
+    max_level: 31
+  - pokemon: koffing
+    method: walk
+    chance: 5
+    min_level: 35
+    max_level: 35
+  - pokemon: weezing
+    method: walk
+    chance: 10
+    min_level: 40
+    max_level: 40
+  - pokemon: weezing
+    method: walk
+    chance: 4
+    min_level: 42
+    max_level: 42
+  - pokemon: weezing
+    method: walk
+    chance: 1
+    min_level: 42
+    max_level: 42
+  - pokemon: magmar
+    method: walk
+    chance: 4
+    min_level: 38
+    max_level: 38
   - pokemon: ditto
     method: walk
     chance: 5
@@ -1240,6 +4391,16 @@ locations:
     min_level: 12
     max_level: 12
   cerulean-cave-1f:
+  - pokemon: arbok
+    method: walk
+    chance: 10
+    min_level: 52
+    max_level: 52
+  - pokemon: raichu
+    method: walk
+    chance: 4
+    min_level: 53
+    max_level: 53
   - pokemon: sandslash
     method: walk
     chance: 10
@@ -1275,6 +4436,11 @@ locations:
     chance: 50
     min_level: 10
     max_level: 10
+  - pokemon: kadabra
+    method: walk
+    chance: 5
+    min_level: 49
+    max_level: 49
   - pokemon: weepinbell
     method: walk
     chance: 10
@@ -1285,6 +4451,41 @@ locations:
     chance: 15
     min_level: 45
     max_level: 45
+  - pokemon: slowbro
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
+  - pokemon: magneton
+    method: walk
+    chance: 15
+    min_level: 46
+    max_level: 46
+  - pokemon: dodrio
+    method: walk
+    chance: 10
+    min_level: 49
+    max_level: 49
+  - pokemon: hypno
+    method: walk
+    chance: 20
+    min_level: 46
+    max_level: 46
+  - pokemon: kingler
+    method: super-rod
+    chance: 17
+    min_level: 23
+    max_level: 23
+  - pokemon: kingler
+    method: super-rod
+    chance: 8
+    min_level: 23
+    max_level: 23
+  - pokemon: seadra
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
   - pokemon: goldeen
     method: good-rod
     chance: 50
@@ -1331,6 +4532,11 @@ locations:
     chance: 10
     min_level: 56
     max_level: 56
+  - pokemon: wigglytuff
+    method: walk
+    chance: 5
+    min_level: 54
+    max_level: 54
   - pokemon: golbat
     method: walk
     chance: 20
@@ -1346,6 +4552,16 @@ locations:
     chance: 5
     min_level: 58
     max_level: 58
+  - pokemon: venomoth
+    method: walk
+    chance: 20
+    min_level: 51
+    max_level: 51
+  - pokemon: kadabra
+    method: walk
+    chance: 15
+    min_level: 51
+    max_level: 51
   - pokemon: weepinbell
     method: walk
     chance: 5
@@ -1356,6 +4572,21 @@ locations:
     chance: 15
     min_level: 50
     max_level: 50
+  - pokemon: dodrio
+    method: walk
+    chance: 20
+    min_level: 51
+    max_level: 51
+  - pokemon: electrode
+    method: walk
+    chance: 10
+    min_level: 52
+    max_level: 52
+  - pokemon: marowak
+    method: walk
+    chance: 10
+    min_level: 52
+    max_level: 52
   - pokemon: rhyhorn
     method: walk
     chance: 10
@@ -1371,12 +4602,32 @@ locations:
     chance: 1
     min_level: 58
     max_level: 58
+  - pokemon: chansey
+    method: walk
+    chance: 5
+    min_level: 56
+    max_level: 56
   - pokemon: ditto
     method: walk
     chance: 10
     min_level: 60
     max_level: 60
   cerulean-cave-b1f:
+  - pokemon: arbok
+    method: walk
+    chance: 5
+    min_level: 57
+    max_level: 57
+  - pokemon: raichu
+    method: walk
+    chance: 10
+    min_level: 64
+    max_level: 64
+  - pokemon: sandslash
+    method: walk
+    chance: 5
+    min_level: 57
+    max_level: 57
   - pokemon: golbat
     method: walk
     chance: 20
@@ -1387,6 +4638,11 @@ locations:
     chance: 20
     min_level: 59
     max_level: 59
+  - pokemon: parasect
+    method: walk
+    chance: 10
+    min_level: 64
+    max_level: 64
   - pokemon: poliwag
     method: good-rod
     chance: 50
@@ -1395,6 +4651,31 @@ locations:
   - pokemon: graveler
     method: walk
     chance: 15
+    min_level: 55
+    max_level: 55
+  - pokemon: slowbro
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
+  - pokemon: kingler
+    method: super-rod
+    chance: 17
+    min_level: 23
+    max_level: 23
+  - pokemon: kingler
+    method: super-rod
+    chance: 8
+    min_level: 23
+    max_level: 23
+  - pokemon: electrode
+    method: walk
+    chance: 15
+    min_level: 55
+    max_level: 55
+  - pokemon: marowak
+    method: walk
+    chance: 20
     min_level: 55
     max_level: 55
   - pokemon: lickitung
@@ -1422,6 +4703,11 @@ locations:
     chance: 5
     min_level: 56
     max_level: 56
+  - pokemon: seadra
+    method: super-rod
+    chance: 25
+    min_level: 23
+    max_level: 23
   - pokemon: goldeen
     method: good-rod
     chance: 50
