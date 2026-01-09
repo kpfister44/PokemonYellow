@@ -40,8 +40,82 @@ The game currently has:
 ### Data Formats
 - **Maps**: JSON files in `data/maps/`
 - **Pokemon/Moves**: YAML files in `data/pokemon/` and `data/moves/`
+- **Encounters**: YAML file in `data/encounters/`
 - **Type Chart**: YAML file in `data/types/`
 - **Config**: `pyproject.toml` for dependencies
+
+## Data Hydration from PokéAPI
+
+**IMPORTANT**: All Pokemon, move, and encounter data is fetched from PokéAPI at **build-time** (not runtime). The data is stored locally in YAML files and loaded by the game.
+
+### What Gets Hydrated
+
+The `scripts/hydrate_data.py` script fetches comprehensive Gen 1 data:
+
+**Pokemon Data** (`data/pokemon/species.yaml`):
+- All 151 Gen 1 Pokemon
+- Base stats (HP, Attack, Defense, Special, Speed)
+- Types (1-2 types per Pokemon)
+- Evolution chains (with trigger method, level, or item requirements)
+- Growth rates (medium-slow, fast, etc. for leveling curves)
+- Pokedex entries (Yellow version flavor text)
+- Capture rates (0-255, for catch difficulty calculations)
+- Base happiness (friendship starting values)
+- Gender ratios
+- Base experience (XP yield when defeated)
+- Complete learnsets (level-up moves + TM/HM compatibility)
+- Sprite file paths (front and back)
+
+**Move Data** (`data/moves/moves.yaml`):
+- All 165 Gen 1 moves
+- Power, accuracy, PP, type
+- Category (physical, special, status)
+- Priority (-7 to +5 for turn order)
+- Effect chance (e.g., 10% freeze chance)
+
+**Encounter Data** (`data/encounters/yellow_encounters.yaml`):
+- Wild encounters for 24 Gen 1 locations
+- Locations: Viridian Forest, Mt. Moon, Rock Tunnel, Power Plant, Pokemon Tower, Seafoam Islands, Pokemon Mansion, Cerulean Cave, Diglett's Cave
+- For each encounter: Pokemon name, encounter method (walk/surf/fish), chance percentage, min/max levels
+
+**Sprites** (`assets/sprites/pokemon/`):
+- 302 PNG files (front + back for each of 151 Pokemon)
+- Downloaded from PokéAPI sprite URLs
+
+### How to Run Hydration
+
+```bash
+# Fetch all data (only needed if data files are missing or you want fresh data)
+uv run python scripts/hydrate_data.py
+```
+
+**When to run:**
+- Initial setup (if data files don't exist)
+- If you delete data files
+- If you want to update to latest PokéAPI data
+- If you modify the script to fetch different data
+
+**You do NOT need to run this normally** - all data is already committed to the repo.
+
+### API Endpoints Used
+
+The script fetches from these PokéAPI endpoints:
+- `/pokemon/{id}` - Base stats, sprites, learnsets
+- `/pokemon-species/{id}` - Evolution chains, Pokedex entries, growth rates
+- `/evolution-chain/{id}` - Detailed evolution data
+- `/growth-rate/{id}` - Leveling curves
+- `/move/{id}` - Move stats and effects
+- `/location-area/{area}` - Wild encounter data
+
+All data is filtered for **Pokemon Yellow version** where available, falling back to Red/Blue when Yellow-specific data isn't available.
+
+### Script Features
+
+- Rate limiting (100ms delay between requests)
+- Caching (evolution chains and growth rates cached to avoid duplicate API calls)
+- Error handling (continues on 404s for missing locations)
+- Progress indicators (shows each Pokemon/move being fetched)
+- YAML output (human-readable and easy to manually edit if needed)
 
 ## Project Structure
 
@@ -83,9 +157,11 @@ pokemon_yellow/
 │   │   ├── pallet_town.json         # Pallet Town map data
 │   │   └── route_1.json             # Route 1 map
 │   ├── pokemon/
-│   │   └── species.yaml             # All 151 Gen 1 Pokemon
+│   │   └── species.yaml             # All 151 Gen 1 Pokemon (from PokéAPI)
 │   ├── moves/
-│   │   └── moves.yaml               # All 165 Gen 1 moves
+│   │   └── moves.yaml               # All 165 Gen 1 moves (from PokéAPI)
+│   ├── encounters/
+│   │   └── yellow_encounters.yaml   # Wild encounters for 24 locations (from PokéAPI)
 │   └── types/
 │       └── type_chart.yaml          # Gen 1 type effectiveness
 ├── assets/
@@ -261,16 +337,82 @@ States are managed via a stack in `Game` class.
 ### UI
 - `src/ui/dialog_box.py` - Dialog box for NPC conversations
 
-### Data
+### Battle System
+- `src/battle/species.py` - Species data structures (with evolution, growth rate, etc.)
+- `src/battle/move.py` - Move data structures (with priority, effect chance)
+- `src/battle/pokemon.py` - Pokemon instances with Gen 1 stats
+- `src/battle/damage_calculator.py` - Gen 1 damage formula
+- `src/battle/species_loader.py` - Loads species from YAML
+- `src/battle/move_loader.py` - Loads moves from YAML
+- `src/states/battle_state.py` - Battle state with authentic UI
+
+### Data Files
 - `data/maps/pallet_town.json` - Pallet Town map (with NPCs and warps)
 - `data/maps/route_1.json` - Route 1 map
+- `data/pokemon/species.yaml` - All 151 Pokemon (comprehensive data from PokéAPI)
+- `data/moves/moves.yaml` - All 165 moves (from PokéAPI)
+- `data/encounters/yellow_encounters.yaml` - Wild encounters for 24 locations
+- `data/types/type_chart.yaml` - Gen 1 type effectiveness chart
+
+### Data Hydration Script
+- `scripts/hydrate_data.py` - Fetches all Pokemon, move, and encounter data from PokéAPI
+
+## Available Pokemon Data Fields
+
+When implementing new features, you have access to these fields in the Species dataclass:
+
+**Basic Info:**
+- `species_id` (str) - lowercase name, e.g., "bulbasaur"
+- `number` (int) - Pokedex number (1-151)
+- `name` (str) - Display name, e.g., "Bulbasaur"
+- `types` (list[str]) - 1-2 types, e.g., ["grass", "poison"]
+- `type1`, `type2` (properties) - Backwards compatibility
+
+**Stats:**
+- `base_stats` (BaseStats) - HP, Attack, Defense, Special, Speed
+
+**Evolution & Leveling:**
+- `evolution_chain` (dict) - Complete evolution data with triggers, levels, items
+- `growth_rate` (str) - "medium-slow", "fast", etc. (for XP curves)
+- `base_experience` (int) - XP yield when this Pokemon is defeated
+
+**Capture & Friendship:**
+- `capture_rate` (int) - 0-255, higher = easier to catch
+- `base_happiness` (int) - Starting friendship value
+- `gender_rate` (int) - -1=genderless, 0=male, 8=female, else ratio
+
+**Moves:**
+- `level_up_moves` (list[LevelUpMove]) - Complete learnset with levels and methods
+  - Each has: `level`, `move` (name), `method` ("level-up" or "machine")
+
+**Display:**
+- `pokedex_entry` (str) - Yellow version Pokedex text
+- `sprites` (SpriteData) - `front` and `back` sprite file paths
+
+## Available Move Data Fields
+
+**Basic Info:**
+- `move_id` (str) - move name
+- `id_number` (int) - Gen 1 move ID (1-165)
+- `name` (str) - Display name
+- `type` (str) - Move type
+
+**Battle Stats:**
+- `power` (Optional[int]) - Damage (None for status moves)
+- `accuracy` (Optional[int]) - Hit chance (None for never-miss)
+- `pp` (int) - Power points
+- `category` (str) - "physical", "special", or "status"
+
+**Advanced:**
+- `priority` (int) - Turn order (-7 to +5, default 0)
+- `effect_chance` (Optional[int]) - % chance for secondary effect (e.g., 10% freeze)
 
 ## Implementation Plan Reference
 
 The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 
-**Where we are**: End of Phase 5
-**What's next**: Phase 6 - Battle System Foundation
+**Where we are**: End of Phase 6
+**What's next**: Phase 7 - Advanced Battle Mechanics
 
 ### Completed Phases:
 - ✅ Phase 1: Core Engine Setup
@@ -278,12 +420,17 @@ The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 - ✅ Phase 3: Player Movement
 - ✅ Phase 4: Map Transitions
 - ✅ Phase 5: NPCs and Dialog System
+- ✅ Phase 6: Battle System Foundation (with full Gen 1 data from PokéAPI)
 
-### Next Up (Phase 6):
-- Pokemon data structures
-- Battle state implementation
-- Basic battle UI
-- Wild encounter system
+### Next Up (Phase 7):
+- Battle menu system (FIGHT/ITEM/PKM/RUN options)
+- Move selection UI (choose from up to 4 moves)
+- Status effects (paralysis, sleep, poison, burn, freeze)
+- Stat changes (buffs/debuffs)
+- Accuracy and evasion mechanics
+- Experience and leveling system
+- Pokemon catching mechanics
+- Trainer battles
 
 ## Testing Checklist
 
