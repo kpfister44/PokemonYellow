@@ -5,6 +5,9 @@ from src.states.base_state import BaseState
 from src.battle.pokemon import Pokemon
 from src.battle.damage_calculator import DamageCalculator
 from src.battle.move_loader import MoveLoader
+from src.battle.move import Move
+from src.ui.battle_menu import BattleMenu
+from src.ui.move_menu import MoveMenu
 from src.engine import constants
 
 
@@ -25,21 +28,49 @@ class BattleState(BaseState):
         self.enemy_pokemon = enemy_pokemon
 
         # Battle flow state
-        self.phase = "intro"  # intro, player_turn, showing_message, enemy_turn, end
+        self.phase = "intro"  # intro, showing_message, battle_menu, move_selection, enemy_turn, end
         self.message = f"Wild {enemy_pokemon.species.name.upper()}\nappeared!"
         self.awaiting_input = False
         self.show_message = True  # Whether to show message box
+
+        # Message queue system (Phase 7.8)
+        self.message_queue: list[str] = []
 
         # Systems
         self.damage_calculator = DamageCalculator()
         self.move_loader = MoveLoader()
 
+        # UI components (Phase 7.2)
+        self.battle_menu = BattleMenu()
+        self.move_menu = None  # Created when FIGHT is selected
+
+        # PP tracking for player's moves
+        self.player_move_pp = {}
+        self._initialize_player_pp()
+
         # Delay before allowing player input (frames)
         self.intro_timer = 60  # 1 second at 60 FPS
+
+        # Sprite surfaces (loaded in enter())
+        self.player_sprite = None
+        self.enemy_sprite = None
+
+    def _initialize_player_pp(self):
+        """Initialize PP tracking for player's moves."""
+        for move_id in self.player_pokemon.moves:
+            move = self.move_loader.get_move(move_id)
+            self.player_move_pp[move_id] = move.pp
 
     def enter(self):
         """Called when entering battle state."""
         print(f"Battle started: {self.player_pokemon.species.name} vs {self.enemy_pokemon.species.name}")
+
+        # Load Pokemon sprites at native size (no scaling - perfectly crisp)
+        if self.player_pokemon.species.sprites and self.player_pokemon.species.sprites.back:
+            self.player_sprite = self.game.renderer.load_sprite(self.player_pokemon.species.sprites.back)
+
+        if self.enemy_pokemon.species.sprites and self.enemy_pokemon.species.sprites.front:
+            self.enemy_sprite = self.game.renderer.load_sprite(self.enemy_pokemon.species.sprites.front)
 
     def exit(self):
         """Called when exiting battle state."""
@@ -55,18 +86,62 @@ class BattleState(BaseState):
         if not self.awaiting_input:
             return
 
-        # Press Z to advance through battle
+        # Battle menu phase - handle menu navigation
+        if self.phase == "battle_menu":
+            selection = self.battle_menu.handle_input(input_handler)
+            if selection:
+                self._handle_battle_menu_selection(selection)
+            return
+
+        # Move selection phase - handle move menu
+        if self.phase == "move_selection":
+            result = self.move_menu.handle_input(input_handler)
+            if result:
+                selected_move, cancelled = result
+                if cancelled:
+                    # B button pressed, go back to battle menu
+                    self.move_menu.deactivate()
+                    self.battle_menu.activate()
+                    self.phase = "battle_menu"
+                elif selected_move:
+                    # Move selected, execute attack
+                    self._execute_player_attack(selected_move)
+            return
+
+        # Press Z to advance through messages
         if input_handler.is_just_pressed("a"):
             if self.phase == "showing_message":
-                # Message is done, hide it and go to next phase
-                self.show_message = False
-                self.awaiting_input = False
-            elif self.phase == "player_turn":
-                self._execute_player_attack()
+                # Show next message or proceed
+                self._show_next_message()
             elif self.phase == "enemy_turn":
                 self._execute_enemy_attack()
             elif self.phase == "end":
                 self._end_battle()
+
+    def _handle_battle_menu_selection(self, selection: str):
+        """Handle battle menu selection."""
+        self.battle_menu.deactivate()
+
+        if selection == "FIGHT":
+            # Create move menu with player's moves
+            player_moves = [self.move_loader.get_move(mid) for mid in self.player_pokemon.moves]
+            self.move_menu = MoveMenu(player_moves, self.player_move_pp)
+            self.move_menu.activate()
+            self.phase = "move_selection"
+
+        elif selection == "ITEM":
+            self._queue_message("Items not implemented yet!")
+            self._show_next_message()
+
+        elif selection == "PKM":
+            self._queue_message("Party switching not\nimplemented yet!")
+            self._show_next_message()
+
+        elif selection == "RUN":
+            # For now, always succeed in running from wild battles
+            self._queue_message("Got away safely!")
+            self._show_next_message()
+            self.phase = "end"
 
     def update(self, dt):
         """
@@ -82,29 +157,7 @@ class BattleState(BaseState):
                 self.phase = "showing_message"
                 self.awaiting_input = True
 
-        # After message is dismissed, decide next phase
-        if self.phase == "showing_message" and not self.show_message:
-            if self.message.endswith("appeared!"):
-                # Intro done, player's turn
-                self.phase = "player_turn"
-                self.show_message = False
-                self.awaiting_input = True
-            elif "used" in self.message:
-                # Attack message shown, now check who attacks next
-                if self.enemy_pokemon.is_fainted() or self.player_pokemon.is_fainted():
-                    self.phase = "end"
-                    self.message = f"Wild {self.enemy_pokemon.species.name.upper()}\nfainted!" if self.enemy_pokemon.is_fainted() else f"{self.player_pokemon.species.name.upper()}\nfainted!"
-                    self.show_message = True
-                    self.awaiting_input = True
-                elif self.player_pokemon.current_hp < self.player_pokemon.stats.hp or self.enemy_pokemon.current_hp < self.enemy_pokemon.stats.hp:
-                    # Damage was dealt, go to opposite turn
-                    if "Wild" in self.message:
-                        # Enemy just attacked, player's turn
-                        self.phase = "player_turn"
-                    else:
-                        # Player just attacked, enemy's turn
-                        self.phase = "enemy_turn"
-                    self.awaiting_input = True
+        # Message queue is handled in _show_next_message(), no automatic transitions here
 
     def render(self, renderer):
         """
@@ -116,6 +169,9 @@ class BattleState(BaseState):
         # Clear screen with white background
         renderer.clear(constants.COLOR_WHITE)
 
+        # Render Pokemon sprites
+        self._render_sprites(renderer)
+
         # Render enemy info box (top-left)
         self._render_enemy_info(renderer)
 
@@ -125,6 +181,27 @@ class BattleState(BaseState):
         # Render message box if active
         if self.show_message:
             self._render_message_box(renderer)
+
+        # Render menus (Phase 7.2)
+        if self.phase == "battle_menu":
+            self.battle_menu.render(renderer, 8, 100)
+        elif self.phase == "move_selection" and self.move_menu:
+            self.move_menu.render(renderer, 8, 100)
+
+    def _render_sprites(self, renderer):
+        """Render Pokemon sprites on the battle screen."""
+        # Sprites are 96x96 - position them to fit in 160x144 screen
+        # Enemy sprite (top-right area)
+        if self.enemy_sprite:
+            enemy_x = 64  # Right side (160 - 96 = 64)
+            enemy_y = -24  # Slightly off top to fit better
+            renderer.draw_surface(self.enemy_sprite, (enemy_x, enemy_y))
+
+        # Player sprite (bottom-left area)
+        if self.player_sprite:
+            player_x = 0  # Left edge
+            player_y = 48  # Lower area (144 - 96 = 48)
+            renderer.draw_surface(self.player_sprite, (player_x, player_y))
 
     def _render_enemy_info(self, renderer):
         """Render enemy Pokemon info box (top-left, authentic Pokemon Yellow style)."""
@@ -264,19 +341,68 @@ class BattleState(BaseState):
         for i, line in enumerate(lines[:2]):  # Max 2 lines
             renderer.draw_text(line, box_x + 10, box_y + 8 + (i * 10), constants.COLOR_BLACK, 10)
 
-    def _execute_player_attack(self):
-        """Execute player's attack."""
-        self.awaiting_input = False
+    def _queue_message(self, text: str):
+        """Add message to queue."""
+        self.message_queue.append(text)
 
-        # For Phase 6, just use the first move
-        if not self.player_pokemon.moves:
-            self.message = "No moves available!"
+    def _show_next_message(self):
+        """Display next queued message or continue turn flow."""
+        if self.message_queue:
+            # Show next message
+            self.message = self.message_queue.pop(0)
             self.show_message = True
             self.awaiting_input = True
+            self.phase = "showing_message"
+        else:
+            # No more messages, proceed to next phase
+            self.show_message = False
+            self.awaiting_input = False
+            self._advance_turn()
+
+    def _advance_turn(self):
+        """Advance to next phase after messages are done."""
+        # Check for fainted Pokemon
+        if self.enemy_pokemon.is_fainted():
+            self._queue_message(f"Wild {self.enemy_pokemon.species.name.upper()}\nfainted!")
+            self._show_next_message()
+            self.phase = "end"
             return
 
-        move_id = self.player_pokemon.moves[0]
-        move = self.move_loader.get_move(move_id)
+        if self.player_pokemon.is_fainted():
+            self._queue_message(f"{self.player_pokemon.species.name.upper()}\nfainted!")
+            self._show_next_message()
+            self.phase = "end"
+            return
+
+        # Check current phase to determine next phase
+        if self.phase == "showing_message":
+            # After intro message
+            if self.message.endswith("appeared!"):
+                self.battle_menu.activate()
+                self.phase = "battle_menu"
+                self.awaiting_input = True
+            # After player's attack, enemy's turn
+            elif self.message and not "Wild" in self.message and "used" in self.message:
+                self.phase = "enemy_turn"
+                self.awaiting_input = True
+            # After enemy's attack, player's turn (show menu)
+            elif "Wild" in self.message and "used" in self.message:
+                self.battle_menu.activate()
+                self.phase = "battle_menu"
+                self.awaiting_input = True
+
+    def _execute_player_attack(self, move: Move):
+        """
+        Execute player's attack.
+
+        Args:
+            move: Move to use
+        """
+        self.awaiting_input = False
+
+        # Deduct PP
+        if move.move_id in self.player_move_pp:
+            self.player_move_pp[move.move_id] -= 1
 
         # Calculate damage
         damage = self.damage_calculator.calculate_damage(
@@ -288,16 +414,17 @@ class BattleState(BaseState):
         # Apply damage
         self.enemy_pokemon.take_damage(damage)
 
-        # Update message with uppercase name
-        self.message = f"{self.player_pokemon.species.name.upper()} used\n{move.name.upper()}!"
-        self.show_message = True
-        self.phase = "showing_message"
-        self.awaiting_input = True
+        # Queue attack message
+        self._queue_message(f"{self.player_pokemon.species.name.upper()} used\n{move.name.upper()}!")
+        self._show_next_message()
 
     def _execute_enemy_attack(self):
         """Execute enemy's attack."""
+        self.awaiting_input = False
+
         if not self.enemy_pokemon.moves:
-            self.phase = "player_turn"
+            self.battle_menu.activate()
+            self.phase = "battle_menu"
             self.awaiting_input = True
             return
 
@@ -312,11 +439,9 @@ class BattleState(BaseState):
 
         self.player_pokemon.take_damage(damage)
 
-        # Update message with uppercase name
-        self.message = f"Wild {self.enemy_pokemon.species.name.upper()}\nused {move.name.upper()}!"
-        self.show_message = True
-        self.phase = "showing_message"
-        self.awaiting_input = True
+        # Queue attack message
+        self._queue_message(f"Wild {self.enemy_pokemon.species.name.upper()}\nused {move.name.upper()}!")
+        self._show_next_message()
 
     def _end_battle(self):
         """End the battle and return to overworld."""
