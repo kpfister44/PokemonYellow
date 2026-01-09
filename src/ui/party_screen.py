@@ -42,7 +42,7 @@ class PartyScreen:
             return self.party.pokemon[self.cursor_index]
         return None
 
-    def render(self, renderer):
+    def render(self, renderer) -> None:
         """
         Render the party screen.
 
@@ -68,7 +68,7 @@ class PartyScreen:
 
         renderer.draw_text("Choose a POKéMON.", 8, prompt_y + 8)
 
-    def _render_party_slot(self, renderer, index: int):
+    def _render_party_slot(self, renderer, index: int) -> None:
         """
         Render a single party slot.
 

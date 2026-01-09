@@ -18,10 +18,11 @@ class PartyState(BaseState):
             game: Game instance
             party: Party to display
             mode: "view" (default) or "switch" (for battle switching)
+                  Note: mode will be used in Tasks 8-9 for switch logic
         """
         super().__init__(game)
         self.party = party
-        self.mode = mode
+        self.mode = mode  # Will be used in Tasks 8-9
         self.screen = PartyScreen(party)
 
     def handle_input(self, input_handler):
@@ -36,9 +37,14 @@ class PartyState(BaseState):
             # Select Pokemon - open summary
             selected = self.screen.get_selected_pokemon()
             if selected:
-                from src.states.summary_state import SummaryState
-                summary_state = SummaryState(self.game, selected, self.party)
-                self.game.push_state(summary_state)
+                # TODO: Implement SummaryState in Task 4
+                try:
+                    from src.states.summary_state import SummaryState
+                    summary_state = SummaryState(self.game, selected, self.party)
+                    self.game.push_state(summary_state)
+                except ImportError:
+                    # SummaryState not yet implemented
+                    pass
 
         elif input_handler.is_just_pressed("b"):
             # Go back
@@ -48,7 +54,7 @@ class PartyState(BaseState):
         """Update party state (nothing to update)."""
         pass
 
-    def render(self, renderer):
+    def render(self, renderer) -> None:
         """
         Render party screen.
 
