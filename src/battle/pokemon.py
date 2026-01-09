@@ -1,8 +1,11 @@
 # ABOUTME: Pokemon instance class for individual Pokemon
 # ABOUTME: Handles stats calculation, moves, and battle state
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from src.battle.species import Species
+from src.battle.status_effects import StatusCondition
+from src.battle.stat_stages import StatStages
+from typing import Optional
 import random
 
 
@@ -48,8 +51,12 @@ class Pokemon:
         # Moves (for Phase 6, just the level 1 move)
         self.moves = self._determine_moves()
 
-        # Status condition (none for Phase 6)
-        self.status = None
+        # Status condition
+        self.status: Optional[StatusCondition] = None
+        self.status_turns: int = 0  # For sleep counter and toxic damage
+
+        # Stat stage modifiers
+        self.stat_stages: StatStages = StatStages()
 
     def _calculate_hp_iv(self) -> int:
         """
@@ -113,3 +120,56 @@ class Pokemon:
     def get_hp_percentage(self) -> float:
         """Get HP as a percentage (0.0 to 1.0)."""
         return self.current_hp / self.stats.hp if self.stats.hp > 0 else 0.0
+
+    def apply_status(self, condition: StatusCondition) -> bool:
+        """
+        Apply status condition if not already statused.
+
+        Gen 1 rule: Pokemon can only have one status condition at a time.
+
+        Args:
+            condition: Status condition to apply
+
+        Returns:
+            True if status was applied, False if already statused
+        """
+        if self.status is not None and self.status != StatusCondition.NONE:
+            return False  # Already has a status
+
+        self.status = condition
+
+        # Initialize sleep turns (1-7 turns in Gen 1)
+        if condition == StatusCondition.SLEEP:
+            self.status_turns = random.randint(1, 7)
+
+        # Initialize toxic counter
+        if condition == StatusCondition.BADLY_POISON:
+            self.status_turns = 0  # Will increment each turn
+
+        return True
+
+    def apply_stat_change(self, stat: str, change: int) -> tuple[bool, str]:
+        """
+        Apply stat stage change.
+
+        Args:
+            stat: Stat name (attack, defense, speed, special, accuracy, evasion)
+            change: Number of stages to modify
+
+        Returns:
+            Tuple of (changed: bool, message: str)
+        """
+        changed = self.stat_stages.modify(stat, change)
+
+        if changed:
+            direction = "rose" if change > 0 else "fell"
+            if abs(change) >= 2:
+                modifier = "sharply "
+            else:
+                modifier = ""
+            return (True, f"{modifier}{direction}")
+        else:
+            if change > 0:
+                return (False, "won't go any higher")
+            else:
+                return (False, "won't go any lower")

@@ -25,12 +25,14 @@ SPRITES_DIR = PROJECT_ROOT / "assets" / "sprites" / "pokemon"
 GEN1_POKEMON_COUNT = 151
 GEN1_MOVE_IDS = range(1, 166)  # Gen 1 moves are IDs 1-165
 GEN1_LOCATION_AREAS = [
-    # Kanto routes
-    "route-1-area", "route-2-area", "route-3-area", "route-4-area", "route-5-area",
-    "route-6-area", "route-7-area", "route-8-area", "route-9-area", "route-10-area",
-    "route-11-area", "route-12-area", "route-13-area", "route-14-area", "route-15-area",
-    "route-16-area", "route-17-area", "route-18-area", "route-19-area", "route-20-area",
-    "route-21-area", "route-22-area", "route-23-area", "route-24-area", "route-25-area",
+    # Kanto routes (use "kanto-route-X-area" naming)
+    "kanto-route-1-area", "kanto-route-2-area", "kanto-route-3-area", "kanto-route-4-area",
+    "kanto-route-5-area", "kanto-route-6-area", "kanto-route-7-area", "kanto-route-8-area",
+    "kanto-route-9-area", "kanto-route-10-area", "kanto-route-11-area", "kanto-route-12-area",
+    "kanto-route-13-area", "kanto-route-14-area", "kanto-route-15-area", "kanto-route-16-area",
+    "kanto-route-17-area", "kanto-route-18-area", "kanto-route-19-area", "kanto-route-20-area",
+    "kanto-route-21-area", "kanto-route-22-area", "kanto-route-23-area", "kanto-route-24-area",
+    "kanto-route-25-area",
     # Special areas
     "viridian-forest-area", "mt-moon-1f", "mt-moon-b1f", "mt-moon-b2f",
     "rock-tunnel-1f", "rock-tunnel-b1f", "power-plant-area",
@@ -309,6 +311,29 @@ def fetch_move(move_id: int) -> Optional[Dict[str, Any]]:
     # Get effect chance (e.g., 10% chance to freeze)
     effect_chance = move_data.get('effect_chance')
 
+    # Extract meta data for battle mechanics
+    meta_data = move_data.get('meta', {})
+    meta = {
+        'ailment': meta_data.get('ailment', {}).get('name'),
+        'ailment_chance': meta_data.get('ailment_chance', 0),
+        'drain': meta_data.get('drain', 0),
+        'healing': meta_data.get('healing', 0),
+        'crit_rate': meta_data.get('crit_rate', 0),
+        'flinch_chance': meta_data.get('flinch_chance', 0),
+        'stat_chance': meta_data.get('stat_chance', 0),
+        'min_hits': meta_data.get('min_hits'),
+        'max_hits': meta_data.get('max_hits'),
+        'category': meta_data.get('category', {}).get('name') if meta_data.get('category') else None
+    }
+
+    # Extract stat changes (e.g., Swords Dance increases attack)
+    stat_changes = []
+    for stat_change in move_data.get('stat_changes', []):
+        stat_changes.append({
+            'change': stat_change.get('change', 0),
+            'stat': stat_change.get('stat', {}).get('name')
+        })
+
     # Build move entry
     move_entry = {
         'id': move_id,
@@ -319,7 +344,9 @@ def fetch_move(move_id: int) -> Optional[Dict[str, Any]]:
         'pp': pp,
         'category': damage_class,
         'priority': priority,
-        'effect_chance': effect_chance
+        'effect_chance': effect_chance,
+        'meta': meta,
+        'stat_changes': stat_changes
     }
 
     return move_entry
@@ -340,34 +367,59 @@ def fetch_location_encounters() -> Dict[str, List[Dict[str, Any]]]:
         if not location_data:
             continue
 
-        # Get encounters for Yellow version
+        # Get encounters for Yellow version (with Red/Blue fallback)
         pokemon_encounters = location_data.get('pokemon_encounters', [])
 
         location_encounters = []
         for encounter in pokemon_encounters:
             pokemon_name = encounter.get('pokemon', {}).get('name')
 
-            # Filter for Yellow version
-            for version_detail in encounter.get('version_details', []):
-                if version_detail.get('version', {}).get('name') == 'yellow':
-                    # Get encounter details
-                    for encounter_detail in version_detail.get('encounter_details', []):
-                        method = encounter_detail.get('method', {}).get('name')
-                        chance = encounter_detail.get('chance', 0)
-                        min_level = encounter_detail.get('min_level', 1)
-                        max_level = encounter_detail.get('max_level', 1)
+            # Try Yellow first, then fallback to Red/Blue
+            yellow_encounters = []
+            red_blue_encounters = []
 
-                        location_encounters.append({
-                            'pokemon': pokemon_name,
-                            'method': method,  # walking, surfing, fishing, etc.
-                            'chance': chance,
-                            'min_level': min_level,
-                            'max_level': max_level
-                        })
+            for version_detail in encounter.get('version_details', []):
+                version_name = version_detail.get('version', {}).get('name')
+
+                for encounter_detail in version_detail.get('encounter_details', []):
+                    method = encounter_detail.get('method', {}).get('name')
+                    chance = encounter_detail.get('chance', 0)
+                    min_level = encounter_detail.get('min_level', 1)
+                    max_level = encounter_detail.get('max_level', 1)
+
+                    encounter_data = {
+                        'pokemon': pokemon_name,
+                        'method': method,
+                        'chance': chance,
+                        'min_level': min_level,
+                        'max_level': max_level
+                    }
+
+                    if version_name == 'yellow':
+                        yellow_encounters.append(encounter_data)
+                    elif version_name in ['red', 'blue']:
+                        # Only store if we haven't seen this exact encounter yet
+                        if encounter_data not in red_blue_encounters:
+                            red_blue_encounters.append(encounter_data)
+
+            # Use Yellow data if available, otherwise use Red/Blue
+            if yellow_encounters:
+                location_encounters.extend(yellow_encounters)
+            elif red_blue_encounters:
+                location_encounters.extend(red_blue_encounters)
 
         if location_encounters:
+            # Determine which version data was used
+            data_source = "Yellow"
+            if location_encounters and all(
+                any(vd.get('version', {}).get('name') in ['red', 'blue']
+                    for vd in encounter.get('version_details', []))
+                for encounter in pokemon_encounters
+            ):
+                data_source = "Red/Blue"
+
             encounters_by_location[location_area] = location_encounters
-            print(f"    ✅ Found {len(location_encounters)} encounters")
+            print(f"    ✅ Found {len(location_encounters)} encounters ({data_source} data)")
 
     return encounters_by_location
 

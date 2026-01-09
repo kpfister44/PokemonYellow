@@ -8,6 +8,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 2
   name: karate-chop
   type: fighting
@@ -17,6 +29,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 1
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 3
   name: double-slap
   type: normal
@@ -26,6 +50,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 4
   name: comet-punch
   type: normal
@@ -35,6 +71,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 5
   name: mega-punch
   type: normal
@@ -44,6 +92,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 6
   name: pay-day
   type: normal
@@ -53,6 +113,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 7
   name: fire-punch
   type: fire
@@ -62,6 +134,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: burn
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 8
   name: ice-punch
   type: ice
@@ -71,6 +155,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: freeze
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 9
   name: thunder-punch
   type: electric
@@ -80,6 +176,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: paralysis
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 10
   name: scratch
   type: normal
@@ -89,6 +197,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 11
   name: vice-grip
   type: normal
@@ -98,6 +218,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 12
   name: guillotine
   type: normal
@@ -107,6 +239,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ohko
+  stat_changes: []
 - id: 13
   name: razor-wind
   type: normal
@@ -116,6 +260,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 1
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 14
   name: swords-dance
   type: normal
@@ -125,6 +281,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 2
+    stat: attack
 - id: 15
   name: cut
   type: normal
@@ -134,6 +304,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 16
   name: gust
   type: flying
@@ -143,6 +325,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 17
   name: wing-attack
   type: flying
@@ -152,6 +346,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 18
   name: whirlwind
   type: normal
@@ -161,6 +367,18 @@ moves:
   category: status
   priority: -6
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: force-switch
+  stat_changes: []
 - id: 19
   name: fly
   type: flying
@@ -170,6 +388,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 20
   name: bind
   type: normal
@@ -179,6 +409,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 100
+  meta:
+    ailment: trap
+    ailment_chance: 100
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 21
   name: slam
   type: normal
@@ -188,6 +430,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 22
   name: vine-whip
   type: grass
@@ -197,6 +451,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 23
   name: stomp
   type: normal
@@ -206,6 +472,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 30
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 24
   name: double-kick
   type: fighting
@@ -215,6 +493,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 2
+    category: damage
+  stat_changes: []
 - id: 25
   name: mega-kick
   type: normal
@@ -224,6 +514,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 26
   name: jump-kick
   type: fighting
@@ -233,6 +535,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 27
   name: rolling-kick
   type: fighting
@@ -242,6 +556,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 30
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 28
   name: sand-attack
   type: ground
@@ -251,6 +577,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: accuracy
 - id: 29
   name: headbutt
   type: normal
@@ -260,6 +600,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 30
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 30
   name: horn-attack
   type: normal
@@ -269,6 +621,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 31
   name: fury-attack
   type: normal
@@ -278,6 +642,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 32
   name: horn-drill
   type: normal
@@ -287,6 +663,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ohko
+  stat_changes: []
 - id: 33
   name: tackle
   type: normal
@@ -296,6 +684,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 34
   name: body-slam
   type: normal
@@ -305,6 +705,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: paralysis
+    ailment_chance: 30
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 35
   name: wrap
   type: normal
@@ -314,6 +726,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 100
+  meta:
+    ailment: trap
+    ailment_chance: 100
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 36
   name: take-down
   type: normal
@@ -323,6 +747,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: -25
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 37
   name: thrash
   type: normal
@@ -332,6 +768,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 38
   name: double-edge
   type: normal
@@ -341,6 +789,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: -33
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 39
   name: tail-whip
   type: normal
@@ -350,6 +810,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: defense
 - id: 40
   name: poison-sting
   type: poison
@@ -359,6 +833,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: poison
+    ailment_chance: 30
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 41
   name: twineedle
   type: bug
@@ -368,6 +854,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 20
+  meta:
+    ailment: poison
+    ailment_chance: 20
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 2
+    category: damage+ailment
+  stat_changes: []
 - id: 42
   name: pin-missile
   type: bug
@@ -377,6 +875,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 43
   name: leer
   type: normal
@@ -386,6 +896,20 @@ moves:
   category: status
   priority: 0
   effect_chance: 100
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 100
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: defense
 - id: 44
   name: bite
   type: dark
@@ -395,6 +919,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 30
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 45
   name: growl
   type: normal
@@ -404,6 +940,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: attack
 - id: 46
   name: roar
   type: normal
@@ -413,6 +963,18 @@ moves:
   category: status
   priority: -6
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: force-switch
+  stat_changes: []
 - id: 47
   name: sing
   type: normal
@@ -422,6 +984,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: sleep
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 48
   name: supersonic
   type: normal
@@ -431,6 +1005,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: confusion
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 49
   name: sonic-boom
   type: normal
@@ -440,6 +1026,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 50
   name: disable
   type: normal
@@ -449,6 +1047,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: disable
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 51
   name: acid
   type: poison
@@ -458,6 +1068,20 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 10
+    min_hits: null
+    max_hits: null
+    category: damage+lower
+  stat_changes:
+  - change: -1
+    stat: special-defense
 - id: 52
   name: ember
   type: fire
@@ -467,6 +1091,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: burn
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 53
   name: flamethrower
   type: fire
@@ -476,6 +1112,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: burn
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 54
   name: mist
   type: ice
@@ -485,6 +1133,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: field-effect
+  stat_changes: []
 - id: 55
   name: water-gun
   type: water
@@ -494,6 +1154,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 56
   name: hydro-pump
   type: water
@@ -503,6 +1175,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 57
   name: surf
   type: water
@@ -512,6 +1196,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 58
   name: ice-beam
   type: ice
@@ -521,6 +1217,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: freeze
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 59
   name: blizzard
   type: ice
@@ -530,6 +1238,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: freeze
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 60
   name: psybeam
   type: psychic
@@ -539,6 +1259,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: confusion
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 61
   name: bubble-beam
   type: water
@@ -548,6 +1280,20 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 10
+    min_hits: null
+    max_hits: null
+    category: damage+lower
+  stat_changes:
+  - change: -1
+    stat: speed
 - id: 62
   name: aurora-beam
   type: ice
@@ -557,6 +1303,20 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 10
+    min_hits: null
+    max_hits: null
+    category: damage+lower
+  stat_changes:
+  - change: -1
+    stat: attack
 - id: 63
   name: hyper-beam
   type: normal
@@ -566,6 +1326,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 64
   name: peck
   type: flying
@@ -575,6 +1347,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 65
   name: drill-peck
   type: flying
@@ -584,6 +1368,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 66
   name: submission
   type: fighting
@@ -593,6 +1389,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: -25
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 67
   name: low-kick
   type: fighting
@@ -602,6 +1410,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 68
   name: counter
   type: fighting
@@ -611,6 +1431,18 @@ moves:
   category: physical
   priority: -5
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 69
   name: seismic-toss
   type: fighting
@@ -620,6 +1452,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 70
   name: strength
   type: normal
@@ -629,6 +1473,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 71
   name: absorb
   type: grass
@@ -638,6 +1494,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 50
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+heal
+  stat_changes: []
 - id: 72
   name: mega-drain
   type: grass
@@ -647,6 +1515,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 50
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+heal
+  stat_changes: []
 - id: 73
   name: leech-seed
   type: grass
@@ -656,6 +1536,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: leech-seed
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 74
   name: growth
   type: normal
@@ -665,6 +1557,22 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: attack
+  - change: 1
+    stat: special-attack
 - id: 75
   name: razor-leaf
   type: grass
@@ -674,6 +1582,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 1
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 76
   name: solar-beam
   type: grass
@@ -683,6 +1603,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 77
   name: poison-powder
   type: poison
@@ -692,6 +1624,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: poison
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 78
   name: stun-spore
   type: grass
@@ -701,6 +1645,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: paralysis
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 79
   name: sleep-powder
   type: grass
@@ -710,6 +1666,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: sleep
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 80
   name: petal-dance
   type: grass
@@ -719,6 +1687,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 81
   name: string-shot
   type: bug
@@ -728,6 +1708,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -2
+    stat: speed
 - id: 82
   name: dragon-rage
   type: dragon
@@ -737,6 +1731,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 83
   name: fire-spin
   type: fire
@@ -746,6 +1752,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 100
+  meta:
+    ailment: trap
+    ailment_chance: 100
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 84
   name: thunder-shock
   type: electric
@@ -755,6 +1773,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: paralysis
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 85
   name: thunderbolt
   type: electric
@@ -764,6 +1794,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: paralysis
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 86
   name: thunder-wave
   type: electric
@@ -773,6 +1815,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: paralysis
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 87
   name: thunder
   type: electric
@@ -782,6 +1836,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: paralysis
+    ailment_chance: 30
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 88
   name: rock-throw
   type: rock
@@ -791,6 +1857,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 89
   name: earthquake
   type: ground
@@ -800,6 +1878,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 90
   name: fissure
   type: ground
@@ -809,6 +1899,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ohko
+  stat_changes: []
 - id: 91
   name: dig
   type: ground
@@ -818,6 +1920,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 92
   name: toxic
   type: poison
@@ -827,6 +1941,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: poison
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 93
   name: confusion
   type: psychic
@@ -836,6 +1962,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: confusion
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 94
   name: psychic
   type: psychic
@@ -845,6 +1983,20 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 10
+    min_hits: null
+    max_hits: null
+    category: damage+lower
+  stat_changes:
+  - change: -1
+    stat: special-defense
 - id: 95
   name: hypnosis
   type: psychic
@@ -854,6 +2006,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: sleep
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 96
   name: meditate
   type: psychic
@@ -863,6 +2027,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: attack
 - id: 97
   name: agility
   type: psychic
@@ -872,6 +2050,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 2
+    stat: speed
 - id: 98
   name: quick-attack
   type: normal
@@ -881,6 +2073,18 @@ moves:
   category: physical
   priority: 1
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 99
   name: rage
   type: normal
@@ -890,6 +2094,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 100
   name: teleport
   type: psychic
@@ -899,6 +2115,18 @@ moves:
   category: status
   priority: -6
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 101
   name: night-shade
   type: ghost
@@ -908,6 +2136,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 102
   name: mimic
   type: normal
@@ -917,6 +2157,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 103
   name: screech
   type: normal
@@ -926,6 +2178,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -2
+    stat: defense
 - id: 104
   name: double-team
   type: normal
@@ -935,6 +2201,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: evasion
 - id: 105
   name: recover
   type: normal
@@ -944,6 +2224,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 50
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: heal
+  stat_changes: []
 - id: 106
   name: harden
   type: normal
@@ -953,6 +2245,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: defense
 - id: 107
   name: minimize
   type: normal
@@ -962,6 +2268,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 2
+    stat: evasion
 - id: 108
   name: smokescreen
   type: normal
@@ -971,6 +2291,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: accuracy
 - id: 109
   name: confuse-ray
   type: ghost
@@ -980,6 +2314,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: confusion
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 110
   name: withdraw
   type: water
@@ -989,6 +2335,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: defense
 - id: 111
   name: defense-curl
   type: normal
@@ -998,6 +2358,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: defense
 - id: 112
   name: barrier
   type: psychic
@@ -1007,6 +2381,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 2
+    stat: defense
 - id: 113
   name: light-screen
   type: psychic
@@ -1016,6 +2404,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: field-effect
+  stat_changes: []
 - id: 114
   name: haze
   type: ice
@@ -1025,6 +2425,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: whole-field-effect
+  stat_changes: []
 - id: 115
   name: reflect
   type: psychic
@@ -1034,6 +2446,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: field-effect
+  stat_changes: []
 - id: 116
   name: focus-energy
   type: normal
@@ -1043,6 +2467,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 117
   name: bide
   type: normal
@@ -1052,6 +2488,18 @@ moves:
   category: physical
   priority: 1
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 118
   name: metronome
   type: normal
@@ -1061,6 +2509,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 119
   name: mirror-move
   type: flying
@@ -1070,6 +2530,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 120
   name: self-destruct
   type: normal
@@ -1079,6 +2551,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 121
   name: egg-bomb
   type: normal
@@ -1088,6 +2572,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 122
   name: lick
   type: ghost
@@ -1097,6 +2593,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: paralysis
+    ailment_chance: 30
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 123
   name: smog
   type: poison
@@ -1106,6 +2614,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 40
+  meta:
+    ailment: poison
+    ailment_chance: 40
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 124
   name: sludge
   type: poison
@@ -1115,6 +2635,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: poison
+    ailment_chance: 30
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 125
   name: bone-club
   type: ground
@@ -1124,6 +2656,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 10
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 126
   name: fire-blast
   type: fire
@@ -1133,6 +2677,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: burn
+    ailment_chance: 10
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 127
   name: waterfall
   type: water
@@ -1142,6 +2698,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 20
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 20
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 128
   name: clamp
   type: water
@@ -1151,6 +2719,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 100
+  meta:
+    ailment: trap
+    ailment_chance: 100
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 129
   name: swift
   type: normal
@@ -1160,6 +2740,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 130
   name: skull-bash
   type: normal
@@ -1169,6 +2761,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 100
+  meta:
+    ailment: none
+    ailment_chance: 100
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 131
   name: spike-cannon
   type: normal
@@ -1178,6 +2782,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 132
   name: constrict
   type: normal
@@ -1187,6 +2803,20 @@ moves:
   category: physical
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 10
+    min_hits: null
+    max_hits: null
+    category: damage+lower
+  stat_changes:
+  - change: -1
+    stat: speed
 - id: 133
   name: amnesia
   type: psychic
@@ -1196,6 +2826,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 2
+    stat: special-defense
 - id: 134
   name: kinesis
   type: psychic
@@ -1205,6 +2849,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: accuracy
 - id: 135
   name: soft-boiled
   type: normal
@@ -1214,6 +2872,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 50
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: heal
+  stat_changes: []
 - id: 136
   name: high-jump-kick
   type: fighting
@@ -1223,6 +2893,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 137
   name: glare
   type: normal
@@ -1232,6 +2914,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: paralysis
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 138
   name: dream-eater
   type: psychic
@@ -1241,6 +2935,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 50
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+heal
+  stat_changes: []
 - id: 139
   name: poison-gas
   type: poison
@@ -1250,6 +2956,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: poison
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 140
   name: barrage
   type: normal
@@ -1259,6 +2977,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 141
   name: leech-life
   type: bug
@@ -1268,6 +2998,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 50
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+heal
+  stat_changes: []
 - id: 142
   name: lovely-kiss
   type: normal
@@ -1277,6 +3019,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: sleep
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 143
   name: sky-attack
   type: flying
@@ -1286,6 +3040,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 1
+    flinch_chance: 30
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 144
   name: transform
   type: normal
@@ -1295,6 +3061,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 145
   name: bubble
   type: water
@@ -1304,6 +3082,20 @@ moves:
   category: special
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 10
+    min_hits: null
+    max_hits: null
+    category: damage+lower
+  stat_changes:
+  - change: -1
+    stat: speed
 - id: 146
   name: dizzy-punch
   type: normal
@@ -1313,6 +3105,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 20
+  meta:
+    ailment: confusion
+    ailment_chance: 20
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 147
   name: spore
   type: grass
@@ -1322,6 +3126,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: sleep
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: ailment
+  stat_changes: []
 - id: 148
   name: flash
   type: normal
@@ -1331,6 +3147,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: -1
+    stat: accuracy
 - id: 149
   name: psywave
   type: psychic
@@ -1340,6 +3170,18 @@ moves:
   category: special
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 150
   name: splash
   type: normal
@@ -1349,6 +3191,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 151
   name: acid-armor
   type: poison
@@ -1358,6 +3212,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 2
+    stat: defense
 - id: 152
   name: crabhammer
   type: water
@@ -1367,6 +3235,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 1
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 153
   name: explosion
   type: normal
@@ -1376,6 +3256,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 154
   name: fury-swipes
   type: normal
@@ -1385,6 +3277,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 5
+    category: damage
+  stat_changes: []
 - id: 155
   name: bonemerang
   type: ground
@@ -1394,6 +3298,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: 2
+    max_hits: 2
+    category: damage
+  stat_changes: []
 - id: 156
   name: rest
   type: psychic
@@ -1403,6 +3319,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 157
   name: rock-slide
   type: rock
@@ -1412,6 +3340,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 30
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 30
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 158
   name: hyper-fang
   type: normal
@@ -1421,6 +3361,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: 10
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 10
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 159
   name: sharpen
   type: normal
@@ -1430,6 +3382,20 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: net-good-stats
+  stat_changes:
+  - change: 1
+    stat: attack
 - id: 160
   name: conversion
   type: normal
@@ -1439,6 +3405,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 161
   name: tri-attack
   type: normal
@@ -1448,6 +3426,18 @@ moves:
   category: special
   priority: 0
   effect_chance: 20
+  meta:
+    ailment: unknown
+    ailment_chance: 20
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage+ailment
+  stat_changes: []
 - id: 162
   name: super-fang
   type: normal
@@ -1457,6 +3447,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 163
   name: slash
   type: normal
@@ -1466,6 +3468,18 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 1
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
 - id: 164
   name: substitute
   type: normal
@@ -1475,6 +3489,18 @@ moves:
   category: status
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: 0
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: unique
+  stat_changes: []
 - id: 165
   name: struggle
   type: normal
@@ -1484,3 +3510,15 @@ moves:
   category: physical
   priority: 0
   effect_chance: null
+  meta:
+    ailment: none
+    ailment_chance: 0
+    drain: 0
+    healing: -25
+    crit_rate: 0
+    flinch_chance: 0
+    stat_chance: 0
+    min_hits: null
+    max_hits: null
+    category: damage
+  stat_changes: []
