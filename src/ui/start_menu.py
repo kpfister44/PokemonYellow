@@ -59,7 +59,7 @@ class StartMenu:
 
         # Draw menu background box
         renderer.draw_rect(border_color, (menu_x, menu_y, menu_width, menu_height), 2)
-        renderer.draw_rect(bg_color, (menu_x+2, menu_y+2, menu_width-4, menu_height-4), 0)
+        renderer.draw_rect(bg_color, (menu_x + 2, menu_y + 2, menu_width - 4, menu_height - 4), 0)
 
         # Draw options
         text_x = menu_x + 8
