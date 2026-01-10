@@ -17,12 +17,12 @@ class PartyState(BaseState):
         Args:
             game: Game instance
             party: Party to display
-            mode: "view" (default) or "switch" (for battle switching)
-                  Note: mode will be used in Tasks 8-9 for switch logic
+            mode: "view" (default), "switch" (battle switching),
+                  or "forced_switch" (required after fainting)
         """
         super().__init__(game)
         self.party = party
-        self.mode = mode  # Will be used in Tasks 8-9
+        self.mode = mode  # Controls view vs. switching behavior
         self.screen = PartyScreen(party)
 
     def handle_input(self, input_handler):
@@ -36,7 +36,7 @@ class PartyState(BaseState):
         elif input_handler.is_just_pressed("a"):
             selected = self.screen.get_selected_pokemon()
 
-            if self.mode == "switch":
+            if self.mode in ["switch", "forced_switch"]:
                 # Battle switching mode
                 if selected and not selected.is_fainted():
                     # Return selected Pokemon to battle state
@@ -44,9 +44,8 @@ class PartyState(BaseState):
 
                     # Notify battle state of switch
                     # Battle state will handle the switch
-                    from src.states.battle_state import BattleState
                     battle_state = self.game.state_stack[-1]
-                    if isinstance(battle_state, BattleState):
+                    if hasattr(battle_state, "handle_switch"):
                         battle_state.handle_switch(selected)
                 else:
                     # Can't switch to fainted Pokemon
@@ -61,7 +60,8 @@ class PartyState(BaseState):
 
         elif input_handler.is_just_pressed("b"):
             # Go back
-            self.game.pop_state()
+            if self.mode != "forced_switch":
+                self.game.pop_state()
 
     def update(self, dt: float):
         """Update party state (nothing to update)."""

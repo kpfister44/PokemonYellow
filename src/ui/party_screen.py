@@ -91,6 +91,8 @@ class PartyScreen:
             sprite = renderer.load_sprite(pokemon.species.sprites.front)
             if sprite:
                 scaled_sprite = pygame.transform.scale(sprite, (16, 16))
+                if pokemon.is_fainted():
+                    scaled_sprite.set_alpha(100)
                 renderer.game_surface.blit(scaled_sprite, (x + 12, y))
 
         # Draw Pokemon info
@@ -104,5 +106,8 @@ class PartyScreen:
         renderer.draw_text(level_text, info_x + 60, y + 2)
 
         # HP on second line
-        hp_text = f"{pokemon.current_hp:3d}/{pokemon.stats.hp:3d}"
-        renderer.draw_text(hp_text, info_x + 80, y + 10)
+        if pokemon.is_fainted():
+            renderer.draw_text("FNT", info_x + 80, y + 10)
+        else:
+            hp_text = f"{pokemon.current_hp:3d}/{pokemon.stats.hp:3d}"
+            renderer.draw_text(hp_text, info_x + 80, y + 10)

@@ -431,8 +431,18 @@ class BattleState(BaseState):
 
         if self.player_pokemon.is_fainted():
             self._queue_message(f"{self.player_pokemon.species.name.upper()}\nfainted!")
-            self._show_next_message()
-            self.phase = "end"
+            if hasattr(self, 'party') and self.party.has_alive_pokemon():
+                self._queue_message("Choose next POK\u00e9MON!")
+                self._show_next_message()
+
+                from src.states.party_state import PartyState
+                party_state = PartyState(self.game, self.party, mode="forced_switch")
+                self.game.push_state(party_state)
+            else:
+                self._queue_message("You have no more\nPOK\u00e9MON!")
+                self._queue_message("You blacked out!")
+                self._show_next_message()
+                self.phase = "end"
             return
 
         # Check current phase to determine next phase
