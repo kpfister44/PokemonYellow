@@ -50,8 +50,7 @@ class PartyScreen:
             renderer: Renderer instance for drawing
         """
         # Clear screen with white background
-        surface = renderer.surface
-        surface.fill((248, 248, 248))
+        renderer.clear((248, 248, 248))
 
         # Draw each Pokemon in party
         for i in range(min(6, self.party.size())):
@@ -77,7 +76,6 @@ class PartyScreen:
             index: Party slot index (0-5)
         """
         pokemon = self.party.pokemon[index]
-        surface = renderer.surface
 
         # Calculate position (2 rows of 3)
         slot_width = GAME_WIDTH // 2
@@ -95,7 +93,7 @@ class PartyScreen:
             if sprite:
                 # Scale sprite to 32x32
                 scaled_sprite = pygame.transform.scale(sprite, (32, 32))
-                surface.blit(scaled_sprite, (x + 16, y + 4))
+                renderer.game_surface.blit(scaled_sprite, (x + 16, y + 4))
 
         # Draw Pokemon info
         info_x = x + 52

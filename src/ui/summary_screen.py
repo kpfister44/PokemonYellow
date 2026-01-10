@@ -70,15 +70,14 @@ class SummaryScreen:
         Args:
             renderer: Renderer instance
         """
-        surface = renderer.surface
-        surface.fill((248, 248, 248))
+        renderer.clear((248, 248, 248))
 
         # Draw sprite (64x64)
         if self.pokemon.species.sprites and self.pokemon.species.sprites.front:
             sprite = renderer.load_sprite(self.pokemon.species.sprites.front)
             if sprite and isinstance(sprite, pygame.Surface):
                 scaled_sprite = pygame.transform.scale(sprite, (64, 64))
-                surface.blit(scaled_sprite, (16, 16))
+                renderer.game_surface.blit(scaled_sprite, (16, 16))
 
         # Draw name and level
         name_text = self.pokemon.species.name.upper()
@@ -128,8 +127,7 @@ class SummaryScreen:
         Args:
             renderer: Renderer instance
         """
-        surface = renderer.surface
-        surface.fill((248, 248, 248))
+        renderer.clear((248, 248, 248))
 
         # Draw name and level
         name_text = self.pokemon.species.name.upper()
