@@ -279,6 +279,7 @@ class OverworldState(BaseState):
 
         # Push battle state
         battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
+        battle_state.party = self.party
         self.game.push_state(battle_state)
 
     def _start_trainer_battle(self, npc: NPC):
@@ -310,6 +311,7 @@ class OverworldState(BaseState):
             trainer=trainer,
             trainer_pokemon_remaining=trainer_party[1:]
         )
+        battle_state.party = self.party
 
         self.game.push_state(battle_state)
         npc.defeated = True

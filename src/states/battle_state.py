@@ -152,8 +152,14 @@ class BattleState(BaseState):
             self._show_next_message()
 
         elif selection == "PKM":
-            self._queue_message("Party switching not\nimplemented yet!")
-            self._show_next_message()
+            # Open party screen in switch mode
+            if hasattr(self, 'party'):
+                from src.states.party_state import PartyState
+                party_state = PartyState(self.game, self.party, mode="switch")
+                self.game.push_state(party_state)
+            else:
+                self._queue_message("Party not\nimplemented yet!")
+                self._show_next_message()
 
         elif selection == "RUN":
             if self.is_trainer_battle:
@@ -165,6 +171,39 @@ class BattleState(BaseState):
             else:
                 # For now, use catch flow as placeholder for RUN
                 self._attempt_catch()
+
+    def handle_switch(self, new_pokemon: Pokemon):
+        """
+        Handle switching to a new Pokemon.
+
+        Args:
+            new_pokemon: Pokemon to switch to
+        """
+        # Can't switch to already active Pokemon
+        if new_pokemon == self.player_pokemon:
+            self._queue_message(f"{new_pokemon.species.name.upper()} is\nalready out!")
+            self._show_next_message()
+            self.battle_menu.activate()
+            self.phase = "battle_menu"
+            return
+
+        # Switch Pokemon
+        old_pokemon = self.player_pokemon
+        self.player_pokemon = new_pokemon
+
+        # Update sprite
+        if new_pokemon.species.sprites and new_pokemon.species.sprites.back:
+            self.player_sprite = self.game.renderer.load_sprite(
+                new_pokemon.species.sprites.back
+            )
+
+        # Queue switch messages
+        self._queue_message(f"{old_pokemon.species.name.upper()},\ncome back!")
+        self._queue_message(f"Go! {new_pokemon.species.name.upper()}!")
+
+        # Switching uses a turn, so enemy attacks after
+        self.phase = "enemy_turn"
+        self._show_next_message()
 
     def update(self, dt):
         """

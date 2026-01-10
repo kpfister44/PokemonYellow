@@ -34,17 +34,30 @@ class PartyState(BaseState):
             self.screen.move_cursor(-1)
 
         elif input_handler.is_just_pressed("a"):
-            # Select Pokemon - open summary
             selected = self.screen.get_selected_pokemon()
-            if selected:
-                # TODO: Implement SummaryState in Task 4
-                try:
+
+            if self.mode == "switch":
+                # Battle switching mode
+                if selected and not selected.is_fainted():
+                    # Return selected Pokemon to battle state
+                    self.game.pop_state()  # Close party screen
+
+                    # Notify battle state of switch
+                    # Battle state will handle the switch
+                    from src.states.battle_state import BattleState
+                    battle_state = self.game.state_stack[-1]
+                    if isinstance(battle_state, BattleState):
+                        battle_state.handle_switch(selected)
+                else:
+                    # Can't switch to fainted Pokemon
+                    # TODO: Show error message
+                    pass
+            else:
+                # View mode - open summary
+                if selected:
                     from src.states.summary_state import SummaryState
                     summary_state = SummaryState(self.game, selected, self.party)
                     self.game.push_state(summary_state)
-                except ImportError:
-                    # SummaryState not yet implemented
-                    pass
 
         elif input_handler.is_just_pressed("b"):
             # Go back
