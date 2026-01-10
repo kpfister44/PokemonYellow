@@ -43,12 +43,10 @@ class OverworldState(BaseState):
         from src.party.party import Party
         self.party = Party()
 
-        # Add starter Pokemon if not already created
-        if not hasattr(self, 'player_pokemon'):
-            species_loader = SpeciesLoader()
-            pikachu_species = species_loader.get_species("pikachu")
-            self.player_pokemon = Pokemon(pikachu_species, 5)
-
+        # Add starter Pokemon
+        species_loader = SpeciesLoader()
+        pikachu_species = species_loader.get_species("pikachu")
+        self.player_pokemon = Pokemon(pikachu_species, 5)
         self.party.add(self.player_pokemon)
 
     def enter(self):
@@ -272,10 +270,12 @@ class OverworldState(BaseState):
         # Create wild Pokemon
         wild_pokemon = Pokemon(species, level)
 
-        # Get player's Pokemon (for Phase 6, create a starter Pikachu)
-        # Later this will come from player's party
-        player_species = species_loader.get_species("pikachu")
-        player_pokemon = Pokemon(player_species, 5)
+        # Get player's active Pokemon from party
+        player_pokemon = self.party.get_active()
+        if not player_pokemon:
+            # Fallback if party empty (shouldn't happen)
+            player_species = species_loader.get_species("pikachu")
+            player_pokemon = Pokemon(player_species, 5)
 
         # Push battle state
         battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
@@ -295,8 +295,12 @@ class OverworldState(BaseState):
         species_loader = SpeciesLoader()
         trainer_party = trainer.get_party(species_loader)
 
-        player_species = species_loader.get_species("pikachu")
-        player_pokemon = Pokemon(player_species, 5)
+        # Get player's active Pokemon from party
+        player_pokemon = self.party.get_active()
+        if not player_pokemon:
+            # Fallback if party empty (shouldn't happen)
+            player_species = species_loader.get_species("pikachu")
+            player_pokemon = Pokemon(player_species, 5)
 
         battle_state = BattleState(
             self.game,
