@@ -259,3 +259,145 @@ def test_party_state_handles_empty_party_input(species_loader):
     mock_input.is_just_pressed = Mock(side_effect=lambda key: key == "b")
     state.handle_input(mock_input)
     mock_game.pop_state.assert_called_once()
+
+
+# Fainted Pokemon tests
+
+def test_party_screen_renders_fainted_pokemon_differently(species_loader):
+    """Should render fainted Pokemon with dimmed sprite and FNT text."""
+    import pygame
+    pygame.init()
+
+    party = Party()
+    pikachu_species = species_loader.get_species("pikachu")
+    pikachu = Pokemon(pikachu_species, 5)
+
+    # Faint the Pokemon
+    pikachu.current_hp = 0
+    assert pikachu.is_fainted()
+
+    party.add(pikachu)
+    screen = PartyScreen(party)
+
+    # Create mock renderer
+    mock_renderer = Mock()
+    mock_surface = Mock(spec=pygame.Surface)
+    mock_renderer.game_surface = mock_surface
+    mock_renderer.load_sprite = Mock(return_value=pygame.Surface((96, 96)))
+    mock_renderer.draw_text = Mock()
+    mock_renderer.clear = Mock()
+    mock_renderer.draw_rect = Mock()
+
+    # Render the screen
+    screen.render(mock_renderer)
+
+    # Verify "FNT" text is drawn instead of HP numbers
+    fnt_calls = [call for call in mock_renderer.draw_text.call_args_list if "FNT" in str(call)]
+    assert len(fnt_calls) > 0, "FNT text should be drawn for fainted Pokemon"
+
+
+def test_party_screen_renders_alive_pokemon_with_hp(species_loader):
+    """Should render alive Pokemon with HP numbers."""
+    import pygame
+    pygame.init()
+
+    party = Party()
+    pikachu_species = species_loader.get_species("pikachu")
+    pikachu = Pokemon(pikachu_species, 5)
+
+    # Pokemon is alive
+    assert not pikachu.is_fainted()
+
+    party.add(pikachu)
+    screen = PartyScreen(party)
+
+    # Create mock renderer
+    mock_renderer = Mock()
+    mock_surface = Mock(spec=pygame.Surface)
+    mock_renderer.game_surface = mock_surface
+    mock_renderer.load_sprite = Mock(return_value=pygame.Surface((96, 96)))
+    mock_renderer.draw_text = Mock()
+    mock_renderer.clear = Mock()
+    mock_renderer.draw_rect = Mock()
+
+    # Render the screen
+    screen.render(mock_renderer)
+
+    # Verify HP numbers are drawn (not FNT)
+    hp_pattern_calls = [call for call in mock_renderer.draw_text.call_args_list if "/" in str(call)]
+    assert len(hp_pattern_calls) > 0, "HP numbers should be drawn for alive Pokemon"
+
+    # Verify FNT is NOT drawn
+    fnt_calls = [call for call in mock_renderer.draw_text.call_args_list if "FNT" in str(call)]
+    assert len(fnt_calls) == 0, "FNT should not be drawn for alive Pokemon"
+
+
+# Forced switch mode tests
+
+def test_party_state_forced_switch_prevents_b_cancel(species_loader):
+    """Should not pop state when B is pressed in forced_switch mode."""
+    mock_game = Mock()
+    party = Party()
+
+    # Add Pokemon
+    pikachu_species = species_loader.get_species("pikachu")
+    party.add(Pokemon(pikachu_species, 5))
+
+    mock_input = Mock()
+    mock_input.is_just_pressed = Mock(side_effect=lambda key: key == "b")
+
+    state = PartyState(mock_game, party, mode="forced_switch")
+
+    state.handle_input(mock_input)
+
+    # Should NOT pop state (can't cancel forced switch)
+    mock_game.pop_state.assert_not_called()
+
+
+def test_party_state_forced_switch_allows_pokemon_selection(species_loader):
+    """Should allow selecting alive Pokemon in forced_switch mode."""
+    mock_game = Mock()
+    mock_game.state_stack = []
+
+    party = Party()
+    pikachu_species = species_loader.get_species("pikachu")
+    pikachu = Pokemon(pikachu_species, 5)
+    party.add(pikachu)
+
+    # Create mock battle state
+    mock_battle_state = Mock()
+    mock_battle_state.handle_switch = Mock()
+    mock_game.state_stack = [mock_battle_state]
+
+    mock_input = Mock()
+    mock_input.is_just_pressed = Mock(side_effect=lambda key: key == "a")
+
+    state = PartyState(mock_game, party, mode="forced_switch")
+
+    state.handle_input(mock_input)
+
+    # Should pop state and call handle_switch
+    mock_game.pop_state.assert_called_once()
+    mock_battle_state.handle_switch.assert_called_once_with(pikachu)
+
+
+def test_party_state_forced_switch_prevents_fainted_pokemon_selection(species_loader):
+    """Should not allow selecting fainted Pokemon in forced_switch mode."""
+    mock_game = Mock()
+    mock_game.state_stack = []
+
+    party = Party()
+    pikachu_species = species_loader.get_species("pikachu")
+    pikachu = Pokemon(pikachu_species, 5)
+    pikachu.current_hp = 0  # Faint it
+    party.add(pikachu)
+
+    mock_input = Mock()
+    mock_input.is_just_pressed = Mock(side_effect=lambda key: key == "a")
+
+    state = PartyState(mock_game, party, mode="forced_switch")
+
+    state.handle_input(mock_input)
+
+    # Should NOT pop state (can't switch to fainted Pokemon)
+    mock_game.pop_state.assert_not_called()
