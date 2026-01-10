@@ -517,6 +517,18 @@ class BattleState(BaseState):
             self._queue_message(
                 f"Gotcha!\n{self.enemy_pokemon.species.name.upper()} was caught!"
             )
+
+            # Add to party
+            if hasattr(self, 'party'):
+                if not self.party.is_full():
+                    self.party.add(self.enemy_pokemon)
+                    self._queue_message(
+                        f"{self.enemy_pokemon.species.name.upper()} was\nadded to party!"
+                    )
+                else:
+                    # Party full - no PC yet
+                    self._queue_message("Party is full!\n(PC not implemented)")
+
             self.post_message_phase = "end"
         else:
             self._queue_message(
