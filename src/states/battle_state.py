@@ -732,7 +732,13 @@ class BattleState(BaseState):
         """
         self.awaiting_input = False
 
-        # Deduct PP for player's move
+        # Deduct PP
+        if not self.player_pokemon.use_move_pp(move.move_id):
+            self._queue_message("No PP left!")
+            self._show_next_message()
+            return
+
+        # Also deduct from local tracking for move menu display
         if move.move_id in self.player_move_pp:
             self.player_move_pp[move.move_id] -= 1
 

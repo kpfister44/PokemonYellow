@@ -147,8 +147,9 @@ class SummaryScreen:
                 move_name = move_id.upper().replace("-", " ")
                 renderer.draw_text(move_name, 16, moves_y + (i * 32))
 
-                # PP placeholder (will be real in Task 7)
-                pp_text = "PP --/--"
+                # PP (real tracking)
+                current_pp, max_pp = self.pokemon.get_move_pp(move_id)
+                pp_text = f"PP {current_pp:2d}/{max_pp:2d}"
                 renderer.draw_text(pp_text, 16, moves_y + (i * 32) + 12)
 
                 # Type placeholder (would need move loader for real type)
