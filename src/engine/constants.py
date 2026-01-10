@@ -38,7 +38,7 @@ KEY_LEFT = pygame.K_LEFT
 KEY_RIGHT = pygame.K_RIGHT
 KEY_A = pygame.K_z          # Confirm/Interact
 KEY_B = pygame.K_x          # Cancel/Back
-KEY_START = pygame.K_RETURN  # Menu
+KEY_START = pygame.K_s       # Menu
 KEY_SELECT = pygame.K_LSHIFT # Future use
 
 # Movement speed (pixels per frame when moving)
