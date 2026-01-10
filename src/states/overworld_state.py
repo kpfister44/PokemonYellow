@@ -39,6 +39,18 @@ class OverworldState(BaseState):
         self.player_start_y = player_start_y
         self.player_was_moving = False  # Track movement state for encounter checking
 
+        # Initialize party with starter Pokemon (Pikachu for Yellow)
+        from src.party.party import Party
+        self.party = Party()
+
+        # Add starter Pokemon if not already created
+        if not hasattr(self, 'player_pokemon'):
+            species_loader = SpeciesLoader()
+            pikachu_species = species_loader.get_species("pikachu")
+            self.player_pokemon = Pokemon(pikachu_species, 5)
+
+        self.party.add(self.player_pokemon)
+
     def enter(self):
         """Called when entering this state."""
         # Skip initialization if already loaded (resuming from another state)
@@ -148,6 +160,13 @@ class OverworldState(BaseState):
         Args:
             input_handler: Input instance with current input state
         """
+        # Open start menu
+        if input_handler.is_just_pressed("start"):
+            from src.states.start_menu_state import StartMenuState
+            start_menu = StartMenuState(self.game, self)
+            self.game.push_state(start_menu)
+            return
+
         # If dialog is active, A button closes it
         if self.active_dialog:
             if input_handler.is_just_pressed("a"):
