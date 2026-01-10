@@ -152,8 +152,14 @@ class BattleState(BaseState):
             self._show_next_message()
 
         elif selection == "PKM":
-            self._queue_message("Party switching not\nimplemented yet!")
-            self._show_next_message()
+            # Open party screen in switch mode
+            if hasattr(self, 'party'):
+                from src.states.party_state import PartyState
+                party_state = PartyState(self.game, self.party, mode="switch")
+                self.game.push_state(party_state)
+            else:
+                self._queue_message("Party not\nimplemented yet!")
+                self._show_next_message()
 
         elif selection == "RUN":
             if self.is_trainer_battle:
@@ -165,6 +171,39 @@ class BattleState(BaseState):
             else:
                 # For now, use catch flow as placeholder for RUN
                 self._attempt_catch()
+
+    def handle_switch(self, new_pokemon: Pokemon):
+        """
+        Handle switching to a new Pokemon.
+
+        Args:
+            new_pokemon: Pokemon to switch to
+        """
+        # Can't switch to already active Pokemon
+        if new_pokemon == self.player_pokemon:
+            self._queue_message(f"{new_pokemon.species.name.upper()} is\nalready out!")
+            self._show_next_message()
+            self.battle_menu.activate()
+            self.phase = "battle_menu"
+            return
+
+        # Switch Pokemon
+        old_pokemon = self.player_pokemon
+        self.player_pokemon = new_pokemon
+
+        # Update sprite
+        if new_pokemon.species.sprites and new_pokemon.species.sprites.back:
+            self.player_sprite = self.game.renderer.load_sprite(
+                new_pokemon.species.sprites.back
+            )
+
+        # Queue switch messages
+        self._queue_message(f"{old_pokemon.species.name.upper()},\ncome back!")
+        self._queue_message(f"Go! {new_pokemon.species.name.upper()}!")
+
+        # Switching uses a turn, so enemy attacks after
+        self.phase = "enemy_turn"
+        self._show_next_message()
 
     def update(self, dt):
         """
@@ -392,8 +431,18 @@ class BattleState(BaseState):
 
         if self.player_pokemon.is_fainted():
             self._queue_message(f"{self.player_pokemon.species.name.upper()}\nfainted!")
-            self._show_next_message()
-            self.phase = "end"
+            if hasattr(self, 'party') and self.party.has_alive_pokemon():
+                self._queue_message("Choose next POK\u00e9MON!")
+                self._show_next_message()
+
+                from src.states.party_state import PartyState
+                party_state = PartyState(self.game, self.party, mode="forced_switch")
+                self.game.push_state(party_state)
+            else:
+                self._queue_message("You have no more\nPOK\u00e9MON!")
+                self._queue_message("You blacked out!")
+                self._show_next_message()
+                self.phase = "end"
             return
 
         # Check current phase to determine next phase
@@ -478,6 +527,18 @@ class BattleState(BaseState):
             self._queue_message(
                 f"Gotcha!\n{self.enemy_pokemon.species.name.upper()} was caught!"
             )
+
+            # Add to party
+            if hasattr(self, 'party'):
+                if not self.party.is_full():
+                    self.party.add(self.enemy_pokemon)
+                    self._queue_message(
+                        f"{self.enemy_pokemon.species.name.upper()} was\nadded to party!"
+                    )
+                else:
+                    # Party full - no PC yet
+                    self._queue_message("Party is full!\n(PC not implemented)")
+
             self.post_message_phase = "end"
         else:
             self._queue_message(
@@ -732,7 +793,13 @@ class BattleState(BaseState):
         """
         self.awaiting_input = False
 
-        # Deduct PP for player's move
+        # Deduct PP
+        if not self.player_pokemon.use_move_pp(move.move_id):
+            self._queue_message("No PP left!")
+            self._show_next_message()
+            return
+
+        # Also deduct from local tracking for move menu display
         if move.move_id in self.player_move_pp:
             self.player_move_pp[move.move_id] -= 1
 

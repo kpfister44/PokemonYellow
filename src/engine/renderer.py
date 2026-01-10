@@ -38,6 +38,22 @@ class Renderer:
         """Draw a rectangle on the game surface."""
         pygame.draw.rect(self.game_surface, color, rect, width)
 
+    def draw_box(self, x: int, y: int, width: int, height: int,
+                 bg_color: tuple = (248, 248, 248), border_color: tuple = (0, 0, 0)) -> None:
+        """
+        Draw a bordered box.
+
+        Args:
+            x, y: Top-left corner
+            width, height: Box dimensions
+            bg_color: Background color (default white)
+            border_color: Border color (default black)
+        """
+        # Draw background
+        self.draw_rect(bg_color, (x, y, width, height), 0)
+        # Draw border
+        self.draw_rect(border_color, (x, y, width, height), 2)
+
     def draw_text(self, text, x, y, color=(0, 0, 0), font_size=16):
         """
         Draw text at specified position.

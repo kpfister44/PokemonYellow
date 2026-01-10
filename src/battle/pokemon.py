@@ -51,6 +51,10 @@ class Pokemon:
         # Moves (for Phase 6, just the level 1 move)
         self.moves = self._determine_moves()
 
+        # PP tracking for moves (current PP / max PP)
+        self.move_pp: dict[str, tuple[int, int]] = {}  # move_id -> (current, max)
+        self._initialize_move_pp()
+
         # Status condition
         self.status: Optional[StatusCondition] = None
         self.status_turns: int = 0  # For sleep counter and toxic damage
@@ -113,6 +117,45 @@ class Pokemon:
 
         # For Phase 6, just take the first move
         return moves[:1] if moves else []
+
+    def _initialize_move_pp(self):
+        """Initialize PP for all moves."""
+        from src.battle.move_loader import MoveLoader
+        move_loader = MoveLoader()
+
+        for move_id in self.moves:
+            move = move_loader.get_move(move_id)
+            max_pp = move.pp
+            self.move_pp[move_id] = (max_pp, max_pp)  # (current, max)
+
+    def use_move_pp(self, move_id: str) -> bool:
+        """
+        Deduct 1 PP from move.
+
+        Args:
+            move_id: Move to deduct PP from
+
+        Returns:
+            True if PP deducted, False if no PP left
+        """
+        if move_id in self.move_pp:
+            current_pp, max_pp = self.move_pp[move_id]
+            if current_pp > 0:
+                self.move_pp[move_id] = (current_pp - 1, max_pp)
+                return True
+        return False
+
+    def get_move_pp(self, move_id: str) -> tuple[int, int]:
+        """
+        Get current and max PP for move.
+
+        Args:
+            move_id: Move ID
+
+        Returns:
+            Tuple of (current_pp, max_pp)
+        """
+        return self.move_pp.get(move_id, (0, 0))
 
     def take_damage(self, damage: int):
         """Apply damage to this Pokemon."""

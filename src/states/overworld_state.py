@@ -39,6 +39,16 @@ class OverworldState(BaseState):
         self.player_start_y = player_start_y
         self.player_was_moving = False  # Track movement state for encounter checking
 
+        # Initialize party with starter Pokemon (Pikachu for Yellow)
+        from src.party.party import Party
+        self.party = Party()
+
+        # Add starter Pokemon
+        species_loader = SpeciesLoader()
+        pikachu_species = species_loader.get_species("pikachu")
+        self.player_pokemon = Pokemon(pikachu_species, 5)
+        self.party.add(self.player_pokemon)
+
     def enter(self):
         """Called when entering this state."""
         # Skip initialization if already loaded (resuming from another state)
@@ -148,6 +158,13 @@ class OverworldState(BaseState):
         Args:
             input_handler: Input instance with current input state
         """
+        # Open start menu
+        if input_handler.is_just_pressed("start"):
+            from src.states.start_menu_state import StartMenuState
+            start_menu = StartMenuState(self.game, self)
+            self.game.push_state(start_menu)
+            return
+
         # If dialog is active, A button closes it
         if self.active_dialog:
             if input_handler.is_just_pressed("a"):
@@ -253,13 +270,16 @@ class OverworldState(BaseState):
         # Create wild Pokemon
         wild_pokemon = Pokemon(species, level)
 
-        # Get player's Pokemon (for Phase 6, create a starter Pikachu)
-        # Later this will come from player's party
-        player_species = species_loader.get_species("pikachu")
-        player_pokemon = Pokemon(player_species, 5)
+        # Get player's active Pokemon from party
+        player_pokemon = self.party.get_active()
+        if not player_pokemon:
+            # Fallback if party empty (shouldn't happen)
+            player_species = species_loader.get_species("pikachu")
+            player_pokemon = Pokemon(player_species, 5)
 
         # Push battle state
         battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
+        battle_state.party = self.party
         self.game.push_state(battle_state)
 
     def _start_trainer_battle(self, npc: NPC):
@@ -276,8 +296,12 @@ class OverworldState(BaseState):
         species_loader = SpeciesLoader()
         trainer_party = trainer.get_party(species_loader)
 
-        player_species = species_loader.get_species("pikachu")
-        player_pokemon = Pokemon(player_species, 5)
+        # Get player's active Pokemon from party
+        player_pokemon = self.party.get_active()
+        if not player_pokemon:
+            # Fallback if party empty (shouldn't happen)
+            player_species = species_loader.get_species("pikachu")
+            player_pokemon = Pokemon(player_species, 5)
 
         battle_state = BattleState(
             self.game,
@@ -287,6 +311,7 @@ class OverworldState(BaseState):
             trainer=trainer,
             trainer_pokemon_remaining=trainer_party[1:]
         )
+        battle_state.party = self.party
 
         self.game.push_state(battle_state)
         npc.defeated = True
