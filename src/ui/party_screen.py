@@ -77,39 +77,32 @@ class PartyScreen:
         """
         pokemon = self.party.pokemon[index]
 
-        # Calculate position (2 rows of 3)
-        slot_width = GAME_WIDTH // 2
-        slot_height = 40
-        x = (index % 2) * slot_width
-        y = (index // 2) * slot_height + 8
+        # Vertical list layout
+        slot_height = 22
+        y = 8 + (index * slot_height)
+        x = 8
 
         # Draw selection cursor
         if index == self.cursor_index:
-            renderer.draw_text("▶", x + 4, y + 12)
+            renderer.draw_text("▶", x, y + 4)
 
-        # Draw Pokemon sprite (if available)
+        # Draw Pokemon sprite (small 16x16)
         if pokemon.species.sprites and pokemon.species.sprites.front:
             sprite = renderer.load_sprite(pokemon.species.sprites.front)
             if sprite:
-                # Scale sprite to 32x32
-                scaled_sprite = pygame.transform.scale(sprite, (32, 32))
-                renderer.game_surface.blit(scaled_sprite, (x + 16, y + 4))
+                scaled_sprite = pygame.transform.scale(sprite, (16, 16))
+                renderer.game_surface.blit(scaled_sprite, (x + 12, y))
 
         # Draw Pokemon info
-        info_x = x + 52
+        info_x = x + 32
 
-        # Name and level
+        # Name and level on same line
         name_text = f"{pokemon.species.name.upper()}"
-        renderer.draw_text(name_text, info_x, y + 4)
+        renderer.draw_text(name_text, info_x, y + 2)
 
-        level_text = f"Lv{pokemon.level}"
-        renderer.draw_text(level_text, info_x + 60, y + 4)
+        level_text = f"Lv{pokemon.level:>3d}"
+        renderer.draw_text(level_text, info_x + 60, y + 2)
 
-        # HP
+        # HP on second line
         hp_text = f"{pokemon.current_hp:3d}/{pokemon.stats.hp:3d}"
-        renderer.draw_text(hp_text, info_x, y + 20)
-
-        # Status condition (if any)
-        if pokemon.status and pokemon.status.name != "NONE":
-            status_text = pokemon.status.name[:3]  # e.g., "PAR", "BRN"
-            renderer.draw_text(status_text, info_x + 60, y + 20)
+        renderer.draw_text(hp_text, info_x + 80, y + 10)
