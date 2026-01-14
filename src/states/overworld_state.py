@@ -199,7 +199,7 @@ class OverworldState(BaseState):
                 return
 
         # Normal player movement
-        self.player.handle_input(input_handler, self.current_map, self.npcs)
+        self.player.handle_input(input_handler, self.current_map, self.npcs, self.item_pickups)
 
     def _get_npc_in_front(self):
         """Get NPC in tile player is facing."""

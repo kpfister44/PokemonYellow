@@ -36,7 +36,7 @@ class Player(Entity):
 
         return sprite
 
-    def handle_input(self, input_handler, current_map, npcs=None):
+    def handle_input(self, input_handler, current_map, npcs=None, item_pickups=None):
         """
         Handle player input for movement.
 
@@ -44,6 +44,7 @@ class Player(Entity):
             input_handler: Input instance with current input state
             current_map: Map instance for collision checking
             npcs: Optional list of NPCs to check for collision
+            item_pickups: Optional list of item pickups to check for collision
 
         Returns:
             True if player attempted to move, False otherwise
@@ -70,6 +71,14 @@ class Player(Entity):
         if npcs:
             for npc in npcs:
                 if npc.tile_x == target_x and npc.tile_y == target_y:
+                    # Just turn to face that direction
+                    self.direction = direction
+                    return False
+
+        # Check item pickup collision
+        if item_pickups:
+            for pickup in item_pickups:
+                if pickup.tile_x == target_x and pickup.tile_y == target_y:
                     # Just turn to face that direction
                     self.direction = direction
                     return False
