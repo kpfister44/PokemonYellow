@@ -148,8 +148,21 @@ class BattleState(BaseState):
             self.phase = "move_selection"
 
         elif selection == "ITEM":
-            self._queue_message("Items not implemented yet!")
-            self._show_next_message()
+            if hasattr(self, 'bag') and hasattr(self, 'party'):
+                from src.states.bag_state import BagState
+                bag_state = BagState(
+                    self.game,
+                    self.bag,
+                    self.party,
+                    mode="battle",
+                    active_pokemon=self.player_pokemon,
+                    is_trainer_battle=self.is_trainer_battle,
+                    on_item_used=self._handle_item_result
+                )
+                self.game.push_state(bag_state)
+            else:
+                self._queue_message("Items not\nimplemented yet!")
+                self._show_next_message()
 
         elif selection == "PKM":
             # Open party screen in switch mode
@@ -514,11 +527,19 @@ class BattleState(BaseState):
 
     def _attempt_catch(self):
         """Attempt to catch wild Pokemon."""
+        self._attempt_catch_with_ball("POKE BALL", 1, False)
+
+    def _attempt_catch_with_ball(self, ball_name: str, ball_bonus: float, force_catch: bool):
+        """Attempt to catch wild Pokemon with a ball."""
         self.phase = "throwing_ball"
-        self._queue_message("Used POKE BALL!")
+        self._queue_message(f"Used {ball_name.upper()}!")
 
         calc = CatchCalculator()
-        caught, shakes = calc.calculate_catch_chance(self.enemy_pokemon, ball_bonus=1)
+        if force_catch:
+            caught = True
+            shakes = 3
+        else:
+            caught, shakes = calc.calculate_catch_chance(self.enemy_pokemon, ball_bonus=ball_bonus)
 
         for _ in range(shakes):
             self._queue_message("...")
@@ -546,6 +567,29 @@ class BattleState(BaseState):
             )
             self.post_message_phase = "enemy_turn"
 
+        self._show_next_message()
+
+    def _handle_item_result(self, result):
+        """Handle results from using an item in battle."""
+        if not result.success:
+            self.battle_menu.activate()
+            self.phase = "battle_menu"
+            self.awaiting_input = True
+            return
+
+        if result.action and result.action.get("type") == "catch":
+            action = result.action
+            self._attempt_catch_with_ball(
+                action.get("ball_name", "POKE BALL"),
+                action.get("ball_bonus", 1),
+                action.get("force_catch", False)
+            )
+            return
+
+        for message in result.messages:
+            self._queue_message(message)
+
+        self.post_message_phase = "enemy_turn"
         self._show_next_message()
 
     def _apply_status_condition(self, target: Pokemon, move: Move) -> bool:

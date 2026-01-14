@@ -174,12 +174,6 @@ def test_start_menu_state_handles_unimplemented_options():
     mock_game.push_state.assert_not_called()
     mock_game.pop_state.assert_not_called()
 
-    # Test ITEM (unimplemented)
-    state.menu.cursor_index = 2
-    state.handle_input(mock_input)
-    mock_game.push_state.assert_not_called()
-    mock_game.pop_state.assert_not_called()
-
     # Test SAVE (unimplemented)
     state.menu.cursor_index = 4
     state.handle_input(mock_input)
@@ -191,6 +185,28 @@ def test_start_menu_state_handles_unimplemented_options():
     state.handle_input(mock_input)
     mock_game.push_state.assert_not_called()
     mock_game.pop_state.assert_not_called()
+
+
+def test_start_menu_state_handles_item_selection():
+    """Should push BagState when ITEM is selected and bag exists."""
+    import sys
+    from unittest.mock import patch
+
+    mock_game = Mock()
+    mock_previous_state = Mock()
+    mock_previous_state.party = Mock()
+    mock_previous_state.bag = Mock()
+    mock_input = Mock()
+    mock_input.is_just_pressed = Mock(side_effect=lambda key: key == "a")
+
+    state = StartMenuState(mock_game, mock_previous_state)
+    state.menu.cursor_index = 2  # ITEM option
+
+    mock_bag_state = Mock()
+    with patch.dict(sys.modules, {'src.states.bag_state': Mock(BagState=mock_bag_state)}):
+        state.handle_input(mock_input)
+
+    mock_game.push_state.assert_called_once()
 
 
 def test_start_menu_state_update_does_nothing():

@@ -13,6 +13,9 @@ from src.states.battle_state import BattleState
 from src.battle.pokemon import Pokemon
 from src.battle.species_loader import SpeciesLoader
 from src.battle.trainer import Trainer
+from src.items.bag import Bag
+from src.items.item_loader import ItemLoader
+from src.overworld.item_pickup import ItemPickup
 
 
 class OverworldState(BaseState):
@@ -42,6 +45,10 @@ class OverworldState(BaseState):
         # Initialize party with starter Pokemon (Pikachu for Yellow)
         from src.party.party import Party
         self.party = Party()
+        self.bag = Bag()
+        self.item_loader = ItemLoader()
+        self.item_pickups = []
+        self.collected_items = set()
 
         # Add starter Pokemon
         species_loader = SpeciesLoader()
@@ -75,6 +82,8 @@ class OverworldState(BaseState):
                 npc_info.get("trainer")
             )
             self.npcs.append(npc)
+
+        self._load_item_pickups()
 
         # Create camera
         map_width = self.current_map.get_width_pixels()
@@ -126,6 +135,8 @@ class OverworldState(BaseState):
             )
             self.npcs.append(npc)
 
+        self._load_item_pickups()
+
         # Reposition player (update both tile and pixel positions)
         self.player.tile_x = spawn_x
         self.player.tile_y = spawn_y
@@ -174,6 +185,10 @@ class OverworldState(BaseState):
 
         # Check for NPC interaction
         if input_handler.is_just_pressed("a"):
+            item_pickup = self._get_item_in_front()
+            if item_pickup:
+                self._collect_item(item_pickup)
+                return
             npc = self._get_npc_in_front()
             if npc:
                 if npc.is_trainer and not npc.defeated:
@@ -204,6 +219,52 @@ class OverworldState(BaseState):
             if npc.tile_x == facing_x and npc.tile_y == facing_y:
                 return npc
         return None
+
+    def _get_item_in_front(self):
+        """Get item pickup in the tile player is facing."""
+        facing_x = self.player.tile_x
+        facing_y = self.player.tile_y
+
+        if self.player.direction == constants.DIR_UP:
+            facing_y -= 1
+        elif self.player.direction == constants.DIR_DOWN:
+            facing_y += 1
+        elif self.player.direction == constants.DIR_LEFT:
+            facing_x -= 1
+        elif self.player.direction == constants.DIR_RIGHT:
+            facing_x += 1
+
+        for pickup in self.item_pickups:
+            if pickup.tile_x == facing_x and pickup.tile_y == facing_y:
+                return pickup
+        return None
+
+    def _load_item_pickups(self):
+        """Load item pickups from the current map data."""
+        self.item_pickups = []
+        items_data = self.current_map.map_data.get("items", [])
+        for item_info in items_data:
+            pickup_id = item_info.get("id")
+            item_id = item_info.get("item_id")
+            tile_x = item_info.get("tile_x")
+            tile_y = item_info.get("tile_y")
+            key = f"{self.current_map.map_name}:{pickup_id}"
+            if key in self.collected_items:
+                continue
+            self.item_pickups.append(ItemPickup(pickup_id, item_id, tile_x, tile_y))
+
+    def _collect_item(self, pickup: ItemPickup):
+        """Collect an item pickup and add it to the bag."""
+        item = self.item_loader.get_item(pickup.item_id)
+
+        if not self.bag.add_item(pickup.item_id):
+            self.active_dialog = DialogBox("Bag is full.", pickup.pickup_id)
+            return
+
+        self.item_pickups.remove(pickup)
+        key = f"{self.current_map.map_name}:{pickup.pickup_id}"
+        self.collected_items.add(key)
+        self.active_dialog = DialogBox(f"Found {item.name}!", pickup.pickup_id)
 
     def update(self, dt):
         """
@@ -280,6 +341,7 @@ class OverworldState(BaseState):
         # Push battle state
         battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
         battle_state.party = self.party
+        battle_state.bag = self.bag
         self.game.push_state(battle_state)
 
     def _start_trainer_battle(self, npc: NPC):
@@ -312,6 +374,7 @@ class OverworldState(BaseState):
             trainer_pokemon_remaining=trainer_party[1:]
         )
         battle_state.party = self.party
+        battle_state.bag = self.bag
 
         self.game.push_state(battle_state)
         npc.defeated = True
@@ -334,6 +397,9 @@ class OverworldState(BaseState):
         renderer.draw_surface(map_surface, (0, 0))
 
         # Render NPCs (same layer as player)
+        for pickup in self.item_pickups:
+            pickup.render(renderer, camera_x, camera_y)
+
         for npc in self.npcs:
             npc.render(renderer, camera_x, camera_y)
 

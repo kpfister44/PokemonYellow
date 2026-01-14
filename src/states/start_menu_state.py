@@ -59,8 +59,15 @@ class StartMenuState(BaseState):
             pass
 
         elif selection == "ITEM":
-            # TODO: Implement in Phase 8B
-            pass
+            if hasattr(self.previous_state, "bag") and hasattr(self.previous_state, "party"):
+                from src.states.bag_state import BagState
+                bag_state = BagState(
+                    self.game,
+                    self.previous_state.bag,
+                    self.previous_state.party,
+                    mode="overworld"
+                )
+                self.game.push_state(bag_state)
 
         elif selection == "SAVE":
             # TODO: Implement in Phase 8C
