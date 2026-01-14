@@ -118,6 +118,26 @@
       "warp_type": "route"
     }
   ],
+  "items": [
+    {
+      "id": "route_1_potion_1",
+      "item_id": "potion",
+      "tile_x": 3,
+      "tile_y": 6
+    },
+    {
+      "id": "route_1_potion_2",
+      "item_id": "potion",
+      "tile_x": 8,
+      "tile_y": 12
+    },
+    {
+      "id": "route_1_potion_3",
+      "item_id": "potion",
+      "tile_x": 6,
+      "tile_y": 22
+    }
+  ],
   "npcs": [
     {
       "id": "youngster_1",
