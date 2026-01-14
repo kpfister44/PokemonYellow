@@ -19,7 +19,9 @@ DATA_DIR = PROJECT_ROOT / "data"
 POKEMON_DIR = DATA_DIR / "pokemon"
 MOVES_DIR = DATA_DIR / "moves"
 ENCOUNTERS_DIR = DATA_DIR / "encounters"
+ITEMS_DIR = DATA_DIR / "items"
 SPRITES_DIR = PROJECT_ROOT / "assets" / "sprites" / "pokemon"
+ITEM_LIST_PATH = ITEMS_DIR / "yellow_item_list.yaml"
 
 # Gen 1 constants
 GEN1_POKEMON_COUNT = 151
@@ -50,6 +52,8 @@ REQUEST_DELAY = 0.1  # 100ms between requests to be respectful
 # Cache for fetched data to avoid duplicate requests
 evolution_chain_cache = {}
 growth_rate_cache = {}
+item_category_cache = {}
+machine_cache = {}
 
 
 def fetch_json(url: str) -> Optional[Dict[str, Any]]:
@@ -178,6 +182,119 @@ def fetch_growth_rate(growth_rate_url: str) -> str:
     rate_name = growth_data.get('name', 'medium')
     growth_rate_cache[growth_rate_url] = rate_name
     return rate_name
+
+
+def get_english_name(entries: List[Dict[str, Any]]) -> str:
+    """Extract English name from entries."""
+    for entry in entries:
+        if entry.get('language', {}).get('name') == 'en':
+            return entry.get('name', '')
+    return ""
+
+
+def get_yellow_item_flavor_text(item_data: Dict[str, Any]) -> str:
+    """Extract Yellow version flavor text (fallback to Red/Blue)."""
+    flavor_texts = item_data.get('flavor_text_entries', [])
+
+    for entry in flavor_texts:
+        if entry.get('language', {}).get('name') == 'en':
+            version_group = entry.get('version_group', {}).get('name')
+            if version_group == 'yellow':
+                text = entry.get('text', '').replace('\n', ' ').replace('\f', ' ')
+                return ' '.join(text.split())
+
+    for entry in flavor_texts:
+        if entry.get('language', {}).get('name') == 'en':
+            version_group = entry.get('version_group', {}).get('name')
+            if version_group in ['red-blue']:
+                text = entry.get('text', '').replace('\n', ' ').replace('\f', ' ')
+                return ' '.join(text.split())
+
+    return ""
+
+
+def get_item_effect_text(item_data: Dict[str, Any]) -> str:
+    """Extract English item effect text."""
+    for entry in item_data.get('effect_entries', []):
+        if entry.get('language', {}).get('name') == 'en':
+            return entry.get('short_effect', '') or entry.get('effect', '')
+    return ""
+
+
+def fetch_item_category(category_url: str) -> Optional[Dict[str, Any]]:
+    """Fetch and cache item category data."""
+    if category_url in item_category_cache:
+        return item_category_cache[category_url]
+
+    category_data = fetch_json(category_url)
+    if category_data:
+        item_category_cache[category_url] = category_data
+    return category_data
+
+
+def fetch_machine(machine_url: str) -> Optional[Dict[str, Any]]:
+    """Fetch and cache machine data."""
+    if machine_url in machine_cache:
+        return machine_cache[machine_url]
+
+    machine_data = fetch_json(machine_url)
+    if machine_data:
+        machine_cache[machine_url] = machine_data
+    return machine_data
+
+
+def fetch_item_data(item_id: str) -> Optional[Dict[str, Any]]:
+    """Fetch and process a single item."""
+    print(f"🧰 Fetching Item {item_id}...")
+    item_url = f"{POKEAPI_BASE}/item/{item_id}"
+    item_data = fetch_json(item_url)
+
+    if not item_data:
+        return None
+
+    attributes = [attr.get('name') for attr in item_data.get('attributes', [])]
+
+    category_data = None
+    category_url = item_data.get('category', {}).get('url')
+    if category_url:
+        category_data = fetch_item_category(category_url)
+
+    pocket_name = None
+    if category_data:
+        pocket_name = category_data.get('pocket', {}).get('name')
+
+    machines = []
+    for machine_info in item_data.get('machines', []):
+        machine_data = fetch_machine(machine_info.get('machine', {}).get('url'))
+        if not machine_data:
+            continue
+        version_group = machine_data.get('version_group', {}).get('name')
+        if version_group != 'yellow':
+            continue
+        machines.append({
+            'machine_id': machine_data.get('id'),
+            'move': machine_data.get('move', {}).get('name'),
+            'version_group': version_group
+        })
+
+    item_entry = {
+        'id': item_data.get('id'),
+        'item_id': item_data.get('name'),
+        'name': get_english_name(item_data.get('names', [])),
+        'category': item_data.get('category', {}).get('name'),
+        'pocket': pocket_name,
+        'attributes': attributes,
+        'cost': item_data.get('cost', 0),
+        'effect': get_item_effect_text(item_data),
+        'flavor_text': get_yellow_item_flavor_text(item_data),
+        'machines': machines,
+        'usable_in_battle': 'usable-in-battle' in attributes,
+        'usable_in_overworld': 'usable-overworld' in attributes,
+        'countable': 'countable' in attributes,
+        'consumable': 'consumable' in attributes
+    }
+
+    return item_entry
 
 
 def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
@@ -480,6 +597,33 @@ def hydrate_encounters():
     print(f"\n✅ Saved encounters for {len(encounters)} locations to {output_file}")
 
 
+def hydrate_items():
+    """Fetch Gen 1 item data for Pokemon Yellow."""
+    print(f"\n🎒 Hydrating Pokemon Yellow item data...\n")
+
+    if not ITEM_LIST_PATH.exists():
+        raise FileNotFoundError(f"Item list not found: {ITEM_LIST_PATH}")
+
+    with open(ITEM_LIST_PATH, 'r') as f:
+        item_list_data = yaml.safe_load(f) or {}
+
+    item_ids = item_list_data.get('items', [])
+    items_list = []
+
+    for item_id in item_ids:
+        item_data = fetch_item_data(item_id)
+        if item_data:
+            items_list.append(item_data)
+
+    output_file = ITEMS_DIR / "items.yaml"
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(output_file, 'w') as f:
+        yaml.dump({'items': items_list}, f, default_flow_style=False, sort_keys=False)
+
+    print(f"\n✅ Saved {len(items_list)} items to {output_file}")
+
+
 def main():
     """Main hydration script."""
     print("=" * 60)
@@ -494,11 +638,13 @@ def main():
     POKEMON_DIR.mkdir(parents=True, exist_ok=True)
     MOVES_DIR.mkdir(parents=True, exist_ok=True)
     ENCOUNTERS_DIR.mkdir(parents=True, exist_ok=True)
+    ITEMS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Hydrate data
     hydrate_pokemon()
     hydrate_moves()
     hydrate_encounters()
+    hydrate_items()
 
     print("\n" + "=" * 60)
     print("✅ HYDRATION COMPLETE!")

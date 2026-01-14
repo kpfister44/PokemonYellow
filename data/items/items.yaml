@@ -1,0 +1,1161 @@
+items:
+- id: 18
+  item_id: antidote
+  name: Antidote
+  category: status-cures
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Cures poison.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 21
+  item_id: awakening
+  name: Awakening
+  category: status-cures
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Cures sleep.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 427
+  item_id: bicycle
+  name: Bicycle
+  category: gameplay
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: Use for fast transit.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 545
+  item_id: bike-voucher
+  name: Bike Voucher
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: Trade in Cerulean bike shop for a Bicycle.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 19
+  item_id: burn-heal
+  name: Burn Heal
+  category: status-cures
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Cures a burn.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 49
+  item_id: calcium
+  name: Calcium
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: Raises Special Attack effort and happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 48
+  item_id: carbos
+  name: Carbos
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: Raises Speed effort and happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 475
+  item_id: card-key
+  name: Card Key
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: 'HS: Opens doors in the Radio Tower. Gen III: Unlocks Silph Co Doors.'
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 421
+  item_id: coin-case
+  name: Coin Case
+  category: gameplay
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: Holds coins for the Game Corner.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 56
+  item_id: dire-hit
+  name: Dire Hit
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 1000
+  effect: Increases the chance of a critical hit in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 102
+  item_id: dome-fossil
+  name: Dome Fossil
+  category: dex-completion
+  pocket: misc
+  attributes:
+  - underground
+  cost: 7000
+  effect: Can be revived into a Kabuto.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 40
+  item_id: elixir
+  name: Elixir
+  category: pp-recovery
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 3000
+  effect: Restores 10 PP for each move.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 78
+  item_id: escape-rope
+  name: Escape Rope
+  category: spelunking
+  pocket: misc
+  attributes: []
+  cost: 300
+  effect: Transports user to the outside entrance of a cave.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 38
+  item_id: ether
+  name: Ether
+  category: pp-recovery
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 1200
+  effect: Restores 10 PP for one move.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 82
+  item_id: fire-stone
+  name: Fire Stone
+  category: evolution
+  pocket: misc
+  attributes:
+  - underground
+  cost: 3000
+  effect: Evolves an Eevee into Flareon, a Growlithe into Arcanine, a Pansear into
+    Simisear, or a Vulpix into Ninetales.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 30
+  item_id: fresh-water
+  name: Fresh Water
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Restores 50 HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 27
+  item_id: full-heal
+  name: Full Heal
+  category: status-cures
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 400
+  effect: Cures any status ailment and confusion.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 23
+  item_id: full-restore
+  name: Full Restore
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 3000
+  effect: Restores HP to full and cures any status ailment and confusion.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 546
+  item_id: gold-teeth
+  name: Gold Teeth
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "The Safari Zone Warden\u2019s dentures. Trade for HM04 (Strength)."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 423
+  item_id: good-rod
+  name: Good Rod
+  category: gameplay
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Used to catch Pok\xE9mon in bodies of water."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 3
+  item_id: great-ball
+  name: Great Ball
+  category: standard-balls
+  pocket: pokeballs
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 600
+  effect: "Tries to catch a wild Pok\xE9mon.  Success rate is 1.5\xD7."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 55
+  item_id: guard-spec
+  name: Guard Spec.
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 1500
+  effect: Prevents stat changes in battle for five turns in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 101
+  item_id: helix-fossil
+  name: Helix Fossil
+  category: dex-completion
+  pocket: misc
+  attributes:
+  - underground
+  cost: 7000
+  effect: Can be revived into an Omanyte.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 45
+  item_id: hp-up
+  name: HP Up
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: Raises HP effort and happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 25
+  item_id: hyper-potion
+  name: Hyper Potion
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 1500
+  effect: Restores 200 HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 20
+  item_id: ice-heal
+  name: Ice Heal
+  category: status-cures
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Cures freezing.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 47
+  item_id: iron
+  name: Iron
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: Raises Defense effort and happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 85
+  item_id: leaf-stone
+  name: Leaf Stone
+  category: evolution
+  pocket: misc
+  attributes:
+  - underground
+  cost: 3000
+  effect: Evolves an Exeggcute into Exeggutor, a Gloom into Vileplume, a Nuzleaf into
+    Shiftry, a Pansage into Simisage, or a Weepinbell into Victreebel.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 32
+  item_id: lemonade
+  name: Lemonade
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 400
+  effect: Restores 80 HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 547
+  item_id: lift-key
+  name: Lift Key
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Operates the elevator in Team Rocket\u2019s Celadon Hideout."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 1
+  item_id: master-ball
+  name: Master Ball
+  category: standard-balls
+  pocket: pokeballs
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 0
+  effect: "Catches a wild Pok\xE9mon every time."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 41
+  item_id: max-elixir
+  name: Max Elixir
+  category: pp-recovery
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 4500
+  effect: Restores PP to full for each move.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 39
+  item_id: max-ether
+  name: Max Ether
+  category: pp-recovery
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 2000
+  effect: Restores PP to full for one move.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 24
+  item_id: max-potion
+  name: Max Potion
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 2500
+  effect: Restores HP to full.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 77
+  item_id: max-repel
+  name: Max Repel
+  category: spelunking
+  pocket: misc
+  attributes: []
+  cost: 900
+  effect: "For 250 steps, prevents wild encounters of level lower than your party\u2019\
+    s lead Pok\xE9mon."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 29
+  item_id: max-revive
+  name: Max Revive
+  category: revival
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  - underground
+  cost: 4000
+  effect: Revives with full HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 81
+  item_id: moon-stone
+  name: Moon Stone
+  category: evolution
+  pocket: misc
+  attributes:
+  - underground
+  cost: 3000
+  effect: Evolves a Clefairy into Clefable, a Jigglypuff into Wigglytuff, a Munna
+    into Musharna, a Nidorina into Nidoqueen, a Nidorino into Nidoking, or a Skitty
+    into Delcatty.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 92
+  item_id: nugget
+  name: Nugget
+  category: loot
+  pocket: misc
+  attributes: []
+  cost: 10000
+  effect: "Sell for 5000 Pok\xE9dollars, or to Ore Collector for 10000 Pok\xE9dollars."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 543
+  item_id: oaks-parcel
+  name: "Oak\u2019s Parcel"
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Trade to Prof. Oak for a Pok\xE9dex."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 103
+  item_id: old-amber
+  name: Old Amber
+  category: dex-completion
+  pocket: misc
+  attributes:
+  - underground
+  cost: 10000
+  effect: Can be revived into an Aerodactyl.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 422
+  item_id: old-rod
+  name: Old Rod
+  category: gameplay
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Used to catch Pok\xE9mon in bodies of water."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 22
+  item_id: paralyze-heal
+  name: Paralyze Heal
+  category: status-cures
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Cures paralysis.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 4
+  item_id: poke-ball
+  name: "Pok\xE9 Ball"
+  category: standard-balls
+  pocket: pokeballs
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: "Tries to catch a wild Pok\xE9mon."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 63
+  item_id: poke-doll
+  name: "Pok\xE9 Doll"
+  category: spelunking
+  pocket: misc
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 300
+  effect: Ends a wild battle.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 544
+  item_id: poke-flute
+  name: "Pok\xE9 Flute"
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Use to awaken sleeping Pok\xE9mon, including Snorlax on roads."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 17
+  item_id: potion
+  name: Potion
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 200
+  effect: Restores 20 HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 51
+  item_id: pp-up
+  name: PP Up
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: "Raises a move\u2019s max PP by 20%."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 46
+  item_id: protein
+  name: Protein
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: Raises Attack effort and happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 50
+  item_id: rare-candy
+  name: Rare Candy
+  category: vitamins
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 10000
+  effect: Causes a level-up and raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 79
+  item_id: repel
+  name: Repel
+  category: spelunking
+  pocket: misc
+  attributes: []
+  cost: 400
+  effect: "For 100 steps, prevents wild encounters of level lower than your party\u2019\
+    s lead Pok\xE9mon."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 28
+  item_id: revive
+  name: Revive
+  category: revival
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  - underground
+  cost: 2000
+  effect: Revives with half HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 433
+  item_id: ss-ticket
+  name: S.S. Ticket
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: 'Ticket for a ship. (RSE: S.S. Tidal LF: S.S. Anne HG: S.S. Aqua)'
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 5
+  item_id: safari-ball
+  name: Safari Ball
+  category: standard-balls
+  pocket: pokeballs
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 0
+  effect: "Tries to catch a wild Pok\xE9mon in the Great Marsh or Safari Zone.  Success\
+    \ rate is 1.5\xD7."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 445
+  item_id: secret-key
+  name: Secret Key
+  category: event-items
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Gen IV: The key to Rotom\u2019s appliance room. Gen III: The key to Cinnabar\
+    \ Gym."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 548
+  item_id: silph-scope
+  name: Silph Scope
+  category: plot-advancement
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Used to identify the true forms of ghosts in Pok\xE9mon Tower."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 31
+  item_id: soda-pop
+  name: Soda Pop
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 300
+  effect: Restores 60 HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 26
+  item_id: super-potion
+  name: Super Potion
+  category: healing
+  pocket: medicine
+  attributes:
+  - countable
+  - consumable
+  - usable-overworld
+  - usable-in-battle
+  - holdable
+  cost: 700
+  effect: Restores 50 HP.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: true
+  countable: true
+  consumable: true
+- id: 76
+  item_id: super-repel
+  name: Super Repel
+  category: spelunking
+  pocket: misc
+  attributes: []
+  cost: 700
+  effect: "For 200 steps, prevents wild encounters of level lower than your party\u2019\
+    s lead Pok\xE9mon."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 424
+  item_id: super-rod
+  name: Super Rod
+  category: gameplay
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: "Used to catch Pok\xE9mon in bodies of water."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 83
+  item_id: thunder-stone
+  name: Thunder Stone
+  category: evolution
+  pocket: misc
+  attributes:
+  - underground
+  cost: 3000
+  effect: Evolves an Eelektrik into Eelektross, an Eevee into Jolteon, or a Pikachu
+    into Raichu.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 419
+  item_id: town-map
+  name: Town Map
+  category: gameplay
+  pocket: key
+  attributes: []
+  cost: 0
+  effect: Use to see the overworld map.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 2
+  item_id: ultra-ball
+  name: Ultra Ball
+  category: standard-balls
+  pocket: pokeballs
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 800
+  effect: "Tries to catch a wild Pok\xE9mon.  Success rate is 2\xD7."
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 84
+  item_id: water-stone
+  name: Water Stone
+  category: evolution
+  pocket: misc
+  attributes:
+  - underground
+  cost: 3000
+  effect: Evolves an Eevee into Vaporeon, a Lombre into Ludicolo, a Panpour into Simipour,
+    a Poliwhirl into Poliwrath, a Shellder into Cloyster, or a Staryu into Starmie.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: false
+  usable_in_overworld: false
+  countable: false
+  consumable: false
+- id: 60
+  item_id: x-accuracy
+  name: X Accuracy
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 1000
+  effect: Raises accuracy by one stage in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 57
+  item_id: x-attack
+  name: X Attack
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 1000
+  effect: Raises Attack by one stage in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 58
+  item_id: x-defense
+  name: X Defense
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 2000
+  effect: Raises Defense by one stage in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 61
+  item_id: x-sp-atk
+  name: X Sp. Atk
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 1000
+  effect: Raises Special Attack by one stage in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
+- id: 59
+  item_id: x-speed
+  name: X Speed
+  category: stat-boosts
+  pocket: battle
+  attributes:
+  - countable
+  - consumable
+  - usable-in-battle
+  - holdable
+  cost: 1000
+  effect: Raises Speed by one stage in battle.  Raises happiness.
+  flavor_text: ''
+  machines: []
+  usable_in_battle: true
+  usable_in_overworld: false
+  countable: true
+  consumable: true
