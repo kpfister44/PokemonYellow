@@ -410,7 +410,3 @@ species:
 - **uv**: Python package manager
 - **PyGame**: Game framework
 - **Tiled Map Editor**: For creating map JSON (optional)
-
-## Next Steps
-
-Starting with **Phase 1: Core Engine Setup**. We'll create the foundational game loop, rendering pipeline, and input system to get a window running before adding any game-specific logic.

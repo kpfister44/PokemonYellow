@@ -106,7 +106,6 @@ If you catch yourself writing "new", "old", "legacy", "wrapper", "unified", or i
 
 - If the project isn't in a git repo, STOP and ask permission to initialize one.
 - YOU MUST STOP and ask how to handle uncommitted changes or untracked files when starting work. Suggest committing existing work first.
-- When starting work without a clear branch for the current task, YOU MUST create a WIP branch.
 - YOU MUST TRACK all non-trivial changes in git.
 - YOU MUST commit frequently throughout the development process, even if your high-level tasks are not yet done. Commit your journal entries.
 - NEVER SKIP, EVADE OR DISABLE A PRE-COMMIT HOOK.
@@ -145,11 +144,6 @@ If you catch yourself writing "new", "old", "legacy", "wrapper", "unified", or i
 - Make sure to update relevant documentation (markdown files) after making changes that differ from the documentation. You should also update documentation if a new feature is added. Ask Kyle if you're unsure whether or not the change warrants a documentation update.
 - The number one purpose of documentation is to give future Codex sessions the needed context to understand what they are working on. Future sessions have no context of the project and will read the relevant documentation to get context on the scope of the project they are working on. Your documentation should be written with this in mind.
 
-## Issue tracking
-
-- You MUST use your TodoWrite tool to keep track of what you're doing.
-- You MUST NEVER discard tasks from your TodoWrite todo list without Kyle's explicit approval.
-
 ## Systematic Debugging Process
 
 YOU MUST ALWAYS find the root cause of any issue you are debugging.
@@ -180,11 +174,3 @@ You MUST follow this debugging framework for ANY technical issue:
 - NEVER claim to implement a pattern without reading it completely first
 - ALWAYS test after each change
 - IF your first fix doesn't work, STOP and re-analyze rather than adding more fixes
-
-## Learning and Memory Management
-
-- YOU MUST use the journal tool frequently to capture technical insights, failed approaches, and user preferences
-- Before starting complex tasks, search the journal for relevant past experiences and lessons learned
-- Document architectural decisions and their outcomes for future reference
-- Track patterns in user feedback to improve collaboration over time
-- When you notice something that should be fixed but is unrelated to your current task, document it in your journal rather than fixing it immediately

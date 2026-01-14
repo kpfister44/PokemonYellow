@@ -56,20 +56,23 @@ class PartyScreen:
         for i in range(min(6, self.party.size())):
             self._render_party_slot(renderer, i)
 
-        # Draw prompt text at bottom
-        prompt_y = GAME_HEIGHT - 24
+        # Draw prompt box at bottom (y=120, height=24 for 144 total)
+        prompt_y = 120
         bg_color = (248, 248, 248)
         border_color = (0, 0, 0)
 
-        # Draw box
+        # Draw bordered box
         renderer.draw_rect(bg_color, (0, prompt_y, GAME_WIDTH, 24), 0)
-        renderer.draw_rect(border_color, (0, prompt_y, GAME_WIDTH, 24), 2)
+        renderer.draw_rect(border_color, (0, prompt_y, GAME_WIDTH, 24), 1)
 
-        renderer.draw_text("Choose a POKéMON.", 8, prompt_y + 8)
+        renderer.draw_text("Choose a POKéMON.", 8, prompt_y + 6)
 
     def _render_party_slot(self, renderer, index: int) -> None:
         """
-        Render a single party slot.
+        Render a single party slot with two rows per Pokemon.
+
+        Row 1: cursor, sprite, NAME, :L##
+        Row 2: HP bar + HP values
 
         Args:
             renderer: Renderer instance
@@ -77,37 +80,67 @@ class PartyScreen:
         """
         pokemon = self.party.pokemon[index]
 
-        # Vertical list layout
-        slot_height = 22
-        y = 8 + (index * slot_height)
-        x = 8
+        # Each Pokemon gets 20px (two rows of ~10px each)
+        slot_height = 20
+        y = 2 + (index * slot_height)
 
-        # Draw selection cursor
+        # === ROW 1: Cursor, Sprite, Name, Level ===
+
+        # Draw selection cursor at x=4
         if index == self.cursor_index:
-            renderer.draw_text("▶", x, y + 4)
+            renderer.draw_text("▶", 4, y)
 
-        # Draw Pokemon sprite (small 16x16)
+        # Draw Pokemon sprite (16x16) at x=16
         if pokemon.species.sprites and pokemon.species.sprites.front:
             sprite = renderer.load_sprite(pokemon.species.sprites.front)
             if sprite:
                 scaled_sprite = pygame.transform.scale(sprite, (16, 16))
                 if pokemon.is_fainted():
                     scaled_sprite.set_alpha(100)
-                renderer.game_surface.blit(scaled_sprite, (x + 12, y))
+                renderer.game_surface.blit(scaled_sprite, (16, y))
 
-        # Draw Pokemon info
-        info_x = x + 32
+        # Draw Pokemon name at x=36
+        name_text = pokemon.species.name.upper()
+        renderer.draw_text(name_text, 36, y)
 
-        # Name and level on same line
-        name_text = f"{pokemon.species.name.upper()}"
-        renderer.draw_text(name_text, info_x, y + 2)
+        # Draw level (format: :L##)
+        level_text = f":L{pokemon.level}"
+        renderer.draw_text(level_text, 100, y)
 
-        level_text = f"Lv{pokemon.level:>3d}"
-        renderer.draw_text(level_text, info_x + 60, y + 2)
+        # === ROW 2: HP bar + HP values ===
+        row2_y = y + 10
 
-        # HP on second line
         if pokemon.is_fainted():
-            renderer.draw_text("FNT", info_x + 80, y + 10)
+            # Just show FNT for fainted Pokemon
+            renderer.draw_text("FNT", 36, row2_y)
         else:
-            hp_text = f"{pokemon.current_hp:3d}/{pokemon.stats.hp:3d}"
-            renderer.draw_text(hp_text, info_x + 80, y + 10)
+            # Draw HP bar
+            bar_x = 36
+            bar_width = 48
+            bar_height = 4
+
+            # Background (empty bar)
+            renderer.draw_rect((200, 200, 200), (bar_x, row2_y + 2, bar_width, bar_height), 0)
+
+            # Calculate HP percentage and color
+            hp_percent = pokemon.current_hp / pokemon.stats.hp if pokemon.stats.hp > 0 else 0
+            filled_width = int(bar_width * hp_percent)
+
+            # Color: green > 50%, yellow 20-50%, red < 20%
+            if hp_percent > 0.5:
+                color = (0, 200, 0)
+            elif hp_percent > 0.2:
+                color = (248, 208, 48)
+            else:
+                color = (248, 88, 56)
+
+            # Draw filled portion
+            if filled_width > 0:
+                renderer.draw_rect(color, (bar_x, row2_y + 2, filled_width, bar_height), 0)
+
+            # Draw border
+            renderer.draw_rect((0, 0, 0), (bar_x, row2_y + 2, bar_width, bar_height), 1)
+
+            # Draw HP values next to bar
+            hp_text = f"{pokemon.current_hp}/{pokemon.stats.hp}"
+            renderer.draw_text(hp_text, bar_x + bar_width + 4, row2_y)

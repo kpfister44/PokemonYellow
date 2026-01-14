@@ -65,98 +65,151 @@ class SummaryScreen:
 
     def _render_info_page(self, renderer) -> None:
         """
-        Render INFO page showing Pokemon stats and types.
+        Render INFO page matching authentic Pokemon Yellow layout.
 
         Args:
             renderer: Renderer instance
         """
         renderer.clear((248, 248, 248))
 
-        # Draw sprite (64x64)
+        # === TOP SECTION ===
+
+        # Draw large sprite (56x56) at top-left
         if self.pokemon.species.sprites and self.pokemon.species.sprites.front:
             sprite = renderer.load_sprite(self.pokemon.species.sprites.front)
             if sprite and isinstance(sprite, pygame.Surface):
-                scaled_sprite = pygame.transform.scale(sprite, (64, 64))
-                renderer.game_surface.blit(scaled_sprite, (16, 16))
+                scaled_sprite = pygame.transform.scale(sprite, (56, 56))
+                renderer.game_surface.blit(scaled_sprite, (8, 8))
 
-        # Draw name and level
+        # Draw Pokedex number below sprite
+        pokedex_num = f"No.{self.pokemon.species.number:03d}"
+        renderer.draw_text(pokedex_num, 8, 66)
+
+        # === RIGHT PANEL (x=72) ===
+
+        # Pokemon name
         name_text = self.pokemon.species.name.upper()
-        renderer.draw_text(name_text, 96, 16)
+        renderer.draw_text(name_text, 72, 8)
 
-        level_text = f"Lv{self.pokemon.level}"
-        renderer.draw_text(level_text, 96, 32)
+        # Level
+        level_text = f":L{self.pokemon.level}"
+        renderer.draw_text(level_text, 128, 8)
 
-        # Draw types
-        y_offset = 48
-        for i, poke_type in enumerate(self.pokemon.species.types):
-            type_text = f"TYPE/{poke_type.upper()}"
-            renderer.draw_text(type_text, 96, y_offset + (i * 16))
+        # HP bar + values
+        self._draw_hp_bar(renderer, 72, 24, 80, 8)
+        hp_text = f"{self.pokemon.current_hp:3d}/{self.pokemon.stats.hp:3d}"
+        renderer.draw_text(hp_text, 100, 34)
 
-        # Draw status condition if present
+        # Status
         if self.pokemon.status and self.pokemon.status.name != "NONE":
             status_text = f"STATUS/{self.pokemon.status.name}"
-            renderer.draw_text(status_text, 96, y_offset + (len(self.pokemon.species.types) * 16))
+        else:
+            status_text = "STATUS/OK"
+        renderer.draw_text(status_text, 72, 48)
 
-        # Draw stats
-        stats_y = 100
-        renderer.draw_text("STATS", 16, stats_y)
+        # === BOTTOM SECTION (y=76+) ===
 
+        # Stats on left side
         stats = [
-            ("HP", self.pokemon.stats.hp),
-            ("ATK", self.pokemon.stats.attack),
-            ("DEF", self.pokemon.stats.defense),
+            ("ATTACK", self.pokemon.stats.attack),
+            ("DEFENSE", self.pokemon.stats.defense),
+            ("SPEED", self.pokemon.stats.speed),
             ("SPECIAL", self.pokemon.stats.special),
-            ("SPEED", self.pokemon.stats.speed)
         ]
 
         for i, (stat_name, stat_value) in enumerate(stats):
-            y = stats_y + 16 + (i * 16)
-            renderer.draw_text(f"{stat_name:7s} {stat_value:3d}", 16, y)
+            y = 76 + (i * 12)
+            renderer.draw_text(stat_name, 8, y)
+            renderer.draw_text(f"{stat_value:3d}", 56, y)
 
-        # Draw current HP
-        hp_text = f"HP {self.pokemon.current_hp:3d}/{self.pokemon.stats.hp:3d}"
-        renderer.draw_text(hp_text, 16, stats_y + 16 + (len(stats) * 16))
+        # Type on right side
+        for i, poke_type in enumerate(self.pokemon.species.types):
+            type_label = f"TYPE{i + 1}/" if len(self.pokemon.species.types) > 1 else "TYPE/"
+            type_text = f"{type_label}{poke_type.upper()}"
+            renderer.draw_text(type_text, 96, 76 + (i * 12))
 
-        # Draw page indicator
-        renderer.draw_text("INFO", GAME_WIDTH - 48, GAME_HEIGHT - 16)
+        # Page indicator at bottom right
+        renderer.draw_text("INFO", 128, 128)
+
+    def _draw_hp_bar(self, renderer, x: int, y: int, width: int, height: int) -> None:
+        """
+        Draw HP bar with color based on HP percentage.
+
+        Args:
+            renderer: Renderer instance
+            x, y: Position
+            width, height: Bar dimensions
+        """
+        # Draw "HP:" label
+        renderer.draw_text("HP:", x, y - 2)
+
+        bar_x = x + 20
+        bar_width = width - 20
+
+        # Background (empty bar)
+        renderer.draw_rect((200, 200, 200), (bar_x, y, bar_width, height), 0)
+
+        # Calculate HP percentage and color
+        hp_percent = self.pokemon.current_hp / self.pokemon.stats.hp if self.pokemon.stats.hp > 0 else 0
+        filled_width = int(bar_width * hp_percent)
+
+        # Color based on percentage: green > 50%, yellow 20-50%, red < 20%
+        if hp_percent > 0.5:
+            color = (0, 200, 0)  # Green
+        elif hp_percent > 0.2:
+            color = (248, 208, 48)  # Yellow
+        else:
+            color = (248, 88, 56)  # Red
+
+        # Draw filled portion
+        if filled_width > 0:
+            renderer.draw_rect(color, (bar_x, y, filled_width, height), 0)
+
+        # Draw border
+        renderer.draw_rect((0, 0, 0), (bar_x, y, bar_width, height), 1)
 
     def _render_moves_page(self, renderer) -> None:
         """
-        Render MOVES page showing Pokemon move list.
+        Render MOVES page matching authentic Pokemon Yellow layout.
 
         Args:
             renderer: Renderer instance
         """
         renderer.clear((248, 248, 248))
 
-        # Draw name and level
+        # === HEADER SECTION ===
+
+        # Draw small sprite (32x32) at top-left
+        if self.pokemon.species.sprites and self.pokemon.species.sprites.front:
+            sprite = renderer.load_sprite(self.pokemon.species.sprites.front)
+            if sprite and isinstance(sprite, pygame.Surface):
+                scaled_sprite = pygame.transform.scale(sprite, (32, 32))
+                renderer.game_surface.blit(scaled_sprite, (8, 4))
+
+        # Pokemon name and level
         name_text = self.pokemon.species.name.upper()
-        renderer.draw_text(name_text, 16, 16)
+        renderer.draw_text(name_text, 48, 8)
+        level_text = f":L{self.pokemon.level}"
+        renderer.draw_text(level_text, 120, 8)
 
-        level_text = f"Lv{self.pokemon.level}"
-        renderer.draw_text(level_text, 120, 16)
+        # === MOVES SECTION ===
 
-        # Draw moves section
-        renderer.draw_text("MOVES", 16, 40)
+        moves_y = 40
 
-        # Draw move list (max 4 moves)
-        moves_y = 60
         if self.pokemon.moves:
             for i, move_id in enumerate(self.pokemon.moves[:4]):
+                y = moves_y + (i * 24)
+
                 # Move name
                 move_name = move_id.upper().replace("-", " ")
-                renderer.draw_text(move_name, 16, moves_y + (i * 32))
+                renderer.draw_text(move_name, 8, y)
 
-                # PP (real tracking)
+                # PP display
                 current_pp, max_pp = self.pokemon.get_move_pp(move_id)
                 pp_text = f"PP {current_pp:2d}/{max_pp:2d}"
-                renderer.draw_text(pp_text, 16, moves_y + (i * 32) + 12)
-
-                # Type placeholder (would need move loader for real type)
-                type_text = "TYPE ???"
-                renderer.draw_text(type_text, 100, moves_y + (i * 32) + 12)
+                renderer.draw_text(pp_text, 100, y)
         else:
-            renderer.draw_text("No moves learned", 16, moves_y)
+            renderer.draw_text("No moves", 8, moves_y)
 
-        # Draw page indicator
-        renderer.draw_text("MOVES", GAME_WIDTH - 48, GAME_HEIGHT - 16)
+        # Page indicator at bottom right
+        renderer.draw_text("MOVES", 128, 128)
