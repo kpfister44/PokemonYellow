@@ -306,10 +306,9 @@ States are managed via a stack in `Game` class.
 - ❌ Building interiors (door warps)
 - ❌ NPC movement/AI
 - ❌ Advanced dialog features (typewriter effect, branching, multi-page)
-- ❌ Menus (Pokemon, Bag, Save)
-- ❌ Party management screen
+- ❌ Save menu (Save/Load system)
 - ❌ Move learning on level up
-- ❌ Inventory/Bag system + item effects
+- ⚠️ Inventory/Bag system + item effects (partial: healing/status/revive/balls/X items)
 - ❌ Save/Load system
 
 ### Technical Debt
