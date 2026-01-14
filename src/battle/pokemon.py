@@ -157,9 +157,77 @@ class Pokemon:
         """
         return self.move_pp.get(move_id, (0, 0))
 
+    def restore_move_pp(self, move_id: str, amount: Optional[int] = None) -> int:
+        """
+        Restore PP for a single move.
+
+        Args:
+            move_id: Move ID to restore
+            amount: Amount to restore, or full if None
+
+        Returns:
+            Amount of PP restored
+        """
+        if move_id not in self.move_pp:
+            return 0
+
+        current_pp, max_pp = self.move_pp[move_id]
+        if amount is None:
+            restore = max_pp - current_pp
+            self.move_pp[move_id] = (max_pp, max_pp)
+            return restore
+
+        restore = min(amount, max_pp - current_pp)
+        self.move_pp[move_id] = (current_pp + restore, max_pp)
+        return restore
+
+    def restore_all_move_pp(self, amount: Optional[int] = None) -> int:
+        """
+        Restore PP for all moves.
+
+        Args:
+            amount: Amount to restore per move, or full if None
+
+        Returns:
+            Total PP restored
+        """
+        total_restored = 0
+        for move_id in self.move_pp:
+            total_restored += self.restore_move_pp(move_id, amount)
+        return total_restored
+
     def take_damage(self, damage: int):
         """Apply damage to this Pokemon."""
         self.current_hp = max(0, self.current_hp - damage)
+
+    def heal(self, amount: int) -> int:
+        """
+        Restore HP by the given amount.
+
+        Returns:
+            Amount of HP restored
+        """
+        if amount <= 0 or self.current_hp <= 0:
+            return 0
+
+        new_hp = min(self.stats.hp, self.current_hp + amount)
+        healed = new_hp - self.current_hp
+        self.current_hp = new_hp
+        return healed
+
+    def restore_full_hp(self) -> int:
+        """
+        Restore HP to full.
+
+        Returns:
+            Amount of HP restored
+        """
+        if self.current_hp <= 0:
+            return 0
+
+        healed = self.stats.hp - self.current_hp
+        self.current_hp = self.stats.hp
+        return healed
 
     def is_fainted(self) -> bool:
         """Check if Pokemon has fainted."""
@@ -168,6 +236,20 @@ class Pokemon:
     def get_hp_percentage(self) -> float:
         """Get HP as a percentage (0.0 to 1.0)."""
         return self.current_hp / self.stats.hp if self.stats.hp > 0 else 0.0
+
+    def clear_status(self) -> bool:
+        """
+        Clear any status condition.
+
+        Returns:
+            True if a status was cleared
+        """
+        if self.status is None or self.status == StatusCondition.NONE:
+            return False
+
+        self.status = None
+        self.status_turns = 0
+        return True
 
     def apply_status(self, condition: StatusCondition) -> bool:
         """
