@@ -7,7 +7,7 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 ## Current Status
 
 **Completed**: Phases 1-7 (Core Engine through Advanced Battle Mechanics)
-**Next Phase**: Phase 8 - Advanced Features (party, items, menus, save/load)
+**Current Phase**: Phase 8 - Advanced Features (party, items, menus, save/load)
 
 The game currently has:
 - A working overworld with Pallet Town and Route 1 maps
@@ -233,7 +233,7 @@ git push
 ### State Machine
 The game uses a state machine pattern:
 - **OverworldState**: Walking around towns/routes
-- **BattleState**: Pokemon battles (not yet implemented)
+- **BattleState**: Pokemon battles
 - **MenuState**: Menus (not yet implemented)
 
 States are managed via a stack in `Game` class.
@@ -421,8 +421,8 @@ When implementing new features, you have access to these fields in the Species d
 
 The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 
-**Where we are**: End of Phase 6
-**What's next**: Phase 7 - Advanced Battle Mechanics
+**Where we are**: Phase 8 in progress
+**What's next**: Continue Phase 8 - Advanced Features
 
 ### Completed Phases:
 - ✅ Phase 1: Core Engine Setup
@@ -432,15 +432,11 @@ The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 - ✅ Phase 5: NPCs and Dialog System
 - ✅ Phase 6: Battle System Foundation (with full Gen 1 data from PokéAPI)
 
-### Next Up (Phase 7):
-- Battle menu system (FIGHT/ITEM/PKM/RUN options)
-- Move selection UI (choose from up to 4 moves)
-- Status effects (paralysis, sleep, poison, burn, freeze)
-- Stat changes (buffs/debuffs)
-- Accuracy and evasion mechanics
-- Experience and leveling system
-- Pokemon catching mechanics
-- Trainer battles
+### Next Up (Phase 8):
+- Party management screen
+- Menus (Pokemon, Bag, Save)
+- Inventory/Bag system + item effects
+- Save/Load system
 
 ## Testing Checklist
 
