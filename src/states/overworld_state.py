@@ -257,8 +257,12 @@ class OverworldState(BaseState):
         """Collect an item pickup and add it to the bag."""
         item = self.item_loader.get_item(pickup.item_id)
 
-        if not self.bag.add_item(pickup.item_id):
-            self.active_dialog = DialogBox("Bag is full.", pickup.pickup_id)
+        added, reason = self.bag.add_item_with_reason(pickup.item_id)
+        if not added:
+            if reason == "stack_full":
+                self.active_dialog = DialogBox("No more room for that item.", pickup.pickup_id)
+            else:
+                self.active_dialog = DialogBox("Bag is full.", pickup.pickup_id)
             return
 
         self.item_pickups.remove(pickup)

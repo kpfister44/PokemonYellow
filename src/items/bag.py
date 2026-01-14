@@ -36,6 +36,16 @@ class Bag:
         Returns:
             True if the item was added, False if the bag is full or stack is capped.
         """
+        added, _reason = self.add_item_with_reason(item_id)
+        return added
+
+    def add_item_with_reason(self, item_id: str) -> tuple[bool, Optional[str]]:
+        """
+        Add a single item to the bag and return a reason when it fails.
+
+        Returns:
+            Tuple of (success, reason). Reason is None on success.
+        """
         item = self._item_lookup(item_id)
         if item is None:
             raise ValueError(f"Unknown item: {item_id}")
@@ -45,20 +55,20 @@ class Bag:
         if item.countable:
             if entry:
                 if entry.quantity >= self.MAX_STACK:
-                    return False
+                    return False, "stack_full"
                 entry.quantity += 1
-                return True
+                return True, None
             if len(self._entries) >= self.MAX_SLOTS:
-                return False
+                return False, "bag_full"
             self._entries.append(BagEntry(item_id=item_id, quantity=1))
-            return True
+            return True, None
 
         if entry:
-            return False
+            return False, "already_have"
         if len(self._entries) >= self.MAX_SLOTS:
-            return False
+            return False, "bag_full"
         self._entries.append(BagEntry(item_id=item_id, quantity=1))
-        return True
+        return True, None
 
     def remove_item(self, item_id: str) -> bool:
         """

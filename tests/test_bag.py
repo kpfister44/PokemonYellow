@@ -1,8 +1,6 @@
 # ABOUTME: Tests bag inventory capacity and stacking rules
 # ABOUTME: Covers countable vs non-countable item behavior
 
-import pytest
-
 from src.items.bag import Bag
 
 
@@ -48,3 +46,27 @@ def test_bag_enforces_capacity_limit():
         assert bag.add_item(f"item-{index}") is True
 
     assert bag.add_item("item-overflow") is False
+
+
+def test_bag_add_item_reports_stack_full():
+    bag = Bag(item_lookup=build_lookup({"potion"}))
+
+    for _ in range(bag.MAX_STACK):
+        assert bag.add_item("potion") is True
+
+    added, reason = bag.add_item_with_reason("potion")
+
+    assert added is False
+    assert reason == "stack_full"
+
+
+def test_bag_add_item_reports_bag_full():
+    bag = Bag(item_lookup=build_lookup(set()))
+
+    for index in range(bag.MAX_SLOTS):
+        assert bag.add_item(f"item-{index}") is True
+
+    added, reason = bag.add_item_with_reason("item-overflow")
+
+    assert added is False
+    assert reason == "bag_full"

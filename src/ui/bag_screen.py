@@ -15,6 +15,7 @@ class BagScreen:
         self.item_loader = item_loader
         self.entry_filter = entry_filter
         self.cursor_index = 0
+        self.scroll_offset = 0
         self.message = ""
 
     def move_cursor(self, direction: int):
@@ -43,23 +44,36 @@ class BagScreen:
             self.cursor_index = max(0, len(entries) - 1)
         return entries[self.cursor_index]
 
+    def get_visible_entries(self) -> tuple[list[BagEntry], int]:
+        entries = self.get_entries()
+        line_height = 14
+        list_height = GAME_HEIGHT - 32
+        max_lines = list_height // line_height
+
+        self._adjust_scroll(len(entries), max_lines)
+
+        visible = entries[self.scroll_offset:self.scroll_offset + max_lines]
+        return visible, self.scroll_offset
+
     def set_message(self, message: str) -> None:
         self.message = message
 
     def render(self, renderer) -> None:
         renderer.clear((248, 248, 248))
 
-        entries = self.get_entries()
         line_height = 14
         list_height = GAME_HEIGHT - 32
         max_lines = list_height // line_height
 
-        for i in range(min(max_lines, len(entries))):
-            entry = entries[i]
+        entries = self.get_entries()
+        visible_entries, start_index = self.get_visible_entries()
+
+        for i in range(min(max_lines, len(visible_entries))):
+            entry = visible_entries[i]
             item = self.item_loader.get_item(entry.item_id)
             y = 4 + (i * line_height)
 
-            if i == self.cursor_index:
+            if start_index + i == self.cursor_index:
                 renderer.draw_text("▶", 4, y)
 
             name_text = item.name.upper()
@@ -70,6 +84,16 @@ class BagScreen:
                 renderer.draw_text(qty_text, GAME_WIDTH - 28, y)
 
         self._render_description(renderer, entries)
+
+    def _adjust_scroll(self, total_entries: int, max_lines: int) -> None:
+        if total_entries <= max_lines:
+            self.scroll_offset = 0
+            return
+
+        if self.cursor_index < self.scroll_offset:
+            self.scroll_offset = self.cursor_index
+        elif self.cursor_index >= self.scroll_offset + max_lines:
+            self.scroll_offset = self.cursor_index - max_lines + 1
 
     def _render_description(self, renderer, entries: list[BagEntry]) -> None:
         box_y = GAME_HEIGHT - 32
