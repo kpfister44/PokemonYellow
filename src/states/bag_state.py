@@ -65,7 +65,8 @@ class BagState(BaseState):
                 mode="item",
                 item_use=lambda pokemon: self._apply_item(item_id, pokemon),
                 on_item_used=lambda result: self._handle_item_result(item_id, result),
-                on_cancel=self._handle_target_cancelled
+                on_cancel=self._handle_target_cancelled,
+                active_pokemon=self.active_pokemon if self.mode == "battle" else None
             )
             self.game.push_state(party_state)
             return

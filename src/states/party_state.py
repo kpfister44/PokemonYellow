@@ -6,6 +6,7 @@ from typing import Callable, Optional
 from src.states.base_state import BaseState
 from src.ui.party_screen import PartyScreen
 from src.party.party import Party
+from src.battle.pokemon import Pokemon
 from src.items.item_effects import ItemUseResult
 
 
@@ -20,7 +21,8 @@ class PartyState(BaseState):
         on_select: Optional[Callable] = None,
         on_cancel: Optional[Callable] = None,
         item_use: Optional[Callable] = None,
-        on_item_used: Optional[Callable[[ItemUseResult], bool]] = None
+        on_item_used: Optional[Callable[[ItemUseResult], bool]] = None,
+        active_pokemon: Optional[Pokemon] = None
     ):
         """
         Initialize party state.
@@ -39,6 +41,7 @@ class PartyState(BaseState):
         self.on_cancel = on_cancel
         self.item_use = item_use
         self.on_item_used = on_item_used
+        self.active_pokemon = active_pokemon
         self.item_target_index = None
         self.item_result = None
         self.animating_item = False
@@ -64,8 +67,11 @@ class PartyState(BaseState):
                         self.item_result = result
                         self.item_target_index = self.screen.cursor_index
                         if result.success:
-                            self.animating_item = True
-                            if not self._is_item_animation_active(selected):
+                            if self._should_animate_item(selected):
+                                self.animating_item = True
+                                if not self._is_item_animation_active(selected):
+                                    self._finish_item_use()
+                            else:
                                 self._finish_item_use()
                         else:
                             self._finish_item_use()
@@ -127,6 +133,11 @@ class PartyState(BaseState):
             return False
         display = self.screen.hp_displays[self.item_target_index]
         return display.is_animating(pokemon.current_hp)
+
+    def _should_animate_item(self, pokemon: Pokemon) -> bool:
+        if self.active_pokemon is None:
+            return True
+        return pokemon is not self.active_pokemon
 
     def _finish_item_use(self) -> None:
         should_close_bag = False
