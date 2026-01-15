@@ -9,3 +9,9 @@ Journal
 - Skipped party animation for active battle Pokemon item use.
 - Updated item pickup dialog text to match Yellow phrasing.
 - Updated docs for completed bag/item system.
+
+2026-01-15
+- Added save data schema and JSON storage helpers.
+- Added serialization for Pokemon, Party, Bag, and Player with tests.
+- Integrated title menu startup flow and save handling in start menu.
+- Persisted defeated trainer and map path state for save/load.
