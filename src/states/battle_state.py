@@ -10,6 +10,7 @@ from src.ui.battle_menu import BattleMenu
 from src.ui.move_menu import MoveMenu
 from src.engine import constants
 from src.battle.catch_calculator import CatchCalculator
+from src.battle.hp_bar_display import HpBarDisplay
 
 
 class BattleState(BaseState):
@@ -59,6 +60,19 @@ class BattleState(BaseState):
         # UI components (Phase 7.2)
         self.battle_menu = BattleMenu()
         self.move_menu = None  # Created when FIGHT is selected
+
+        self.enemy_hp_bar_width = 46
+        self.player_hp_bar_width = 62
+        self.enemy_hp_display = HpBarDisplay(
+            self.enemy_pokemon.stats.hp,
+            self.enemy_pokemon.current_hp,
+            self.enemy_hp_bar_width
+        )
+        self.player_hp_display = HpBarDisplay(
+            self.player_pokemon.stats.hp,
+            self.player_pokemon.current_hp,
+            self.player_hp_bar_width
+        )
 
         # PP tracking for player's moves
         self.player_move_pp = {}
@@ -203,6 +217,11 @@ class BattleState(BaseState):
         # Switch Pokemon
         old_pokemon = self.player_pokemon
         self.player_pokemon = new_pokemon
+        self.player_hp_display = HpBarDisplay(
+            self.player_pokemon.stats.hp,
+            self.player_pokemon.current_hp,
+            self.player_hp_bar_width
+        )
 
         # Update sprite
         if new_pokemon.species.sprites and new_pokemon.species.sprites.back:
@@ -225,6 +244,9 @@ class BattleState(BaseState):
         Args:
             dt: Delta time in seconds
         """
+        self.player_hp_display.update(self.player_pokemon.current_hp, dt)
+        self.enemy_hp_display.update(self.enemy_pokemon.current_hp, dt)
+
         # Intro phase - wait before allowing input
         if self.phase == "intro":
             self.intro_timer -= 1
@@ -303,15 +325,15 @@ class BattleState(BaseState):
         # HP bar
         hp_bar_x = box_x + 14
         hp_bar_y = box_y + 20
-        hp_bar_width = 46
+        hp_bar_width = self.enemy_hp_bar_width
         hp_bar_height = 3
-        hp_percentage = self.enemy_pokemon.get_hp_percentage()
+        hp_percentage = self.enemy_hp_display.display_hp / self.enemy_pokemon.stats.hp
 
         # Background (empty part of HP bar)
         renderer.draw_rect(constants.COLOR_DARKEST, (hp_bar_x, hp_bar_y, hp_bar_width, hp_bar_height), 0)
 
         # Filled part of HP bar (green/yellow/red based on HP)
-        filled_width = int(hp_bar_width * hp_percentage)
+        filled_width = self.enemy_hp_display.display_units
         if filled_width > 0:
             hp_color = self._get_hp_bar_color(hp_percentage)
             renderer.draw_rect(hp_color, (hp_bar_x, hp_bar_y, filled_width, hp_bar_height), 0)
@@ -341,21 +363,21 @@ class BattleState(BaseState):
         # HP bar
         hp_bar_x = box_x + 14
         hp_bar_y = box_y + 20
-        hp_bar_width = 62
+        hp_bar_width = self.player_hp_bar_width
         hp_bar_height = 3
-        hp_percentage = self.player_pokemon.get_hp_percentage()
+        hp_percentage = self.player_hp_display.display_hp / self.player_pokemon.stats.hp
 
         # Background
         renderer.draw_rect(constants.COLOR_DARKEST, (hp_bar_x, hp_bar_y, hp_bar_width, hp_bar_height), 0)
 
         # Filled part
-        filled_width = int(hp_bar_width * hp_percentage)
+        filled_width = self.player_hp_display.display_units
         if filled_width > 0:
             hp_color = self._get_hp_bar_color(hp_percentage)
             renderer.draw_rect(hp_color, (hp_bar_x, hp_bar_y, filled_width, hp_bar_height), 0)
 
         # HP numbers (current / max)
-        hp_text = f"{self.player_pokemon.current_hp:3}/ {self.player_pokemon.stats.hp:3}"
+        hp_text = f"{self.player_hp_display.display_hp:3}/ {self.player_pokemon.stats.hp:3}"
         renderer.draw_text(hp_text, box_x + 20, box_y + 26, constants.COLOR_BLACK, 10)
 
     def _get_hp_bar_color(self, hp_percentage):
@@ -438,11 +460,15 @@ class BattleState(BaseState):
         """Advance to next phase after messages are done."""
         # Check for fainted Pokemon
         if self.enemy_pokemon.is_fainted():
+            if self.enemy_hp_display.is_animating(self.enemy_pokemon.current_hp):
+                return
             self._queue_message(f"Wild {self.enemy_pokemon.species.name.upper()}\nfainted!")
             self._handle_victory()
             return
 
         if self.player_pokemon.is_fainted():
+            if self.player_hp_display.is_animating(self.player_pokemon.current_hp):
+                return
             self._queue_message(f"{self.player_pokemon.species.name.upper()}\nfainted!")
             if hasattr(self, 'party') and self.party.has_alive_pokemon():
                 self._queue_message("Choose next POK\u00e9MON!")
@@ -480,6 +506,11 @@ class BattleState(BaseState):
         """Handle victory and award experience."""
         if self.is_trainer_battle and self.trainer_pokemon_remaining:
             self.enemy_pokemon = self.trainer_pokemon_remaining.pop(0)
+            self.enemy_hp_display = HpBarDisplay(
+                self.enemy_pokemon.stats.hp,
+                self.enemy_pokemon.current_hp,
+                self.enemy_hp_bar_width
+            )
 
             if self.enemy_pokemon.species.sprites and self.enemy_pokemon.species.sprites.front:
                 self.enemy_sprite = self.game.renderer.load_sprite(
