@@ -125,7 +125,7 @@ pokemon_yellow/
 - All 165 Gen 1 moves
 - Pokemon sprites from PokéAPI
 
-### Phase 7: Advanced Battle Mechanics (Next)
+### Phase 7: Advanced Battle Mechanics (Completed)
 - Battle menu system (FIGHT/ITEM/PKM/RUN)
 - Move selection UI
 - Status effects (paralysis, sleep, poison, burn, freeze)
@@ -134,11 +134,13 @@ pokemon_yellow/
 - Pokemon catching mechanics
 - Trainer battles
 
-### Phase 8+: Advanced Features
+### Phase 8: Advanced Features (In Progress)
+- Title menu (Continue/New Game/Option)
 - Start menu (Pokemon, Bag, Save)
 - Party management screen
 - Inventory system
 - Save/Load functionality
+- Pokedex
 
 ## Technical Details
 

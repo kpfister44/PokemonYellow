@@ -7,7 +7,7 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 ## Current Status
 
 **Completed**: Phases 1-7 (Core Engine through Advanced Battle Mechanics)
-**Current Phase**: Phase 8 - Advanced Features (party, items, menus, save/load)
+**Current Phase**: Phase 8 - Advanced Features (Pokedex)
 
 The game currently has:
 - A working overworld with Pallet Town and Route 1 maps
@@ -31,7 +31,9 @@ The game currently has:
 - **All 151 Gen 1 Pokemon with Yellow version learnsets**
 - **All 165 Gen 1 moves with accurate stats**
 - **Pokemon sprites (front and back) from PokéAPI**
-- **Start menu with Pokemon and Bag options**
+- **Title menu with Continue/New Game/Option**
+- **Start menu with Pokemon, Bag, and Save options**
+- **Save/Load system (manual save from start menu)**
 - **Party screen with HP bar ticking**
 - **Inventory/Bag system with item pickups**
 - **Item effects (healing, status cures, revives, balls, X items)**
@@ -294,9 +296,9 @@ States are managed via a stack in `Game` class.
 
 ### Controls
 - **Arrow Keys**: Move player
-- **Z**: A button (confirm/interact) - not yet used
-- **X**: B button (cancel) - not yet used
-- **Enter**: Start button (menu) - not yet used
+- **Z**: A button (confirm/interact)
+- **X**: B button (cancel/back)
+- **Start (S)**: Start button (menu)
 
 ## Current Map: Pallet Town
 
@@ -311,7 +313,7 @@ States are managed via a stack in `Game` class.
 
 ### Player Starting Position
 - Tile (8, 13) - On the path between the houses
-- Set in `src/main.py`
+- Set for New Game in `src/states/title_menu_state.py`
 
 ### Warp Points (Defined, Not Yet Functional)
 - Route 1: Two tiles at top (x=8, y=0) and (x=10, y=0)
@@ -325,10 +327,9 @@ States are managed via a stack in `Game` class.
 - ❌ Building interiors (door warps)
 - ❌ NPC movement/AI
 - ❌ Advanced dialog features (typewriter effect, branching, multi-page)
-- ❌ Save menu (Save/Load system)
 - ❌ Move learning on level up
 - ⚠️ Inventory/Bag system + item effects (missing: TMs/HMs, key items, repels, PP restores, vitamins)
-- ❌ Save/Load system
+- ❌ Pokedex
 
 ### Technical Debt
 - Using colored rectangles as placeholders for tiles
@@ -341,7 +342,7 @@ States are managed via a stack in `Game` class.
 ## Key Files to Know
 
 ### Entry Point
-- `src/main.py` - Creates game, loads Pallet Town, starts game loop
+- `src/main.py` - Creates game, starts title menu, then loads game
 
 ### Core Systems
 - `src/engine/game.py` - Main game loop (60 FPS, state stack)
@@ -350,6 +351,7 @@ States are managed via a stack in `Game` class.
 
 ### Overworld
 - `src/states/overworld_state.py` - Manages map, player, camera, NPCs, dialog
+- `src/states/title_menu_state.py` - Title menu state (Continue/New Game/Option)
 - `src/overworld/player.py` - Player movement and collision (tiles + NPCs)
 - `src/overworld/npc.py` - NPC class with dialog interaction
 - `src/overworld/map.py` - Map loading and tile rendering
@@ -357,6 +359,7 @@ States are managed via a stack in `Game` class.
 
 ### UI
 - `src/ui/dialog_box.py` - Dialog box for NPC conversations
+- `src/ui/title_menu.py` - Title menu UI component
 
 ### Battle System
 - `src/battle/species.py` - Species data structures (with evolution, growth rate, etc.)
@@ -451,10 +454,8 @@ The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 - ✅ Phase 6: Battle System Foundation (with full Gen 1 data from PokéAPI)
 
 ### Next Up (Phase 8):
-- Party management screen
-- Menus (Pokemon, Bag, Save)
-- Inventory/Bag system + item effects
-- Save/Load system
+- Pokedex
+- Inventory/Bag remaining items (TMs/HMs, key items, repels, PP restores, vitamins)
 
 ## Testing Checklist
 
