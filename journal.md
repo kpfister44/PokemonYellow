@@ -16,3 +16,6 @@ Journal
 - Integrated title menu startup flow and save handling in start menu.
 - Persisted defeated trainer and map path state for save/load.
 - Added save confirmation dialog and title menu cursor rendering.
+- Added Pokedex list/detail screens with start menu entry.
+- Persisted pokedex seen/caught flags and seeded starter on new game.
+- Hydrated Pokedex genus/height/weight data from PokéAPI.

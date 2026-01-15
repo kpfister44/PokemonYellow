@@ -33,6 +33,7 @@ The game currently has:
 - **Pokemon sprites (front and back) from PokéAPI**
 - **Title menu with Continue/New Game/Option**
 - **Start menu with Pokemon, Bag, and Save options**
+- **Pokedex list and entry screens (seen/caught visibility rules)**
 - **Save/Load system (manual save from start menu, stored in `saves/save.json`)**
 - **Party screen with HP bar ticking**
 - **Inventory/Bag system with item pickups**
@@ -75,6 +76,7 @@ The `scripts/hydrate_data.py` script fetches comprehensive Gen 1 data:
 - Evolution chains (with trigger method, level, or item requirements)
 - Growth rates (medium-slow, fast, etc. for leveling curves)
 - Pokedex entries (Yellow version flavor text)
+- Pokedex genus/category, height, and weight
 - Capture rates (0-255, for catch difficulty calculations)
 - Base happiness (friendship starting values)
 - Gender ratios
