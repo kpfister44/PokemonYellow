@@ -285,7 +285,12 @@ class OverworldState(BaseState):
             self.item_pickups.append(ItemPickup(pickup_id, item_id, tile_x, tile_y))
 
     def _trainer_key(self, npc_id: str) -> str:
-        return f"{self.current_map.map_name}:{npc_id}"
+        if self.current_map:
+            map_name = self.current_map.map_name
+        else:
+            import os
+            map_name = os.path.splitext(os.path.basename(self.map_path))[0]
+        return f"{map_name}:{npc_id}"
 
     def _apply_defeated_trainers(self):
         if not self.defeated_trainers:
