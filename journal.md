@@ -8,3 +8,4 @@ Journal
 - Added party screen HP ticking and item-use animation flow.
 - Skipped party animation for active battle Pokemon item use.
 - Updated item pickup dialog text to match Yellow phrasing.
+- Updated docs for completed bag/item system.

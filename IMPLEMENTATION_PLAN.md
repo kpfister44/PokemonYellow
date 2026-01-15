@@ -232,12 +232,12 @@ pokemon_yellow/
 - Trainer battles (vs NPCs)
 
 ### Phase 8: Advanced Features
-- Start menu (Pokemon, Bag, Save, Exit)
-- Pokemon party management screen
-- Inventory/Bag system
-- Item effects
-- Save/Load system
-- Pokedex
+- ✅ Start menu (Pokemon, Bag, Save, Exit)
+- ✅ Pokemon party management screen
+- ✅ Inventory/Bag system
+- ✅ Item effects (healing, status cures, revives, balls, X items)
+- ❌ Save/Load system
+- ❌ Pokedex
 
 ### Phase 9: Authentic Map Graphics Overhaul
 **Goal**: Replace placeholder tile graphics with authentic Pokemon Yellow tileset from original Game Boy ROM

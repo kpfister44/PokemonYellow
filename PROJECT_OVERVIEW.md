@@ -31,6 +31,11 @@ The game currently has:
 - **All 151 Gen 1 Pokemon with Yellow version learnsets**
 - **All 165 Gen 1 moves with accurate stats**
 - **Pokemon sprites (front and back) from PokéAPI**
+- **Start menu with Pokemon and Bag options**
+- **Party screen with HP bar ticking**
+- **Inventory/Bag system with item pickups**
+- **Item effects (healing, status cures, revives, balls, X items)**
+- **HP bar ticking in battle**
 
 ## Tech Stack
 
@@ -51,6 +56,7 @@ The game currently has:
 - **Encounters**: YAML file in `data/encounters/`
 - **Type Chart**: YAML file in `data/types/`
 - **Config**: `pyproject.toml` for dependencies
+- **Items**: YAML files in `data/items/`
 
 ## Data Hydration from PokéAPI
 
@@ -140,6 +146,8 @@ pokemon_yellow/
 │   │   ├── base_state.py            # Abstract state interface
 │   │   ├── overworld_state.py       # Overworld (exploration)
 │   │   └── battle_state.py          # Battle state with authentic UI
+│   │   ├── bag_state.py             # Bag item use flow
+│   │   ├── party_state.py           # Party screen state
 │   ├── overworld/                   # Overworld system
 │   │   ├── tile.py                  # Tile definitions
 │   │   ├── map.py                   # Map loading and rendering
@@ -154,12 +162,20 @@ pokemon_yellow/
 │   │   ├── pokemon.py               # Pokemon instances with Gen 1 stats
 │   │   ├── type_chart.py            # Type effectiveness
 │   │   ├── damage_calculator.py     # Gen 1 damage formula
+│   │   ├── hp_bar_display.py         # HP bar tick animation logic
 │   │   ├── species_loader.py        # Species YAML loader
 │   │   └── move_loader.py           # Move YAML loader
+│   ├── items/                       # Item system
+│   │   ├── bag.py                   # Bag inventory rules
+│   │   ├── item.py                  # Item data structures
+│   │   ├── item_effects.py          # Item usage effects
+│   │   └── item_loader.py           # Item YAML loader
 │   ├── data/                        # Data loading
 │   │   └── data_loader.py           # JSON/YAML loader with caching
 │   └── ui/                          # UI components
 │       └── dialog_box.py            # Dialog box for NPCs
+│       └── bag_screen.py            # Bag UI list
+│       └── party_screen.py          # Party UI list
 ├── data/
 │   ├── maps/
 │   │   ├── pallet_town.json         # Pallet Town map data
@@ -170,6 +186,9 @@ pokemon_yellow/
 │   │   └── moves.yaml               # All 165 Gen 1 moves (from PokéAPI)
 │   ├── encounters/
 │   │   └── yellow_encounters.yaml   # Wild encounters for 24 locations (from PokéAPI)
+│   ├── items/
+│   │   ├── items.yaml               # Yellow item data (from PokéAPI)
+│   │   └── yellow_item_list.yaml    # Curated item list for hydration
 │   └── types/
 │       └── type_chart.yaml          # Gen 1 type effectiveness
 ├── assets/
@@ -177,7 +196,7 @@ pokemon_yellow/
 │       └── pokemon/                 # 302 Pokemon sprites (front + back)
 ├── scripts/
 │   └── hydrate_data.py              # PokéAPI data fetching script
-├── tests/                           # (empty - future)
+├── tests/                           # Automated tests
 ├── pyproject.toml                   # uv project config
 ├── README.md                        # User-facing documentation
 └── IMPLEMENTATION_PLAN.md           # Detailed phase-by-phase plan
@@ -308,7 +327,7 @@ States are managed via a stack in `Game` class.
 - ❌ Advanced dialog features (typewriter effect, branching, multi-page)
 - ❌ Save menu (Save/Load system)
 - ❌ Move learning on level up
-- ⚠️ Inventory/Bag system + item effects (partial: healing/status/revive/balls/X items)
+- ⚠️ Inventory/Bag system + item effects (missing: TMs/HMs, key items, repels, PP restores, vitamins)
 - ❌ Save/Load system
 
 ### Technical Debt
