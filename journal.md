@@ -15,3 +15,4 @@ Journal
 - Added serialization for Pokemon, Party, Bag, and Player with tests.
 - Integrated title menu startup flow and save handling in start menu.
 - Persisted defeated trainer and map path state for save/load.
+- Added save confirmation dialog and title menu cursor rendering.

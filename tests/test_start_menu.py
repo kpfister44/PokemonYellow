@@ -282,3 +282,55 @@ def test_start_menu_state_renders_without_previous_state():
 
     # Should not raise exception
     state.render(renderer)
+
+
+def test_start_menu_state_handles_save_selection(monkeypatch):
+    """Should save and show confirmation dialog when SAVE is selected."""
+    game = FakeGame()
+
+    class StubPlayer:
+        def to_dict(self):
+            return {"tile_x": 1, "tile_y": 2, "direction": "down"}
+
+    @dataclass
+    class FakeSaveState:
+        party: Party
+        bag: Bag
+        player: StubPlayer
+        map_path: str
+        active_dialog: object | None = None
+        defeated_trainers: set[str] = None
+        collected_items: set[str] = None
+
+        def __post_init__(self):
+            if self.defeated_trainers is None:
+                self.defeated_trainers = set()
+            if self.collected_items is None:
+                self.collected_items = set()
+
+        def render(self, renderer):
+            pass
+
+    previous_state = FakeSaveState(
+        party=Party(),
+        bag=Bag(),
+        player=StubPlayer(),
+        map_path="data/maps/pallet_town.json"
+    )
+
+    captured = {}
+
+    def fake_write_save_data(save_data):
+        captured["save_data"] = save_data
+
+    monkeypatch.setattr("src.save.save_storage.write_save_data", fake_write_save_data)
+
+    fake_input = FakeInput({"a"})
+    state = StartMenuState(game, previous_state)
+    state.menu.cursor_index = 4  # SAVE option
+
+    state.handle_input(fake_input)
+
+    assert "save_data" in captured
+    assert previous_state.active_dialog is not None
+    assert getattr(previous_state.active_dialog, "text", None) == "PLAYER saved the game."

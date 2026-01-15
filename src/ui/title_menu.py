@@ -1,6 +1,7 @@
 # ABOUTME: Title menu UI component for the startup screen
 # ABOUTME: Handles menu rendering and cursor navigation
 
+import pygame
 from src.engine.constants import GAME_WIDTH
 
 
@@ -74,6 +75,11 @@ class TitleMenu:
         for i, option in enumerate(self.options):
             y = text_y + (i * line_height)
             if i == self.cursor_index:
-                renderer.draw_text("▶", text_x - 10, y, text_color, 12)
+                points = [
+                    (text_x - 10, y + 2),
+                    (text_x - 10, y + 10),
+                    (text_x - 4, y + 6)
+                ]
+                pygame.draw.polygon(renderer.game_surface, text_color, points)
             color = disabled_color if option in self.disabled_options else text_color
             renderer.draw_text(option, text_x, y, color, 12)

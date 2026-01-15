@@ -77,6 +77,7 @@ class StartMenuState(BaseState):
                 return
             from src.save.save_data import SaveData
             from src.save.save_storage import write_save_data
+            from src.ui.dialog_box import DialogBox
             player_data = self.previous_state.player.to_dict()
             save_data = SaveData(
                 player_name="PLAYER",
@@ -90,6 +91,8 @@ class StartMenuState(BaseState):
                 collected_items=getattr(self.previous_state, "collected_items", set())
             )
             write_save_data(save_data)
+            self.previous_state.active_dialog = DialogBox("PLAYER saved the game.")
+            self.game.pop_state()
 
         elif selection == "OPTION":
             # TODO: Implement in future phase
