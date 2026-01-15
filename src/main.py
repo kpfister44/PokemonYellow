@@ -3,7 +3,7 @@
 
 from src.engine.game import Game
 from src.engine import constants
-from src.states.overworld_state import OverworldState
+from src.states.title_menu_state import TitleMenuState
 
 
 def main():
@@ -12,10 +12,9 @@ def main():
     print(f"Window size: {constants.WINDOW_WIDTH}x{constants.WINDOW_HEIGHT}")
     print(f"Game resolution: {constants.GAME_WIDTH}x{constants.GAME_HEIGHT} (scaled {constants.SCALE_FACTOR}x)")
 
-    # Create game and initial state (start in Pallet Town)
+    # Create game and initial state
     game = Game()
-    # Start player on path between the houses
-    initial_state = OverworldState(game, "data/maps/pallet_town.json", player_start_x=8, player_start_y=13)
+    initial_state = TitleMenuState(game)
     game.push_state(initial_state)
 
     # Run the game

@@ -21,7 +21,18 @@ from src.overworld.item_pickup import ItemPickup
 class OverworldState(BaseState):
     """State for overworld exploration (towns, routes, etc)."""
 
-    def __init__(self, game, map_path, player_start_x=5, player_start_y=5):
+    def __init__(
+        self,
+        game,
+        map_path,
+        player_start_x=5,
+        player_start_y=5,
+        party=None,
+        bag=None,
+        collected_items=None,
+        defeated_trainers=None,
+        player_direction=None
+    ):
         """
         Initialize the overworld state.
 
@@ -40,21 +51,27 @@ class OverworldState(BaseState):
         self.active_dialog = None
         self.player_start_x = player_start_x
         self.player_start_y = player_start_y
+        self.player_direction = player_direction
         self.player_was_moving = False  # Track movement state for encounter checking
 
         # Initialize party with starter Pokemon (Pikachu for Yellow)
         from src.party.party import Party
-        self.party = Party()
-        self.bag = Bag()
+        if party is None:
+            self.party = Party()
+        else:
+            self.party = party
+        self.bag = bag if bag is not None else Bag()
         self.item_loader = ItemLoader()
         self.item_pickups = []
-        self.collected_items = set()
+        self.collected_items = set(collected_items or [])
+        self.defeated_trainers = set(defeated_trainers or [])
 
-        # Add starter Pokemon
-        species_loader = SpeciesLoader()
-        pikachu_species = species_loader.get_species("pikachu")
-        self.player_pokemon = Pokemon(pikachu_species, 5)
-        self.party.add(self.player_pokemon)
+        if party is None:
+            # Add starter Pokemon
+            species_loader = SpeciesLoader()
+            pikachu_species = species_loader.get_species("pikachu")
+            self.player_pokemon = Pokemon(pikachu_species, 5)
+            self.party.add(self.player_pokemon)
 
     def enter(self):
         """Called when entering this state."""
@@ -67,6 +84,17 @@ class OverworldState(BaseState):
 
         # Create player
         self.player = Player(self.player_start_x, self.player_start_y)
+        if self.player_direction is not None:
+            direction_map = {
+                "up": constants.DIR_UP,
+                "down": constants.DIR_DOWN,
+                "left": constants.DIR_LEFT,
+                "right": constants.DIR_RIGHT
+            }
+            if isinstance(self.player_direction, str):
+                self.player.direction = direction_map.get(self.player_direction, constants.DIR_DOWN)
+            else:
+                self.player.direction = self.player_direction
 
         # Load NPCs from map data
         self.npcs = []
@@ -83,6 +111,7 @@ class OverworldState(BaseState):
             )
             self.npcs.append(npc)
 
+        self._apply_defeated_trainers()
         self._load_item_pickups()
 
         # Create camera
@@ -119,6 +148,7 @@ class OverworldState(BaseState):
 
         # Load new map
         self.current_map = Map(map_path, self.game.renderer)
+        self.map_path = map_path
 
         # Load NPCs from new map
         self.npcs = []
@@ -135,6 +165,7 @@ class OverworldState(BaseState):
             )
             self.npcs.append(npc)
 
+        self._apply_defeated_trainers()
         self._load_item_pickups()
 
         # Reposition player (update both tile and pixel positions)
@@ -252,6 +283,16 @@ class OverworldState(BaseState):
             if key in self.collected_items:
                 continue
             self.item_pickups.append(ItemPickup(pickup_id, item_id, tile_x, tile_y))
+
+    def _trainer_key(self, npc_id: str) -> str:
+        return f"{self.current_map.map_name}:{npc_id}"
+
+    def _apply_defeated_trainers(self):
+        if not self.defeated_trainers:
+            return
+        for npc in self.npcs:
+            if npc.is_trainer and self._trainer_key(npc.npc_id) in self.defeated_trainers:
+                npc.defeated = True
 
     def _collect_item(self, pickup: ItemPickup):
         """Collect an item pickup and add it to the bag."""
@@ -383,6 +424,8 @@ class OverworldState(BaseState):
 
         self.game.push_state(battle_state)
         npc.defeated = True
+        if npc.is_trainer:
+            self.defeated_trainers.add(self._trainer_key(npc.npc_id))
 
     def render(self, renderer):
         """

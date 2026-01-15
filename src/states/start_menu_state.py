@@ -70,8 +70,26 @@ class StartMenuState(BaseState):
                 self.game.push_state(bag_state)
 
         elif selection == "SAVE":
-            # TODO: Implement in Phase 8C
-            pass
+            if not self.previous_state:
+                return
+            required = ("player", "map_path", "party", "bag")
+            if not all(hasattr(self.previous_state, name) for name in required):
+                return
+            from src.save.save_data import SaveData
+            from src.save.save_storage import write_save_data
+            player_data = self.previous_state.player.to_dict()
+            save_data = SaveData(
+                player_name="PLAYER",
+                player_direction=player_data["direction"],
+                map_path=self.previous_state.map_path,
+                player_x=player_data["tile_x"],
+                player_y=player_data["tile_y"],
+                party=self.previous_state.party,
+                bag=self.previous_state.bag,
+                defeated_trainers=getattr(self.previous_state, "defeated_trainers", set()),
+                collected_items=getattr(self.previous_state, "collected_items", set())
+            )
+            write_save_data(save_data)
 
         elif selection == "OPTION":
             # TODO: Implement in future phase
