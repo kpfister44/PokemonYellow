@@ -139,7 +139,7 @@ pokemon_yellow/
 - Start menu (Pokemon, Bag, Save)
 - Party management screen
 - Inventory system
-- Save/Load functionality
+- Save/Load functionality (stored in `saves/save.json`)
 - Pokedex
 
 ## Technical Details

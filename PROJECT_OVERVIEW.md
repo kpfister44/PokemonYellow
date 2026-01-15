@@ -33,7 +33,7 @@ The game currently has:
 - **Pokemon sprites (front and back) from PokéAPI**
 - **Title menu with Continue/New Game/Option**
 - **Start menu with Pokemon, Bag, and Save options**
-- **Save/Load system (manual save from start menu)**
+- **Save/Load system (manual save from start menu, stored in `saves/save.json`)**
 - **Party screen with HP bar ticking**
 - **Inventory/Bag system with item pickups**
 - **Item effects (healing, status cures, revives, balls, X items)**
