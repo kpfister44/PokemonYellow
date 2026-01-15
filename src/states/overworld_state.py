@@ -268,7 +268,8 @@ class OverworldState(BaseState):
         self.item_pickups.remove(pickup)
         key = f"{self.current_map.map_name}:{pickup.pickup_id}"
         self.collected_items.add(key)
-        self.active_dialog = DialogBox(f"Found {item.name}!", pickup.pickup_id)
+        message = f"NAME found\n{item.name.upper()}!"
+        self.active_dialog = DialogBox(message)
 
     def update(self, dt):
         """

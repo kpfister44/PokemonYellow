@@ -41,21 +41,26 @@ class DialogBox:
         Returns:
             List of text lines
         """
-        words = text.split(' ')
         lines = []
-        current_line = []
+        paragraphs = text.split('\n')
 
-        for word in words:
-            test_line = ' '.join(current_line + [word])
-            if len(test_line) <= max_chars:
-                current_line.append(word)
-            else:
-                if current_line:
-                    lines.append(' '.join(current_line))
-                current_line = [word]
+        for paragraph in paragraphs:
+            words = paragraph.split(' ') if paragraph else []
+            current_line = []
 
-        if current_line:
-            lines.append(' '.join(current_line))
+            for word in words:
+                test_line = ' '.join(current_line + [word])
+                if len(test_line) <= max_chars:
+                    current_line.append(word)
+                else:
+                    if current_line:
+                        lines.append(' '.join(current_line))
+                    current_line = [word]
+
+            if current_line:
+                lines.append(' '.join(current_line))
+            elif paragraph == "":
+                lines.append("")
 
         return lines
 
