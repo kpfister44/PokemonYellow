@@ -128,6 +128,35 @@ def test_save_data_round_trip():
     assert loaded.to_dict() == save_data.to_dict()
 
 
+def test_save_data_normalizes_pokedex_sets():
+    """SaveData should normalize pokedex flags into sorted lists."""
+    species_loader = SpeciesLoader()
+    party = Party()
+    bag = Bag()
+    reserved_flags = {
+        "pokedex_seen": {"bulbasaur", "pikachu"},
+        "pokedex_caught": {"pikachu"}
+    }
+
+    save_data = SaveData(
+        player_name="PLAYER",
+        player_direction="down",
+        map_path="data/maps/pallet_town.json",
+        player_x=8,
+        player_y=13,
+        party=party,
+        bag=bag,
+        defeated_trainers=set(),
+        collected_items=set(),
+        reserved_flags=reserved_flags
+    )
+
+    data = save_data.to_dict()
+
+    assert data["flags"]["reserved"]["pokedex_seen"] == ["bulbasaur", "pikachu"]
+    assert data["flags"]["reserved"]["pokedex_caught"] == ["pikachu"]
+
+
 def test_save_storage_round_trip(tmp_path: Path):
     """Save storage should write and read SaveData to JSON."""
     species_loader = SpeciesLoader()

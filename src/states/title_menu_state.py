@@ -48,7 +48,9 @@ class TitleMenuState(BaseState):
                 bag=save_data.bag,
                 collected_items=save_data.collected_items,
                 defeated_trainers=save_data.defeated_trainers,
-                player_direction=save_data.player_direction
+                player_direction=save_data.player_direction,
+                pokedex_seen=save_data.get_pokedex_seen(),
+                pokedex_caught=save_data.get_pokedex_caught()
             )
             self.game.change_state(overworld)
 
@@ -57,7 +59,9 @@ class TitleMenuState(BaseState):
                 self.game,
                 "data/maps/pallet_town.json",
                 player_start_x=8,
-                player_start_y=13
+                player_start_y=13,
+                pokedex_seen={"pikachu"},
+                pokedex_caught={"pikachu"}
             )
             self.game.change_state(overworld)
 

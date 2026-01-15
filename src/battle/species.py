@@ -46,6 +46,9 @@ class Species:
     species_id: str  # e.g., "bulbasaur"
     number: int  # Pokedex number
     name: str  # Display name
+    genus: str  # Pokedex category (e.g., "Seed")
+    height: int  # Decimeters (PokéAPI format)
+    weight: int  # Hectograms (PokéAPI format)
     types: list[str]  # List of 1-2 types
     base_stats: BaseStats
     base_experience: int  # XP yield when defeated
@@ -94,6 +97,9 @@ class Species:
             species_id=species_id,
             number=data["id"],
             name=data["name"],
+            genus=data.get("genus", ""),
+            height=data.get("height", 0),
+            weight=data.get("weight", 0),
             types=data["types"],
             base_stats=BaseStats(**data["base_stats"]),
             base_experience=data.get("base_experience", 0),

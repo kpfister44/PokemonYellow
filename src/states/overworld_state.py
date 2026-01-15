@@ -31,7 +31,9 @@ class OverworldState(BaseState):
         bag=None,
         collected_items=None,
         defeated_trainers=None,
-        player_direction=None
+        player_direction=None,
+        pokedex_seen=None,
+        pokedex_caught=None
     ):
         """
         Initialize the overworld state.
@@ -53,6 +55,8 @@ class OverworldState(BaseState):
         self.player_start_y = player_start_y
         self.player_direction = player_direction
         self.player_was_moving = False  # Track movement state for encounter checking
+        self.pokedex_seen = set(pokedex_seen or [])
+        self.pokedex_caught = set(pokedex_caught or [])
 
         # Initialize party with starter Pokemon (Pikachu for Yellow)
         from src.party.party import Party
@@ -72,6 +76,9 @@ class OverworldState(BaseState):
             pikachu_species = species_loader.get_species("pikachu")
             self.player_pokemon = Pokemon(pikachu_species, 5)
             self.party.add(self.player_pokemon)
+            if not self.pokedex_seen and not self.pokedex_caught:
+                self.pokedex_seen.add("pikachu")
+                self.pokedex_caught.add("pikachu")
 
     def enter(self):
         """Called when entering this state."""

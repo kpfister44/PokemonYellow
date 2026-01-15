@@ -19,6 +19,28 @@ def _default_reserved_flags() -> dict[str, Any]:
     }
 
 
+def _normalize_flag_list(values: Iterable[str] | None) -> list[str]:
+    if values is None:
+        return []
+    if isinstance(values, set):
+        return sorted(values)
+    if isinstance(values, list):
+        return values
+    return list(values)
+
+
+def _normalize_reserved_flags(reserved_flags: dict[str, Any] | None) -> dict[str, Any]:
+    normalized = _default_reserved_flags()
+    if reserved_flags:
+        normalized.update(reserved_flags)
+
+    normalized["pokedex_seen"] = _normalize_flag_list(normalized.get("pokedex_seen"))
+    normalized["pokedex_caught"] = _normalize_flag_list(normalized.get("pokedex_caught"))
+    normalized["badges"] = list(normalized.get("badges", []))
+    normalized["story"] = normalized.get("story") or {}
+    return normalized
+
+
 class SaveData:
     """Represents a full save snapshot for the game."""
 
@@ -46,7 +68,7 @@ class SaveData:
         self.bag = bag
         self.defeated_trainers = set(defeated_trainers)
         self.collected_items = set(collected_items)
-        self.reserved_flags = reserved_flags or _default_reserved_flags()
+        self.reserved_flags = _normalize_reserved_flags(reserved_flags)
 
     def to_dict(self) -> dict[str, Any]:
         """Serialize save data to a dictionary."""
@@ -80,7 +102,7 @@ class SaveData:
         party = Party.from_dict(data.get("party", []), species_loader)
         bag = Bag.from_dict(data.get("bag", []))
 
-        reserved_flags = flags_data.get("reserved") or _default_reserved_flags()
+        reserved_flags = _normalize_reserved_flags(flags_data.get("reserved"))
 
         return cls(
             player_name=player_data.get("name", "PLAYER"),
@@ -95,3 +117,9 @@ class SaveData:
             reserved_flags=reserved_flags,
             version=data.get("version", SAVE_DATA_VERSION)
         )
+
+    def get_pokedex_seen(self) -> set[str]:
+        return set(self.reserved_flags.get("pokedex_seen", []))
+
+    def get_pokedex_caught(self) -> set[str]:
+        return set(self.reserved_flags.get("pokedex_caught", []))

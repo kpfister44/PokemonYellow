@@ -55,8 +55,9 @@ class StartMenuState(BaseState):
             self.game.pop_state()
 
         elif selection == "POKéDEX":
-            # TODO: Implement in future phase
-            pass
+            from src.states.pokedex_state import PokedexState
+            pokedex_state = PokedexState(self.game, self.previous_state)
+            self.game.push_state(pokedex_state)
 
         elif selection == "ITEM":
             if hasattr(self.previous_state, "bag") and hasattr(self.previous_state, "party"):
@@ -79,6 +80,12 @@ class StartMenuState(BaseState):
             from src.save.save_storage import write_save_data
             from src.ui.dialog_box import DialogBox
             player_data = self.previous_state.player.to_dict()
+            reserved_flags = {
+                "badges": [],
+                "story": {},
+                "pokedex_seen": sorted(getattr(self.previous_state, "pokedex_seen", set())),
+                "pokedex_caught": sorted(getattr(self.previous_state, "pokedex_caught", set()))
+            }
             save_data = SaveData(
                 player_name="PLAYER",
                 player_direction=player_data["direction"],
@@ -88,7 +95,8 @@ class StartMenuState(BaseState):
                 party=self.previous_state.party,
                 bag=self.previous_state.bag,
                 defeated_trainers=getattr(self.previous_state, "defeated_trainers", set()),
-                collected_items=getattr(self.previous_state, "collected_items", set())
+                collected_items=getattr(self.previous_state, "collected_items", set()),
+                reserved_flags=reserved_flags
             )
             write_save_data(save_data)
             self.previous_state.active_dialog = DialogBox("PLAYER saved the game.")

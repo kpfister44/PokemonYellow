@@ -199,11 +199,12 @@ def test_start_menu_state_handles_unimplemented_options():
 
     state = StartMenuState(game, previous_state)
 
-    # Test POKéDEX (unimplemented)
+    # Test POKéDEX
     state.menu.cursor_index = 0
     state.handle_input(fake_input)
-    assert len(game.pushed) == 0
+    assert len(game.pushed) == 1
     assert game.pop_count == 0
+    game.pushed.clear()
 
     # Test SAVE (unimplemented)
     state.menu.cursor_index = 4
