@@ -192,6 +192,16 @@ def get_english_name(entries: List[Dict[str, Any]]) -> str:
     return ""
 
 
+def get_english_genus(entries: List[Dict[str, Any]]) -> str:
+    """Extract English genus from entries."""
+    for entry in entries:
+        if entry.get('language', {}).get('name') == 'en':
+            genus = entry.get('genus', '')
+            genus = genus.replace('Pokémon', '').replace('Pokemon', '').strip()
+            return genus
+    return ""
+
+
 def get_yellow_item_flavor_text(item_data: Dict[str, Any]) -> str:
     """Extract Yellow version flavor text (fallback to Red/Blue)."""
     flavor_texts = item_data.get('flavor_text_entries', [])
@@ -343,6 +353,7 @@ def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
 
     # Get species-specific data
     pokedex_entry = get_yellow_flavor_text(species_data)
+    genus = get_english_genus(species_data.get('genera', []))
     capture_rate = species_data.get('capture_rate', 255)
     base_happiness = species_data.get('base_happiness', 70)
     gender_rate = species_data.get('gender_rate', -1)  # -1 = genderless
@@ -357,6 +368,8 @@ def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
 
     # Get base experience (for XP yield when defeated)
     base_experience = pokemon_data.get('base_experience', 0)
+    height = pokemon_data.get('height', 0)
+    weight = pokemon_data.get('weight', 0)
 
     # Download sprites
     sprites = pokemon_data.get('sprites', {})
@@ -381,6 +394,9 @@ def fetch_pokemon_species(pokemon_id: int) -> Dict[str, Any]:
     species_entry = {
         'id': pokemon_id,
         'name': pokemon_name.capitalize(),
+        'genus': genus,
+        'height': height,
+        'weight': weight,
         'types': types,
         'base_stats': {
             'hp': stats_map['hp'],

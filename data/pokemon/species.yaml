@@ -1,6 +1,9 @@
 species:
 - id: 1
   name: Bulbasaur
+  genus: Seed
+  height: 7
+  weight: 69
   types:
   - grass
   - poison
@@ -112,6 +115,9 @@ species:
     back: assets/sprites/pokemon/001_bulbasaur_back.png
 - id: 2
   name: Ivysaur
+  genus: Seed
+  height: 10
+  weight: 130
   types:
   - grass
   - poison
@@ -210,6 +216,9 @@ species:
     back: assets/sprites/pokemon/002_ivysaur_back.png
 - id: 3
   name: Venusaur
+  genus: Seed
+  height: 20
+  weight: 1000
   types:
   - grass
   - poison
@@ -314,6 +323,9 @@ species:
     back: assets/sprites/pokemon/003_venusaur_back.png
 - id: 4
   name: Charmander
+  genus: Lizard
+  height: 6
+  weight: 85
   types:
   - fire
   base_stats:
@@ -448,6 +460,9 @@ species:
     back: assets/sprites/pokemon/004_charmander_back.png
 - id: 5
   name: Charmeleon
+  genus: Flame
+  height: 11
+  weight: 190
   types:
   - fire
   base_stats:
@@ -569,6 +584,9 @@ species:
     back: assets/sprites/pokemon/005_charmeleon_back.png
 - id: 6
   name: Charizard
+  genus: Flame
+  height: 17
+  weight: 905
   types:
   - fire
   - flying
@@ -706,6 +724,9 @@ species:
     back: assets/sprites/pokemon/006_charizard_back.png
 - id: 7
   name: Squirtle
+  genus: Tiny Turtle
+  height: 5
+  weight: 90
   types:
   - water
   base_stats:
@@ -840,6 +861,9 @@ species:
     back: assets/sprites/pokemon/007_squirtle_back.png
 - id: 8
   name: Wartortle
+  genus: Turtle
+  height: 10
+  weight: 225
   types:
   - water
   base_stats:
@@ -961,6 +985,9 @@ species:
     back: assets/sprites/pokemon/008_wartortle_back.png
 - id: 9
   name: Blastoise
+  genus: Shellfish
+  height: 16
+  weight: 855
   types:
   - water
   base_stats:
@@ -1094,6 +1121,9 @@ species:
     back: assets/sprites/pokemon/009_blastoise_back.png
 - id: 10
   name: Caterpie
+  genus: Worm
+  height: 3
+  weight: 29
   types:
   - bug
   base_stats:
@@ -1138,6 +1168,9 @@ species:
     back: assets/sprites/pokemon/010_caterpie_back.png
 - id: 11
   name: Metapod
+  genus: Cocoon
+  height: 7
+  weight: 99
   types:
   - bug
   base_stats:
@@ -1166,6 +1199,9 @@ species:
     back: assets/sprites/pokemon/011_metapod_back.png
 - id: 12
   name: Butterfree
+  genus: Butterfly
+  height: 11
+  weight: 320
   types:
   - bug
   - flying
@@ -1276,6 +1312,9 @@ species:
     back: assets/sprites/pokemon/012_butterfree_back.png
 - id: 13
   name: Weedle
+  genus: Hairy Bug
+  height: 3
+  weight: 32
   types:
   - bug
   - poison
@@ -1321,6 +1360,9 @@ species:
     back: assets/sprites/pokemon/013_weedle_back.png
 - id: 14
   name: Kakuna
+  genus: Cocoon
+  height: 6
+  weight: 100
   types:
   - bug
   - poison
@@ -1347,6 +1389,9 @@ species:
     back: assets/sprites/pokemon/014_kakuna_back.png
 - id: 15
   name: Beedrill
+  genus: Poison Bee
+  height: 10
+  weight: 295
   types:
   - bug
   - poison
@@ -1439,6 +1484,9 @@ species:
     back: assets/sprites/pokemon/015_beedrill_back.png
 - id: 16
   name: Pidgey
+  genus: Tiny Bird
+  height: 3
+  weight: 18
   types:
   - normal
   - flying
@@ -1544,6 +1592,9 @@ species:
     back: assets/sprites/pokemon/016_pidgey_back.png
 - id: 17
   name: Pidgeotto
+  genus: Bird
+  height: 11
+  weight: 300
   types:
   - normal
   - flying
@@ -1636,6 +1687,9 @@ species:
     back: assets/sprites/pokemon/017_pidgeotto_back.png
 - id: 18
   name: Pidgeot
+  genus: Bird
+  height: 15
+  weight: 395
   types:
   - normal
   - flying
@@ -1734,6 +1788,9 @@ species:
     back: assets/sprites/pokemon/018_pidgeot_back.png
 - id: 19
   name: Rattata
+  genus: Mouse
+  height: 3
+  weight: 35
   types:
   - normal
   base_stats:
@@ -1837,6 +1894,9 @@ species:
     back: assets/sprites/pokemon/019_rattata_back.png
 - id: 20
   name: Raticate
+  genus: Mouse
+  height: 7
+  weight: 185
   types:
   - normal
   base_stats:
@@ -1940,6 +2000,9 @@ species:
     back: assets/sprites/pokemon/020_raticate_back.png
 - id: 21
   name: Spearow
+  genus: Tiny Bird
+  height: 3
+  weight: 20
   types:
   - normal
   - flying
@@ -2035,6 +2098,9 @@ species:
     back: assets/sprites/pokemon/021_spearow_back.png
 - id: 22
   name: Fearow
+  genus: Beak
+  height: 12
+  weight: 380
   types:
   - normal
   - flying
@@ -2127,6 +2193,9 @@ species:
     back: assets/sprites/pokemon/022_fearow_back.png
 - id: 23
   name: Ekans
+  genus: Snake
+  height: 20
+  weight: 69
   types:
   - poison
   base_stats:
@@ -2230,6 +2299,9 @@ species:
     back: assets/sprites/pokemon/023_ekans_back.png
 - id: 24
   name: Arbok
+  genus: Cobra
+  height: 35
+  weight: 650
   types:
   - poison
   base_stats:
@@ -2330,6 +2402,9 @@ species:
     back: assets/sprites/pokemon/024_arbok_back.png
 - id: 25
   name: Pikachu
+  genus: Mouse
+  height: 4
+  weight: 60
   types:
   - electric
   base_stats:
@@ -2467,6 +2542,9 @@ species:
     back: assets/sprites/pokemon/025_pikachu_back.png
 - id: 26
   name: Raichu
+  genus: Mouse
+  height: 8
+  weight: 300
   types:
   - electric
   base_stats:
@@ -2567,6 +2645,9 @@ species:
     back: assets/sprites/pokemon/026_raichu_back.png
 - id: 27
   name: Sandshrew
+  genus: Mouse
+  height: 6
+  weight: 120
   types:
   - ground
   base_stats:
@@ -2679,6 +2760,9 @@ species:
     back: assets/sprites/pokemon/027_sandshrew_back.png
 - id: 28
   name: Sandslash
+  genus: Mouse
+  height: 10
+  weight: 295
   types:
   - ground
   base_stats:
@@ -2788,6 +2872,9 @@ species:
     back: assets/sprites/pokemon/028_sandslash_back.png
 - id: 29
   name: Nidoran-f
+  genus: Poison Pin
+  height: 4
+  weight: 70
   types:
   - poison
   base_stats:
@@ -2895,6 +2982,9 @@ species:
     back: assets/sprites/pokemon/029_nidoran-f_back.png
 - id: 30
   name: Nidorina
+  genus: Poison Pin
+  height: 8
+  weight: 200
   types:
   - poison
   base_stats:
@@ -3001,6 +3091,9 @@ species:
     back: assets/sprites/pokemon/030_nidorina_back.png
 - id: 31
   name: Nidoqueen
+  genus: Drill
+  height: 13
+  weight: 600
   types:
   - poison
   - ground
@@ -3141,6 +3234,9 @@ species:
     back: assets/sprites/pokemon/031_nidoqueen_back.png
 - id: 32
   name: Nidoran-m
+  genus: Poison Pin
+  height: 5
+  weight: 90
   types:
   - poison
   base_stats:
@@ -3251,6 +3347,9 @@ species:
     back: assets/sprites/pokemon/032_nidoran-m_back.png
 - id: 33
   name: Nidorino
+  genus: Poison Pin
+  height: 9
+  weight: 195
   types:
   - poison
   base_stats:
@@ -3357,6 +3456,9 @@ species:
     back: assets/sprites/pokemon/033_nidorino_back.png
 - id: 34
   name: Nidoking
+  genus: Drill
+  height: 14
+  weight: 620
   types:
   - poison
   - ground
@@ -3497,6 +3599,9 @@ species:
     back: assets/sprites/pokemon/034_nidoking_back.png
 - id: 35
   name: Clefairy
+  genus: Fairy
+  height: 6
+  weight: 75
   types:
   - fairy
   base_stats:
@@ -3658,6 +3763,9 @@ species:
     back: assets/sprites/pokemon/035_clefairy_back.png
 - id: 36
   name: Clefable
+  genus: Fairy
+  height: 13
+  weight: 400
   types:
   - fairy
   base_stats:
@@ -3794,6 +3902,9 @@ species:
     back: assets/sprites/pokemon/036_clefable_back.png
 - id: 37
   name: Vulpix
+  genus: Fox
+  height: 6
+  weight: 99
   types:
   - fire
   base_stats:
@@ -3891,6 +4002,9 @@ species:
     back: assets/sprites/pokemon/037_vulpix_back.png
 - id: 38
   name: Ninetales
+  genus: Fox
+  height: 11
+  weight: 199
   types:
   - fire
   base_stats:
@@ -3973,6 +4087,9 @@ species:
     back: assets/sprites/pokemon/038_ninetales_back.png
 - id: 39
   name: Jigglypuff
+  genus: Balloon
+  height: 5
+  weight: 55
   types:
   - normal
   - fairy
@@ -4132,6 +4249,9 @@ species:
     back: assets/sprites/pokemon/039_jigglypuff_back.png
 - id: 40
   name: Wigglytuff
+  genus: Balloon
+  height: 10
+  weight: 120
   types:
   - normal
   - fairy
@@ -4266,6 +4386,9 @@ species:
     back: assets/sprites/pokemon/040_wigglytuff_back.png
 - id: 41
   name: Zubat
+  genus: Bat
+  height: 8
+  weight: 75
   types:
   - poison
   - flying
@@ -4362,6 +4485,9 @@ species:
     back: assets/sprites/pokemon/041_zubat_back.png
 - id: 42
   name: Golbat
+  genus: Bat
+  height: 16
+  weight: 550
   types:
   - poison
   - flying
@@ -4451,6 +4577,9 @@ species:
     back: assets/sprites/pokemon/042_golbat_back.png
 - id: 43
   name: Oddish
+  genus: Weed
+  height: 5
+  weight: 54
   types:
   - grass
   - poison
@@ -4560,6 +4689,9 @@ species:
     back: assets/sprites/pokemon/043_oddish_back.png
 - id: 44
   name: Gloom
+  genus: Weed
+  height: 8
+  weight: 86
   types:
   - grass
   - poison
@@ -4652,6 +4784,9 @@ species:
     back: assets/sprites/pokemon/044_gloom_back.png
 - id: 45
   name: Vileplume
+  genus: Flower
+  height: 12
+  weight: 186
   types:
   - grass
   - poison
@@ -4744,6 +4879,9 @@ species:
     back: assets/sprites/pokemon/045_vileplume_back.png
 - id: 46
   name: Paras
+  genus: Mushroom
+  height: 3
+  weight: 54
   types:
   - bug
   - grass
@@ -4845,6 +4983,9 @@ species:
     back: assets/sprites/pokemon/046_paras_back.png
 - id: 47
   name: Parasect
+  genus: Mushroom
+  height: 10
+  weight: 295
   types:
   - bug
   - grass
@@ -4946,6 +5087,9 @@ species:
     back: assets/sprites/pokemon/047_parasect_back.png
 - id: 48
   name: Venonat
+  genus: Insect
+  height: 10
+  weight: 300
   types:
   - bug
   - poison
@@ -5053,6 +5197,9 @@ species:
     back: assets/sprites/pokemon/048_venonat_back.png
 - id: 49
   name: Venomoth
+  genus: Poison Moth
+  height: 15
+  weight: 125
   types:
   - bug
   - poison
@@ -5166,6 +5313,9 @@ species:
     back: assets/sprites/pokemon/049_venomoth_back.png
 - id: 50
   name: Diglett
+  genus: Mole
+  height: 2
+  weight: 8
   types:
   - ground
   base_stats:
@@ -5260,6 +5410,9 @@ species:
     back: assets/sprites/pokemon/050_diglett_back.png
 - id: 51
   name: Dugtrio
+  genus: Mole
+  height: 7
+  weight: 333
   types:
   - ground
   base_stats:
@@ -5354,6 +5507,9 @@ species:
     back: assets/sprites/pokemon/051_dugtrio_back.png
 - id: 52
   name: Meowth
+  genus: Scratch Cat
+  height: 4
+  weight: 42
   types:
   - normal
   base_stats:
@@ -5464,6 +5620,9 @@ species:
     back: assets/sprites/pokemon/052_meowth_back.png
 - id: 53
   name: Persian
+  genus: Classy Cat
+  height: 10
+  weight: 320
   types:
   - normal
   base_stats:
@@ -5567,6 +5726,9 @@ species:
     back: assets/sprites/pokemon/053_persian_back.png
 - id: 54
   name: Psyduck
+  genus: Duck
+  height: 8
+  weight: 196
   types:
   - water
   base_stats:
@@ -5691,6 +5853,9 @@ species:
     back: assets/sprites/pokemon/054_psyduck_back.png
 - id: 55
   name: Golduck
+  genus: Duck
+  height: 17
+  weight: 766
   types:
   - water
   base_stats:
@@ -5815,6 +5980,9 @@ species:
     back: assets/sprites/pokemon/055_golduck_back.png
 - id: 56
   name: Mankey
+  genus: Pig Monkey
+  height: 5
+  weight: 280
   types:
   - fighting
   base_stats:
@@ -5952,6 +6120,9 @@ species:
     back: assets/sprites/pokemon/056_mankey_back.png
 - id: 57
   name: Primeape
+  genus: Pig Monkey
+  height: 10
+  weight: 320
   types:
   - fighting
   base_stats:
@@ -6085,6 +6256,9 @@ species:
     back: assets/sprites/pokemon/057_primeape_back.png
 - id: 58
   name: Growlithe
+  genus: Puppy
+  height: 7
+  weight: 190
   types:
   - fire
   base_stats:
@@ -6185,6 +6359,9 @@ species:
     back: assets/sprites/pokemon/058_growlithe_back.png
 - id: 59
   name: Arcanine
+  genus: Legendary
+  height: 19
+  weight: 1550
   types:
   - fire
   base_stats:
@@ -6273,6 +6450,9 @@ species:
     back: assets/sprites/pokemon/059_arcanine_back.png
 - id: 60
   name: Poliwag
+  genus: Tadpole
+  height: 6
+  weight: 124
   types:
   - water
   base_stats:
@@ -6393,6 +6573,9 @@ species:
     back: assets/sprites/pokemon/060_poliwag_back.png
 - id: 61
   name: Poliwhirl
+  genus: Tadpole
+  height: 10
+  weight: 200
   types:
   - water
   base_stats:
@@ -6523,6 +6706,9 @@ species:
     back: assets/sprites/pokemon/061_poliwhirl_back.png
 - id: 62
   name: Poliwrath
+  genus: Tadpole
+  height: 13
+  weight: 540
   types:
   - water
   - fighting
@@ -6648,6 +6834,9 @@ species:
     back: assets/sprites/pokemon/062_poliwrath_back.png
 - id: 63
   name: Abra
+  genus: Psi
+  height: 9
+  weight: 195
   types:
   - psychic
   base_stats:
@@ -6761,6 +6950,9 @@ species:
     back: assets/sprites/pokemon/063_abra_back.png
 - id: 64
   name: Kadabra
+  genus: Psi
+  height: 13
+  weight: 565
   types:
   - psychic
   base_stats:
@@ -6882,6 +7074,9 @@ species:
     back: assets/sprites/pokemon/064_kadabra_back.png
 - id: 65
   name: Alakazam
+  genus: Psi
+  height: 15
+  weight: 480
   types:
   - psychic
   base_stats:
@@ -7006,6 +7201,9 @@ species:
     back: assets/sprites/pokemon/065_alakazam_back.png
 - id: 66
   name: Machop
+  genus: Superpower
+  height: 8
+  weight: 195
   types:
   - fighting
   base_stats:
@@ -7131,6 +7329,9 @@ species:
     back: assets/sprites/pokemon/066_machop_back.png
 - id: 67
   name: Machoke
+  genus: Superpower
+  height: 15
+  weight: 705
   types:
   - fighting
   base_stats:
@@ -7246,6 +7447,9 @@ species:
     back: assets/sprites/pokemon/067_machoke_back.png
 - id: 68
   name: Machamp
+  genus: Superpower
+  height: 16
+  weight: 1300
   types:
   - fighting
   base_stats:
@@ -7364,6 +7568,9 @@ species:
     back: assets/sprites/pokemon/068_machamp_back.png
 - id: 69
   name: Bellsprout
+  genus: Flower
+  height: 7
+  weight: 40
   types:
   - grass
   - poison
@@ -7472,6 +7679,9 @@ species:
     back: assets/sprites/pokemon/069_bellsprout_back.png
 - id: 70
   name: Weepinbell
+  genus: Flycatcher
+  height: 10
+  weight: 64
   types:
   - grass
   - poison
@@ -7567,6 +7777,9 @@ species:
     back: assets/sprites/pokemon/070_weepinbell_back.png
 - id: 71
   name: Victreebel
+  genus: Flycatcher
+  height: 17
+  weight: 155
   types:
   - grass
   - poison
@@ -7659,6 +7872,9 @@ species:
     back: assets/sprites/pokemon/071_victreebel_back.png
 - id: 72
   name: Tentacool
+  genus: Jellyfish
+  height: 9
+  weight: 455
   types:
   - water
   - poison
@@ -7775,6 +7991,9 @@ species:
     back: assets/sprites/pokemon/072_tentacool_back.png
 - id: 73
   name: Tentacruel
+  genus: Jellyfish
+  height: 16
+  weight: 550
   types:
   - water
   - poison
@@ -7891,6 +8110,9 @@ species:
     back: assets/sprites/pokemon/073_tentacruel_back.png
 - id: 74
   name: Geodude
+  genus: Rock
+  height: 4
+  weight: 200
   types:
   - rock
   - ground
@@ -8020,6 +8242,9 @@ species:
     back: assets/sprites/pokemon/074_geodude_back.png
 - id: 75
   name: Graveler
+  genus: Rock
+  height: 10
+  weight: 1050
   types:
   - rock
   - ground
@@ -8136,6 +8361,9 @@ species:
     back: assets/sprites/pokemon/075_graveler_back.png
 - id: 76
   name: Golem
+  genus: Megaton
+  height: 14
+  weight: 3000
   types:
   - rock
   - ground
@@ -8258,6 +8486,9 @@ species:
     back: assets/sprites/pokemon/076_golem_back.png
 - id: 77
   name: Ponyta
+  genus: Fire Horse
+  height: 10
+  weight: 300
   types:
   - fire
   base_stats:
@@ -8355,6 +8586,9 @@ species:
     back: assets/sprites/pokemon/077_ponyta_back.png
 - id: 78
   name: Rapidash
+  genus: Fire Horse
+  height: 17
+  weight: 950
   types:
   - fire
   base_stats:
@@ -8455,6 +8689,9 @@ species:
     back: assets/sprites/pokemon/078_rapidash_back.png
 - id: 79
   name: Slowpoke
+  genus: Dopey
+  height: 12
+  weight: 360
   types:
   - water
   - psychic
@@ -8605,6 +8842,9 @@ species:
     back: assets/sprites/pokemon/079_slowpoke_back.png
 - id: 80
   name: Slowbro
+  genus: Hermit Crab
+  height: 16
+  weight: 785
   types:
   - water
   - psychic
@@ -8766,6 +9006,9 @@ species:
     back: assets/sprites/pokemon/080_slowbro_back.png
 - id: 81
   name: Magnemite
+  genus: Magnet
+  height: 3
+  weight: 60
   types:
   - electric
   - steel
@@ -8874,6 +9117,9 @@ species:
     back: assets/sprites/pokemon/081_magnemite_back.png
 - id: 82
   name: Magneton
+  genus: Magnet
+  height: 10
+  weight: 600
   types:
   - electric
   - steel
@@ -8975,6 +9221,9 @@ species:
     back: assets/sprites/pokemon/082_magneton_back.png
 - id: 83
   name: Farfetchd
+  genus: Wild Duck
+  height: 8
+  weight: 150
   types:
   - normal
   - flying
@@ -9082,6 +9331,9 @@ species:
     back: assets/sprites/pokemon/083_farfetchd_back.png
 - id: 84
   name: Doduo
+  genus: Twin Bird
+  height: 14
+  weight: 392
   types:
   - normal
   - flying
@@ -9183,6 +9435,9 @@ species:
     back: assets/sprites/pokemon/084_doduo_back.png
 - id: 85
   name: Dodrio
+  genus: Triple Bird
+  height: 18
+  weight: 852
   types:
   - normal
   - flying
@@ -9284,6 +9539,9 @@ species:
     back: assets/sprites/pokemon/085_dodrio_back.png
 - id: 86
   name: Seel
+  genus: Sea Lion
+  height: 11
+  weight: 900
   types:
   - water
   base_stats:
@@ -9390,6 +9648,9 @@ species:
     back: assets/sprites/pokemon/086_seel_back.png
 - id: 87
   name: Dewgong
+  genus: Sea Lion
+  height: 17
+  weight: 1200
   types:
   - water
   - ice
@@ -9497,6 +9758,9 @@ species:
     back: assets/sprites/pokemon/087_dewgong_back.png
 - id: 88
   name: Grimer
+  genus: Sludge
+  height: 9
+  weight: 300
   types:
   - poison
   base_stats:
@@ -9594,6 +9858,9 @@ species:
     back: assets/sprites/pokemon/088_grimer_back.png
 - id: 89
   name: Muk
+  genus: Sludge
+  height: 12
+  weight: 300
   types:
   - poison
   base_stats:
@@ -9688,6 +9955,9 @@ species:
     back: assets/sprites/pokemon/089_muk_back.png
 - id: 90
   name: Shellder
+  genus: Bivalve
+  height: 3
+  weight: 40
   types:
   - water
   base_stats:
@@ -9800,6 +10070,9 @@ species:
     back: assets/sprites/pokemon/090_shellder_back.png
 - id: 91
   name: Cloyster
+  genus: Bivalve
+  height: 15
+  weight: 1325
   types:
   - water
   - ice
@@ -9901,6 +10174,9 @@ species:
     back: assets/sprites/pokemon/091_cloyster_back.png
 - id: 92
   name: Gastly
+  genus: Gas
+  height: 13
+  weight: 1
   types:
   - ghost
   - poison
@@ -10000,6 +10276,9 @@ species:
     back: assets/sprites/pokemon/092_gastly_back.png
 - id: 93
   name: Haunter
+  genus: Gas
+  height: 16
+  weight: 1
   types:
   - ghost
   - poison
@@ -10083,6 +10362,9 @@ species:
     back: assets/sprites/pokemon/093_haunter_back.png
 - id: 94
   name: Gengar
+  genus: Shadow
+  height: 15
+  weight: 405
   types:
   - ghost
   - poison
@@ -10202,6 +10484,9 @@ species:
     back: assets/sprites/pokemon/094_gengar_back.png
 - id: 95
   name: Onix
+  genus: Rock Snake
+  height: 88
+  weight: 2100
   types:
   - rock
   - ground
@@ -10309,6 +10594,9 @@ species:
     back: assets/sprites/pokemon/095_onix_back.png
 - id: 96
   name: Drowzee
+  genus: Hypnosis
+  height: 10
+  weight: 324
   types:
   - psychic
   base_stats:
@@ -10439,6 +10727,9 @@ species:
     back: assets/sprites/pokemon/096_drowzee_back.png
 - id: 97
   name: Hypno
+  genus: Hypnosis
+  height: 16
+  weight: 756
   types:
   - psychic
   base_stats:
@@ -10569,6 +10860,9 @@ species:
     back: assets/sprites/pokemon/097_hypno_back.png
 - id: 98
   name: Krabby
+  genus: River Crab
+  height: 4
+  weight: 65
   types:
   - water
   base_stats:
@@ -10675,6 +10969,9 @@ species:
     back: assets/sprites/pokemon/098_krabby_back.png
 - id: 99
   name: Kingler
+  genus: Pincer
+  height: 13
+  weight: 600
   types:
   - water
   base_stats:
@@ -10778,6 +11075,9 @@ species:
     back: assets/sprites/pokemon/099_kingler_back.png
 - id: 100
   name: Voltorb
+  genus: Ball
+  height: 5
+  weight: 104
   types:
   - electric
   base_stats:
@@ -10881,6 +11181,9 @@ species:
     back: assets/sprites/pokemon/100_voltorb_back.png
 - id: 101
   name: Electrode
+  genus: Ball
+  height: 12
+  weight: 666
   types:
   - electric
   base_stats:
@@ -10984,6 +11287,9 @@ species:
     back: assets/sprites/pokemon/101_electrode_back.png
 - id: 102
   name: Exeggcute
+  genus: Egg
+  height: 4
+  weight: 25
   types:
   - grass
   - psychic
@@ -11088,6 +11394,9 @@ species:
     back: assets/sprites/pokemon/102_exeggcute_back.png
 - id: 103
   name: Exeggutor
+  genus: Coconut
+  height: 20
+  weight: 1200
   types:
   - grass
   - psychic
@@ -11180,6 +11489,9 @@ species:
     back: assets/sprites/pokemon/103_exeggutor_back.png
 - id: 104
   name: Cubone
+  genus: Lonely
+  height: 4
+  weight: 65
   types:
   - ground
   base_stats:
@@ -11313,6 +11625,9 @@ species:
     back: assets/sprites/pokemon/104_cubone_back.png
 - id: 105
   name: Marowak
+  genus: Bone Keeper
+  height: 10
+  weight: 450
   types:
   - ground
   base_stats:
@@ -11443,6 +11758,9 @@ species:
     back: assets/sprites/pokemon/105_marowak_back.png
 - id: 106
   name: Hitmonlee
+  genus: Kicking
+  height: 15
+  weight: 498
   types:
   - fighting
   base_stats:
@@ -11566,6 +11884,9 @@ species:
     back: assets/sprites/pokemon/106_hitmonlee_back.png
 - id: 107
   name: Hitmonchan
+  genus: Punching
+  height: 14
+  weight: 502
   types:
   - fighting
   base_stats:
@@ -11666,6 +11987,9 @@ species:
     back: assets/sprites/pokemon/107_hitmonchan_back.png
 - id: 108
   name: Lickitung
+  genus: Licking
+  height: 12
+  weight: 655
   types:
   - normal
   base_stats:
@@ -11808,6 +12132,9 @@ species:
     back: assets/sprites/pokemon/108_lickitung_back.png
 - id: 109
   name: Koffing
+  genus: Poison Gas
+  height: 6
+  weight: 10
   types:
   - poison
   base_stats:
@@ -11896,6 +12223,9 @@ species:
     back: assets/sprites/pokemon/109_koffing_back.png
 - id: 110
   name: Weezing
+  genus: Poison Gas
+  height: 12
+  weight: 95
   types:
   - poison
   base_stats:
@@ -11981,6 +12311,9 @@ species:
     back: assets/sprites/pokemon/110_weezing_back.png
 - id: 111
   name: Rhyhorn
+  genus: Spikes
+  height: 10
+  weight: 1150
   types:
   - ground
   - rock
@@ -12110,6 +12443,9 @@ species:
     back: assets/sprites/pokemon/111_rhyhorn_back.png
 - id: 112
   name: Rhydon
+  genus: Drill
+  height: 19
+  weight: 1200
   types:
   - ground
   - rock
@@ -12250,6 +12586,9 @@ species:
     back: assets/sprites/pokemon/112_rhydon_back.png
 - id: 113
   name: Chansey
+  genus: Egg
+  height: 11
+  weight: 346
   types:
   - normal
   base_stats:
@@ -12423,6 +12762,9 @@ species:
     back: assets/sprites/pokemon/113_chansey_back.png
 - id: 114
   name: Tangela
+  genus: Vine
+  height: 10
+  weight: 350
   types:
   - grass
   base_stats:
@@ -12529,6 +12871,9 @@ species:
     back: assets/sprites/pokemon/114_tangela_back.png
 - id: 115
   name: Kangaskhan
+  genus: Parent
+  height: 22
+  weight: 800
   types:
   - normal
   base_stats:
@@ -12661,6 +13006,9 @@ species:
     back: assets/sprites/pokemon/115_kangaskhan_back.png
 - id: 116
   name: Horsea
+  genus: Dragon
+  height: 4
+  weight: 80
   types:
   - water
   base_stats:
@@ -12765,6 +13113,9 @@ species:
     back: assets/sprites/pokemon/116_horsea_back.png
 - id: 117
   name: Seadra
+  genus: Dragon
+  height: 12
+  weight: 250
   types:
   - water
   base_stats:
@@ -12859,6 +13210,9 @@ species:
     back: assets/sprites/pokemon/117_seadra_back.png
 - id: 118
   name: Goldeen
+  genus: Goldfish
+  height: 6
+  weight: 150
   types:
   - water
   base_stats:
@@ -12965,6 +13319,9 @@ species:
     back: assets/sprites/pokemon/118_goldeen_back.png
 - id: 119
   name: Seaking
+  genus: Goldfish
+  height: 13
+  weight: 390
   types:
   - water
   base_stats:
@@ -13068,6 +13425,9 @@ species:
     back: assets/sprites/pokemon/119_seaking_back.png
 - id: 120
   name: Staryu
+  genus: Star Shape
+  height: 8
+  weight: 345
   types:
   - water
   base_stats:
@@ -13198,6 +13558,9 @@ species:
     back: assets/sprites/pokemon/120_staryu_back.png
 - id: 121
   name: Starmie
+  genus: Mysterious
+  height: 11
+  weight: 800
   types:
   - water
   - psychic
@@ -13308,6 +13671,9 @@ species:
     back: assets/sprites/pokemon/121_starmie_back.png
 - id: 122
   name: Mr-mime
+  genus: Barrier
+  height: 13
+  weight: 545
   types:
   - psychic
   - fairy
@@ -13449,6 +13815,9 @@ species:
     back: assets/sprites/pokemon/122_mr-mime_back.png
 - id: 123
   name: Scyther
+  genus: Mantis
+  height: 15
+  weight: 560
   types:
   - bug
   - flying
@@ -13554,6 +13923,9 @@ species:
     back: assets/sprites/pokemon/123_scyther_back.png
 - id: 124
   name: Jynx
+  genus: Human Shape
+  height: 14
+  weight: 406
   types:
   - ice
   - psychic
@@ -13688,6 +14060,9 @@ species:
     back: assets/sprites/pokemon/124_jynx_back.png
 - id: 125
   name: Electabuzz
+  genus: Electric
+  height: 11
+  weight: 300
   types:
   - electric
   base_stats:
@@ -13831,6 +14206,9 @@ species:
     back: assets/sprites/pokemon/125_electabuzz_back.png
 - id: 126
   name: Magmar
+  genus: Spitfire
+  height: 13
+  weight: 445
   types:
   - fire
   base_stats:
@@ -13959,6 +14337,9 @@ species:
     back: assets/sprites/pokemon/126_magmar_back.png
 - id: 127
   name: Pinsir
+  genus: Stag Beetle
+  height: 15
+  weight: 550
   types:
   - bug
   base_stats:
@@ -14055,6 +14436,9 @@ species:
     back: assets/sprites/pokemon/127_pinsir_back.png
 - id: 128
   name: Tauros
+  genus: Wild Bull
+  height: 14
+  weight: 884
   types:
   - normal
   base_stats:
@@ -14160,6 +14544,9 @@ species:
     back: assets/sprites/pokemon/128_tauros_back.png
 - id: 129
   name: Magikarp
+  genus: Fish
+  height: 9
+  weight: 100
   types:
   - water
   base_stats:
@@ -14197,6 +14584,9 @@ species:
     back: assets/sprites/pokemon/129_magikarp_back.png
 - id: 130
   name: Gyarados
+  genus: Atrocious
+  height: 65
+  weight: 2350
   types:
   - water
   - flying
@@ -14307,6 +14697,9 @@ species:
     back: assets/sprites/pokemon/130_gyarados_back.png
 - id: 131
   name: Lapras
+  genus: Transport
+  height: 25
+  weight: 2200
   types:
   - water
   - ice
@@ -14434,6 +14827,9 @@ species:
     back: assets/sprites/pokemon/131_lapras_back.png
 - id: 132
   name: Ditto
+  genus: Transform
+  height: 3
+  weight: 40
   types:
   - normal
   base_stats:
@@ -14461,6 +14857,9 @@ species:
     back: assets/sprites/pokemon/132_ditto_back.png
 - id: 133
   name: Eevee
+  genus: Evolution
+  height: 3
+  weight: 65
   types:
   - normal
   base_stats:
@@ -14604,6 +15003,9 @@ species:
     back: assets/sprites/pokemon/133_eevee_back.png
 - id: 134
   name: Vaporeon
+  genus: Bubble Jet
+  height: 10
+  weight: 290
   types:
   - water
   base_stats:
@@ -14722,6 +15124,9 @@ species:
     back: assets/sprites/pokemon/134_vaporeon_back.png
 - id: 135
   name: Jolteon
+  genus: Lightning
+  height: 8
+  weight: 245
   types:
   - electric
   base_stats:
@@ -14834,6 +15239,9 @@ species:
     back: assets/sprites/pokemon/135_jolteon_back.png
 - id: 136
   name: Flareon
+  genus: Flame
+  height: 9
+  weight: 250
   types:
   - fire
   base_stats:
@@ -14937,6 +15345,9 @@ species:
     back: assets/sprites/pokemon/136_flareon_back.png
 - id: 137
   name: Porygon
+  genus: Virtual
+  height: 8
+  weight: 365
   types:
   - normal
   base_stats:
@@ -15065,6 +15476,9 @@ species:
     back: assets/sprites/pokemon/137_porygon_back.png
 - id: 138
   name: Omanyte
+  genus: Spiral
+  height: 4
+  weight: 75
   types:
   - rock
   - water
@@ -15163,6 +15577,9 @@ species:
     back: assets/sprites/pokemon/138_omanyte_back.png
 - id: 139
   name: Omastar
+  genus: Spiral
+  height: 10
+  weight: 350
   types:
   - rock
   - water
@@ -15270,6 +15687,9 @@ species:
     back: assets/sprites/pokemon/139_omastar_back.png
 - id: 140
   name: Kabuto
+  genus: Shellfish
+  height: 5
+  weight: 115
   types:
   - rock
   - water
@@ -15368,6 +15788,9 @@ species:
     back: assets/sprites/pokemon/140_kabuto_back.png
 - id: 141
   name: Kabutops
+  genus: Shellfish
+  height: 13
+  weight: 405
   types:
   - rock
   - water
@@ -15484,6 +15907,9 @@ species:
     back: assets/sprites/pokemon/141_kabutops_back.png
 - id: 142
   name: Aerodactyl
+  genus: Fossil
+  height: 18
+  weight: 590
   types:
   - rock
   - flying
@@ -15581,6 +16007,9 @@ species:
     back: assets/sprites/pokemon/142_aerodactyl_back.png
 - id: 143
   name: Snorlax
+  genus: Sleeping
+  height: 21
+  weight: 4600
   types:
   - normal
   base_stats:
@@ -15741,6 +16170,9 @@ species:
     back: assets/sprites/pokemon/143_snorlax_back.png
 - id: 144
   name: Articuno
+  genus: Freeze
+  height: 17
+  weight: 554
   types:
   - ice
   - flying
@@ -15841,6 +16273,9 @@ species:
     back: assets/sprites/pokemon/144_articuno_back.png
 - id: 145
   name: Zapdos
+  genus: Electric
+  height: 16
+  weight: 526
   types:
   - electric
   - flying
@@ -15941,6 +16376,9 @@ species:
     back: assets/sprites/pokemon/145_zapdos_back.png
 - id: 146
   name: Moltres
+  genus: Flame
+  height: 20
+  weight: 600
   types:
   - fire
   - flying
@@ -16032,6 +16470,9 @@ species:
     back: assets/sprites/pokemon/146_moltres_back.png
 - id: 147
   name: Dratini
+  genus: Dragon
+  height: 18
+  weight: 33
   types:
   - dragon
   base_stats:
@@ -16160,6 +16601,9 @@ species:
     back: assets/sprites/pokemon/147_dratini_back.png
 - id: 148
   name: Dragonair
+  genus: Dragon
+  height: 40
+  weight: 165
   types:
   - dragon
   base_stats:
@@ -16278,6 +16722,9 @@ species:
     back: assets/sprites/pokemon/148_dragonair_back.png
 - id: 149
   name: Dragonite
+  genus: Dragon
+  height: 22
+  weight: 2100
   types:
   - dragon
   - flying
@@ -16409,6 +16856,9 @@ species:
     back: assets/sprites/pokemon/149_dragonite_back.png
 - id: 150
   name: Mewtwo
+  genus: Genetic
+  height: 20
+  weight: 1220
   types:
   - psychic
   base_stats:
@@ -16565,6 +17015,9 @@ species:
     back: assets/sprites/pokemon/150_mewtwo_back.png
 - id: 151
   name: Mew
+  genus: New Species
+  height: 4
+  weight: 40
   types:
   - psychic
   base_stats:
