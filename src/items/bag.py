@@ -104,3 +104,22 @@ class Bag:
             if entry.item_id == item_id:
                 return entry
         return None
+
+    def to_dict(self) -> list[dict]:
+        """Serialize bag entries to a list of dictionaries."""
+        return [
+            {"item_id": entry.item_id, "quantity": entry.quantity}
+            for entry in self._entries
+        ]
+
+    @classmethod
+    def from_dict(cls, data: list[dict]) -> "Bag":
+        """Deserialize bag entries from a list of dictionaries."""
+        bag = cls()
+        for entry in data:
+            item_id = entry.get("item_id")
+            quantity = entry.get("quantity", 1)
+            if not item_id:
+                continue
+            bag._entries.append(BagEntry(item_id=item_id, quantity=quantity))
+        return bag

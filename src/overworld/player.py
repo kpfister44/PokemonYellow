@@ -116,3 +116,36 @@ class Player(Entity):
         if self.is_moving:
             self.update_movement(speed=2)  # 2 pixels per frame = 8 frames per tile
             self.update_animation()
+
+    def to_dict(self) -> dict:
+        """Serialize player position and direction."""
+        direction_map = {
+            constants.DIR_UP: "up",
+            constants.DIR_DOWN: "down",
+            constants.DIR_LEFT: "left",
+            constants.DIR_RIGHT: "right"
+        }
+        return {
+            "tile_x": self.tile_x,
+            "tile_y": self.tile_y,
+            "direction": direction_map.get(self.direction, "down")
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Player":
+        """Deserialize player position and direction."""
+        player = cls(data.get("tile_x", 0), data.get("tile_y", 0))
+        direction_map = {
+            "up": constants.DIR_UP,
+            "down": constants.DIR_DOWN,
+            "left": constants.DIR_LEFT,
+            "right": constants.DIR_RIGHT
+        }
+        player.direction = direction_map.get(data.get("direction"), constants.DIR_DOWN)
+        player.pixel_x = player.tile_x * constants.TILE_SIZE
+        player.pixel_y = player.tile_y * constants.TILE_SIZE
+        player.is_moving = False
+        player.move_progress = 0
+        player.target_tile_x = player.tile_x
+        player.target_tile_y = player.tile_y
+        return player

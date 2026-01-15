@@ -95,3 +95,15 @@ class Party:
     def has_alive_pokemon(self) -> bool:
         """Check if party has any non-fainted Pokemon."""
         return any(not p.is_fainted() for p in self.pokemon)
+
+    def to_dict(self) -> list[dict]:
+        """Serialize party to a list of Pokemon dictionaries."""
+        return [pokemon.to_dict() for pokemon in self.pokemon]
+
+    @classmethod
+    def from_dict(cls, data: list[dict], species_loader) -> "Party":
+        """Deserialize party from a list of Pokemon dictionaries."""
+        party = cls()
+        for pokemon_data in data:
+            party.add(Pokemon.from_dict(pokemon_data, species_loader))
+        return party

@@ -346,3 +346,84 @@ class Pokemon:
         self._update_exp_requirements()
 
         return old_stats
+
+    def to_dict(self) -> dict:
+        """Serialize this Pokemon to a dictionary."""
+        return {
+            "species_id": self.species.species_id,
+            "level": self.level,
+            "ivs": {
+                "attack": self.iv_attack,
+                "defense": self.iv_defense,
+                "speed": self.iv_speed,
+                "special": self.iv_special,
+                "hp": self.iv_hp
+            },
+            "current_hp": self.current_hp,
+            "moves": list(self.moves),
+            "move_pp": {
+                move_id: {"current": current_pp, "max": max_pp}
+                for move_id, (current_pp, max_pp) in self.move_pp.items()
+            },
+            "status": self.status.value if self.status else None,
+            "status_turns": self.status_turns,
+            "stat_stages": {
+                "attack": self.stat_stages.attack,
+                "defense": self.stat_stages.defense,
+                "speed": self.stat_stages.speed,
+                "special": self.stat_stages.special,
+                "accuracy": self.stat_stages.accuracy,
+                "evasion": self.stat_stages.evasion
+            },
+            "experience": self.experience,
+            "exp_to_next_level": self.exp_to_next_level
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict, species_loader) -> "Pokemon":
+        """Deserialize a Pokemon from dictionary data."""
+        species_id = data.get("species_id", "")
+        level = data.get("level", 1)
+        species = species_loader.get_species(species_id)
+        pokemon = cls(species, level)
+
+        ivs = data.get("ivs", {})
+        pokemon.iv_attack = ivs.get("attack", pokemon.iv_attack)
+        pokemon.iv_defense = ivs.get("defense", pokemon.iv_defense)
+        pokemon.iv_speed = ivs.get("speed", pokemon.iv_speed)
+        pokemon.iv_special = ivs.get("special", pokemon.iv_special)
+        pokemon.iv_hp = ivs.get("hp", pokemon._calculate_hp_iv())
+
+        pokemon.stats = pokemon._calculate_stats()
+        pokemon.current_hp = data.get("current_hp", pokemon.stats.hp)
+
+        pokemon.moves = data.get("moves", [])
+        pokemon.move_pp = {}
+        move_pp_data = data.get("move_pp", {})
+        if move_pp_data:
+            for move_id, pp_data in move_pp_data.items():
+                pokemon.move_pp[move_id] = (pp_data.get("current", 0), pp_data.get("max", 0))
+
+        status_value = data.get("status")
+        if status_value:
+            pokemon.status = StatusCondition(status_value)
+        else:
+            pokemon.status = None
+        pokemon.status_turns = data.get("status_turns", 0)
+
+        stat_data = data.get("stat_stages", {})
+        pokemon.stat_stages = StatStages(
+            attack=stat_data.get("attack", 0),
+            defense=stat_data.get("defense", 0),
+            speed=stat_data.get("speed", 0),
+            special=stat_data.get("special", 0),
+            accuracy=stat_data.get("accuracy", 0),
+            evasion=stat_data.get("evasion", 0)
+        )
+
+        pokemon.experience = data.get("experience", pokemon.experience)
+        pokemon._update_exp_requirements()
+        if "exp_to_next_level" in data:
+            pokemon.exp_to_next_level = data["exp_to_next_level"]
+
+        return pokemon
