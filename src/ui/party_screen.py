@@ -6,6 +6,7 @@ from typing import Optional
 from src.party.party import Party
 from src.battle.pokemon import Pokemon
 from src.engine.constants import GAME_WIDTH, GAME_HEIGHT
+from src.battle.hp_bar_display import HpBarDisplay
 
 
 class PartyScreen:
@@ -20,6 +21,11 @@ class PartyScreen:
         """
         self.party = party
         self.cursor_index = 0
+        self.bar_width = 48
+        self.hp_displays = [
+            HpBarDisplay(pokemon.stats.hp, pokemon.current_hp, self.bar_width)
+            for pokemon in self.party.pokemon
+        ]
 
     def move_cursor(self, direction: int):
         """
@@ -41,6 +47,16 @@ class PartyScreen:
         if 0 <= self.cursor_index < self.party.size():
             return self.party.pokemon[self.cursor_index]
         return None
+
+    def get_display_units(self, index: int) -> int:
+        if 0 <= index < len(self.hp_displays):
+            return self.hp_displays[index].display_units
+        return 0
+
+    def update(self, dt: float) -> None:
+        self._sync_displays()
+        for pokemon, display in zip(self.party.pokemon, self.hp_displays):
+            display.update(pokemon.current_hp, dt)
 
     def render(self, renderer) -> None:
         """
@@ -79,6 +95,7 @@ class PartyScreen:
             index: Party slot index (0-5)
         """
         pokemon = self.party.pokemon[index]
+        display = self.hp_displays[index]
 
         # Each Pokemon gets 20px (two rows of ~10px each)
         slot_height = 20
@@ -116,15 +133,15 @@ class PartyScreen:
         else:
             # Draw HP bar
             bar_x = 36
-            bar_width = 48
+            bar_width = self.bar_width
             bar_height = 4
 
             # Background (empty bar)
             renderer.draw_rect((200, 200, 200), (bar_x, row2_y + 2, bar_width, bar_height), 0)
 
             # Calculate HP percentage and color
-            hp_percent = pokemon.current_hp / pokemon.stats.hp if pokemon.stats.hp > 0 else 0
-            filled_width = int(bar_width * hp_percent)
+            hp_percent = display.display_hp / pokemon.stats.hp if pokemon.stats.hp > 0 else 0
+            filled_width = display.display_units
 
             # Color: green > 50%, yellow 20-50%, red < 20%
             if hp_percent > 0.5:
@@ -142,5 +159,22 @@ class PartyScreen:
             renderer.draw_rect((0, 0, 0), (bar_x, row2_y + 2, bar_width, bar_height), 1)
 
             # Draw HP values next to bar
-            hp_text = f"{pokemon.current_hp}/{pokemon.stats.hp}"
+            hp_text = f"{display.display_hp}/{pokemon.stats.hp}"
             renderer.draw_text(hp_text, bar_x + bar_width + 4, row2_y)
+
+    def _sync_displays(self) -> None:
+        if len(self.hp_displays) != self.party.size():
+            self.hp_displays = [
+                HpBarDisplay(pokemon.stats.hp, pokemon.current_hp, self.bar_width)
+                for pokemon in self.party.pokemon
+            ]
+            return
+
+        for index, pokemon in enumerate(self.party.pokemon):
+            display = self.hp_displays[index]
+            if display.max_hp != pokemon.stats.hp:
+                self.hp_displays[index] = HpBarDisplay(
+                    pokemon.stats.hp,
+                    pokemon.current_hp,
+                    self.bar_width
+                )

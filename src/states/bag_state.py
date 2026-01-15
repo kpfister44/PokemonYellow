@@ -40,7 +40,6 @@ class BagState(BaseState):
             entry_filter = lambda item: item.usable_in_battle
 
         self.screen = BagScreen(self.bag, self.item_loader, entry_filter=entry_filter)
-        self.pending_item_id = None
 
     def handle_input(self, input_handler):
         if input_handler.is_just_pressed("down"):
@@ -59,13 +58,13 @@ class BagState(BaseState):
 
         item_id = entry.item_id
         if self.item_effects.requires_target(item_id):
-            self.pending_item_id = item_id
             from src.states.party_state import PartyState
             party_state = PartyState(
                 self.game,
                 self.party,
                 mode="item",
-                on_select=self._handle_target_selected,
+                item_use=lambda pokemon: self._apply_item(item_id, pokemon),
+                on_item_used=lambda result: self._handle_item_result(item_id, result),
                 on_cancel=self._handle_target_cancelled
             )
             self.game.push_state(party_state)
@@ -74,16 +73,8 @@ class BagState(BaseState):
         result = self._apply_item(item_id, None)
         self._handle_item_result(item_id, result)
 
-    def _handle_target_selected(self, pokemon: Pokemon) -> None:
-        if not self.pending_item_id:
-            return
-        item_id = self.pending_item_id
-        self.pending_item_id = None
-        result = self._apply_item(item_id, pokemon)
-        self._handle_item_result(item_id, result)
-
     def _handle_target_cancelled(self) -> None:
-        self.pending_item_id = None
+        pass
 
     def _apply_item(self, item_id: str, target: Optional[Pokemon]) -> ItemUseResult:
         context = ItemUseContext(
@@ -93,7 +84,7 @@ class BagState(BaseState):
         )
         return self.item_effects.use_item(item_id, target, context)
 
-    def _handle_item_result(self, item_id: str, result: ItemUseResult) -> None:
+    def _handle_item_result(self, item_id: str, result: ItemUseResult) -> bool:
         if result.success and result.consumed:
             self.bag.remove_item(item_id)
 
@@ -103,7 +94,11 @@ class BagState(BaseState):
         if self.mode == "battle" and result.success:
             if self.on_item_used:
                 self.on_item_used(result)
-            self.game.pop_state()
+            if self.game.state_stack and self.game.state_stack[-1] is self:
+                self.game.pop_state()
+            return True
+
+        return False
 
     def update(self, dt: float):
         pass

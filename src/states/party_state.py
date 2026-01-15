@@ -6,6 +6,7 @@ from typing import Callable, Optional
 from src.states.base_state import BaseState
 from src.ui.party_screen import PartyScreen
 from src.party.party import Party
+from src.items.item_effects import ItemUseResult
 
 
 class PartyState(BaseState):
@@ -17,7 +18,9 @@ class PartyState(BaseState):
         party: Party,
         mode: str = "view",
         on_select: Optional[Callable] = None,
-        on_cancel: Optional[Callable] = None
+        on_cancel: Optional[Callable] = None,
+        item_use: Optional[Callable] = None,
+        on_item_used: Optional[Callable[[ItemUseResult], bool]] = None
     ):
         """
         Initialize party state.
@@ -34,9 +37,17 @@ class PartyState(BaseState):
         self.screen = PartyScreen(party)
         self.on_select = on_select
         self.on_cancel = on_cancel
+        self.item_use = item_use
+        self.on_item_used = on_item_used
+        self.item_target_index = None
+        self.item_result = None
+        self.animating_item = False
 
     def handle_input(self, input_handler):
         """Handle party screen input."""
+        if self.mode == "item" and self.animating_item:
+            return
+
         if input_handler.is_just_pressed("down"):
             self.screen.move_cursor(1)
 
@@ -48,9 +59,20 @@ class PartyState(BaseState):
 
             if self.mode == "item":
                 if selected:
-                    self.game.pop_state()
-                    if self.on_select:
-                        self.on_select(selected)
+                    if self.item_use:
+                        result = self.item_use(selected)
+                        self.item_result = result
+                        self.item_target_index = self.screen.cursor_index
+                        if result.success:
+                            self.animating_item = True
+                            if not self._is_item_animation_active(selected):
+                                self._finish_item_use()
+                        else:
+                            self._finish_item_use()
+                    else:
+                        self.game.pop_state()
+                        if self.on_select:
+                            self.on_select(selected)
             elif self.mode in ["switch", "forced_switch"]:
                 # Battle switching mode
                 if selected and not selected.is_fainted():
@@ -76,15 +98,20 @@ class PartyState(BaseState):
         elif input_handler.is_just_pressed("b"):
             # Go back
             if self.mode == "item":
-                self.game.pop_state()
-                if self.on_cancel:
-                    self.on_cancel()
+                if not self.animating_item:
+                    self.game.pop_state()
+                    if self.on_cancel:
+                        self.on_cancel()
             elif self.mode != "forced_switch":
                 self.game.pop_state()
 
     def update(self, dt: float):
         """Update party state (nothing to update)."""
-        pass
+        self.screen.update(dt)
+        if self.animating_item and self.item_target_index is not None:
+            pokemon = self.party.pokemon[self.item_target_index]
+            if not self._is_item_animation_active(pokemon):
+                self._finish_item_use()
 
     def render(self, renderer) -> None:
         """
@@ -94,3 +121,20 @@ class PartyState(BaseState):
             renderer: Renderer instance for drawing
         """
         self.screen.render(renderer)
+
+    def _is_item_animation_active(self, pokemon) -> bool:
+        if self.item_target_index is None:
+            return False
+        display = self.screen.hp_displays[self.item_target_index]
+        return display.is_animating(pokemon.current_hp)
+
+    def _finish_item_use(self) -> None:
+        should_close_bag = False
+        if self.on_item_used and self.item_result is not None:
+            should_close_bag = bool(self.on_item_used(self.item_result))
+        self.animating_item = False
+        self.item_target_index = None
+        self.item_result = None
+        self.game.pop_state()
+        if should_close_bag:
+            self.game.pop_state()
