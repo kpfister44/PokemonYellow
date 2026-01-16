@@ -1,21 +1,15 @@
+# ABOUTME: Tests battle damage mechanics and multi-hit behavior
+# ABOUTME: Verifies Gen 1 hit count and drain/heal logic
+
 import random
 
 import pytest
 
 from src.battle.damage_calculator import DamageCalculator
-from src.battle.move import Move, MoveMeta
-from src.battle.pokemon import Pokemon
-from src.battle.species import BaseStats, LevelUpMove, Species
+from src.battle.move import MoveMeta
+from src.battle.species import LevelUpMove
 from src.states.battle_state import BattleState
-
-
-class DummyGame:
-    def __init__(self):
-        self.renderer = None
-        self.popped = False
-
-    def pop_state(self):
-        self.popped = True
+from tests.battle_test_helpers import DummyGame, make_move, make_pokemon
 
 
 class StubDamageCalculator:
@@ -34,51 +28,6 @@ class StubDamageCalculator:
 
     def get_hit_count(self, move):
         return self._hit_count
-
-
-def make_species(name: str) -> Species:
-    return Species(
-        species_id=name.lower(),
-        number=999,
-        name=name,
-        genus="",
-        height=0,
-        weight=0,
-        types=["normal"],
-        base_stats=BaseStats(hp=50, attack=50, defense=50, special=50, speed=50),
-        base_experience=100,
-        growth_rate="medium",
-        capture_rate=255,
-        base_happiness=70,
-        gender_rate=-1,
-        pokedex_entry="",
-        evolution_chain={},
-        level_up_moves=[],
-        sprites=None,
-    )
-
-
-def make_pokemon(name: str, level: int = 5) -> Pokemon:
-    random.seed(0)
-    return Pokemon(make_species(name), level)
-
-
-def make_move(move_id: str, power: int | None, meta: MoveMeta | None = None, priority: int = 0) -> Move:
-    return Move(
-        move_id=move_id,
-        id_number=1,
-        name=move_id,
-        type="normal",
-        power=power,
-        accuracy=100,
-        pp=35,
-        category="physical",
-        priority=priority,
-        effect_chance=None,
-        description="",
-        meta=meta,
-        stat_changes=[],
-    )
 
 
 def test_get_hit_count_fixed_two(monkeypatch):

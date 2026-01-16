@@ -1,6 +1,8 @@
 # ABOUTME: Battle state for Pokemon battles
 # ABOUTME: Manages battle flow, UI, and damage calculation
 
+from dataclasses import dataclass
+
 from src.states.base_state import BaseState
 from src.battle.pokemon import Pokemon
 from src.battle.damage_calculator import DamageCalculator
@@ -11,6 +13,26 @@ from src.ui.move_menu import MoveMenu
 from src.engine import constants
 from src.battle.catch_calculator import CatchCalculator
 from src.battle.hp_bar_display import HpBarDisplay
+
+
+@dataclass
+class AttackData:
+    attacker: Pokemon
+    defender: Pokemon
+    move: Move
+    is_player: bool
+
+
+@dataclass
+class AttackContext:
+    attacker: Pokemon
+    defender: Pokemon
+    move: Move
+    is_player: bool
+    total_damage: int = 0
+    hits_landed: int = 0
+    planned_hits: int = 1
+    is_critical: bool = False
 
 
 class BattleState(BaseState):
@@ -60,6 +82,17 @@ class BattleState(BaseState):
         # UI components (Phase 7.2)
         self.battle_menu = BattleMenu()
         self.move_menu = None  # Created when FIGHT is selected
+        self.sequence_active = False
+        self.sequence_steps = []
+        self.sequence_step_type = None
+        self.sequence_end_phase = None
+        self.flinch_target = None
+        self.attack_animation_duration = 0.18
+        self.attack_animation_timer = 0.0
+        self.attack_animation_target = None
+        self.attack_animation_tick = 0.0
+        self.hp_tick_target = None
+        self.pending_after_tick = None
 
         self.enemy_hp_bar_width = 46
         self.player_hp_bar_width = 62
@@ -115,6 +148,11 @@ class BattleState(BaseState):
             input_handler: Input instance
         """
         if not self.awaiting_input:
+            return
+
+        if self.sequence_active:
+            if self.phase == "showing_message" and input_handler.is_just_pressed("a"):
+                self._advance_sequence()
             return
 
         # Battle menu phase - handle menu navigation
@@ -248,6 +286,28 @@ class BattleState(BaseState):
         self.player_hp_display.update(self.player_pokemon.current_hp, dt)
         self.enemy_hp_display.update(self.enemy_pokemon.current_hp, dt)
 
+        if self.sequence_active:
+            if self.phase == "attack_animation":
+                self.attack_animation_timer -= dt
+                self.attack_animation_tick += dt
+                if self.attack_animation_timer <= 0:
+                    self._advance_sequence()
+                return
+
+            if self.phase == "hp_tick":
+                if self._is_hp_tick_done():
+                    if self.pending_after_tick:
+                        extra_steps = self.pending_after_tick()
+                        self.pending_after_tick = None
+                        if extra_steps:
+                            self.sequence_steps = extra_steps + self.sequence_steps
+                        if not self.sequence_active:
+                            return
+                    self._advance_sequence()
+                return
+
+            return
+
         if not self.awaiting_input and not self.show_message:
             enemy_done = not self.enemy_hp_display.is_animating(self.enemy_pokemon.current_hp)
             player_done = not self.player_hp_display.is_animating(self.player_pokemon.current_hp)
@@ -296,18 +356,27 @@ class BattleState(BaseState):
 
     def _render_sprites(self, renderer):
         """Render Pokemon sprites on the battle screen."""
+        player_offset_x = 0
+        enemy_offset_x = 0
+        if self.phase == "attack_animation":
+            offset = 2 if int(self.attack_animation_tick * 20) % 2 == 0 else -2
+            if self.attack_animation_target == "player":
+                player_offset_x = offset
+            elif self.attack_animation_target == "enemy":
+                enemy_offset_x = offset
+
         # Sprites are 96x96 - position them to fit in 160x144 screen
         # Enemy sprite (top-right area)
         if self.enemy_sprite:
             enemy_x = 64  # Right side (160 - 96 = 64)
             enemy_y = -24  # Slightly off top to fit better
-            renderer.draw_surface(self.enemy_sprite, (enemy_x, enemy_y))
+            renderer.draw_surface(self.enemy_sprite, (enemy_x + enemy_offset_x, enemy_y))
 
         # Player sprite (bottom-left area)
         if self.player_sprite:
             player_x = 0  # Left edge
             player_y = 48  # Lower area (144 - 96 = 48)
-            renderer.draw_surface(self.player_sprite, (player_x, player_y))
+            renderer.draw_surface(self.player_sprite, (player_x + player_offset_x, player_y))
 
     def _render_enemy_info(self, renderer):
         """Render enemy Pokemon info box (top-left, authentic Pokemon Yellow style)."""
@@ -447,6 +516,294 @@ class BattleState(BaseState):
         for i, line in enumerate(lines[:2]):  # Max 2 lines
             renderer.draw_text(line, box_x + 10, box_y + 8 + (i * 10), constants.COLOR_BLACK, 10)
 
+    def _start_sequence(self, steps: list[dict], end_phase: str) -> None:
+        self.sequence_active = True
+        self.sequence_steps = steps
+        self.sequence_step_type = None
+        self.sequence_end_phase = end_phase
+        self.attack_animation_target = None
+        self.hp_tick_target = None
+        self.pending_after_tick = None
+        self._advance_sequence()
+
+    def _finish_sequence(self) -> None:
+        self.sequence_active = False
+        self.sequence_step_type = None
+        self.attack_animation_target = None
+        self.hp_tick_target = None
+        self.pending_after_tick = None
+
+        if self.sequence_end_phase == "battle_menu":
+            self.battle_menu.activate()
+            self.phase = "battle_menu"
+            self.awaiting_input = True
+        elif self.sequence_end_phase == "enemy_turn":
+            self.phase = "enemy_turn"
+            self.awaiting_input = True
+
+    def _advance_sequence(self) -> None:
+        if not self.sequence_steps:
+            self._finish_sequence()
+            return
+
+        step = self.sequence_steps.pop(0)
+        step_type = step.get("type")
+        self.sequence_step_type = step_type
+
+        if step_type == "message":
+            self.message = step["text"]
+            self.show_message = True
+            self.awaiting_input = True
+            self.phase = "showing_message"
+            return
+
+        if step_type == "attack":
+            self._expand_attack_step(step)
+            return
+
+        if step_type == "attack_animation":
+            self.show_message = False
+            self.awaiting_input = False
+            self.phase = "attack_animation"
+            self.attack_animation_target = step["target"]
+            self.attack_animation_timer = step.get("duration", self.attack_animation_duration)
+            self.attack_animation_tick = 0.0
+            return
+
+        if step_type == "damage":
+            target = step["target"]
+            amount = max(0, step["amount"])
+            actual = min(amount, target.current_hp)
+            target.take_damage(amount)
+            context = step.get("context")
+            if context is not None:
+                context.total_damage += actual
+                context.hits_landed += 1
+            self._start_hp_tick(target, step.get("after_tick"))
+            return
+
+        if step_type == "heal":
+            target = step["target"]
+            amount = max(0, step["amount"])
+            if amount <= 0:
+                self._advance_sequence()
+                return
+            target.heal(amount)
+            self._start_hp_tick(target, None)
+            return
+
+        if step_type == "drain_heal":
+            context = step["context"]
+            percent = step["percent"]
+            heal_amount = int(context.total_damage * percent / 100)
+            if heal_amount <= 0:
+                self._advance_sequence()
+                return
+            context.attacker.heal(heal_amount)
+            self._start_hp_tick(context.attacker, None)
+            return
+
+        if step_type == "percent_heal":
+            target = step["target"]
+            percent = step["percent"]
+            heal_amount = int(target.stats.hp * percent / 100)
+            if heal_amount <= 0:
+                self._advance_sequence()
+                return
+            target.heal(heal_amount)
+            self._start_hp_tick(target, None)
+            return
+
+        if step_type == "critical_message":
+            context = step["context"]
+            if context.is_critical:
+                self.message = "Critical hit!"
+                self.show_message = True
+                self.awaiting_input = True
+                self.phase = "showing_message"
+                return
+            self._advance_sequence()
+            return
+
+        if step_type == "hit_count_message":
+            context = step["context"]
+            if context.hits_landed > 1:
+                self.message = f"Hit {context.hits_landed} times!"
+                self.show_message = True
+                self.awaiting_input = True
+                self.phase = "showing_message"
+                return
+            self._advance_sequence()
+            return
+
+        if step_type == "resolve_flinch":
+            context = step["context"]
+            if (
+                context.move.meta
+                and context.move.meta.flinch_chance > 0
+                and not context.defender.is_fainted()
+            ):
+                import random
+                if random.randint(1, 100) <= context.move.meta.flinch_chance:
+                    self.flinch_target = context.defender
+            self._advance_sequence()
+            return
+
+        if step_type == "faint_check":
+            defender = step["defender"]
+            if defender.is_fainted():
+                self._handle_fainted(defender)
+                return
+            self._advance_sequence()
+            return
+
+        if step_type == "end_status":
+            status_steps = self._build_end_status_steps()
+            if status_steps:
+                self.sequence_steps = status_steps + self.sequence_steps
+            self._advance_sequence()
+            return
+
+        self._advance_sequence()
+
+    def _expand_attack_step(self, step: dict) -> None:
+        attack = step["attack"]
+        if self.flinch_target is attack.attacker:
+            self.flinch_target = None
+            self.sequence_steps = [
+                {"type": "message", "text": f"{attack.attacker.species.name.upper()} flinched!"}
+            ] + self.sequence_steps
+            self._advance_sequence()
+            return
+
+        steps = self._build_attack_steps(attack, step.get("can_flinch", False))
+        self.sequence_steps = steps + self.sequence_steps
+        self._advance_sequence()
+
+    def _start_hp_tick(self, target: Pokemon, after_tick) -> None:
+        self.show_message = False
+        self.awaiting_input = False
+        self.phase = "hp_tick"
+        self.hp_tick_target = target
+        self.pending_after_tick = after_tick
+
+    def _is_hp_tick_done(self) -> bool:
+        if self.hp_tick_target is None:
+            return True
+        display = self.player_hp_display if self.hp_tick_target is self.player_pokemon else self.enemy_hp_display
+        return not display.is_animating(self.hp_tick_target.current_hp)
+
+    def _cancel_pending_hits(self, context: AttackContext) -> None:
+        self.sequence_steps = [
+            step for step in self.sequence_steps
+            if not (step.get("type") == "damage" and step.get("context") is context)
+        ]
+
+    def _build_turn_steps(self, turn_order: list[str], player_move: Move, enemy_move: Move) -> list[dict]:
+        steps: list[dict] = []
+        attacks = []
+        for attacker_name in turn_order:
+            if attacker_name == "player":
+                attacks.append(AttackData(self.player_pokemon, self.enemy_pokemon, player_move, True))
+            else:
+                attacks.append(AttackData(self.enemy_pokemon, self.player_pokemon, enemy_move, False))
+
+        for index, attack in enumerate(attacks):
+            steps.append({
+                "type": "attack",
+                "attack": attack,
+                "can_flinch": index == 0
+            })
+
+        steps.append({"type": "end_status"})
+        return steps
+
+    def _build_attack_steps(self, attack: AttackData, can_flinch: bool) -> list[dict]:
+        steps: list[dict] = []
+        attacker_name = attack.attacker.species.name.upper()
+        prefix = "" if attack.is_player else "Wild "
+
+        blocked, status_messages = self._check_status_before_move(attack.attacker)
+        if status_messages:
+            for message in status_messages:
+                steps.append({"type": "message", "text": message})
+        if blocked:
+            return steps
+
+        steps.append({"type": "message", "text": f"{prefix}{attacker_name} used\n{attack.move.name.upper()}!"})
+        steps.append({
+            "type": "attack_animation",
+            "target": "player" if attack.is_player else "enemy",
+            "duration": self.attack_animation_duration
+        })
+
+        if not self.damage_calculator.check_accuracy(attack.attacker, attack.defender, attack.move):
+            steps.append({"type": "message", "text": f"{attacker_name}'s\nattack missed!"})
+            return steps
+
+        is_critical = self.damage_calculator.check_critical_hit(attack.attacker, attack.move)
+        hit_count = self.damage_calculator.get_hit_count(attack.move)
+        context = AttackContext(
+            attacker=attack.attacker,
+            defender=attack.defender,
+            move=attack.move,
+            is_player=attack.is_player,
+            planned_hits=hit_count,
+            is_critical=is_critical
+        )
+
+        def after_tick() -> list[dict]:
+            if attack.defender.is_fainted():
+                self._cancel_pending_hits(context)
+            return []
+
+        for _ in range(hit_count):
+            damage = self.damage_calculator.calculate_damage(
+                attack.attacker,
+                attack.defender,
+                attack.move,
+                is_critical
+            )
+            steps.append({
+                "type": "damage",
+                "target": attack.defender,
+                "amount": damage,
+                "context": context,
+                "after_tick": after_tick
+            })
+
+        if attack.move.meta and attack.move.meta.drain > 0:
+            steps.append({
+                "type": "drain_heal",
+                "context": context,
+                "percent": attack.move.meta.drain
+            })
+            steps.append({"type": "message", "text": f"{attacker_name}\ndrained HP!"})
+
+        if attack.move.meta and attack.move.meta.healing > 0:
+            steps.append({
+                "type": "percent_heal",
+                "target": attack.attacker,
+                "percent": attack.move.meta.healing
+            })
+            steps.append({"type": "message", "text": f"{attacker_name}\nregained health!"})
+
+        steps.append({"type": "critical_message", "context": context})
+        steps.append({"type": "hit_count_message", "context": context})
+        steps.append({"type": "faint_check", "defender": attack.defender})
+
+        status_message = self._apply_status_after_hit(attack.defender, attack.move)
+        if status_message:
+            steps.append({"type": "message", "text": status_message})
+
+        for message in self._apply_stat_changes_messages(attack.attacker, attack.move.stat_changes):
+            steps.append({"type": "message", "text": message})
+
+        if can_flinch and attack.move.meta and attack.move.meta.flinch_chance > 0:
+            steps.append({"type": "resolve_flinch", "context": context})
+
+        return steps
+
     def _queue_message(self, text: str):
         """Add message to queue."""
         self.message_queue.append(text)
@@ -479,18 +836,7 @@ class BattleState(BaseState):
             if self.player_hp_display.is_animating(self.player_pokemon.current_hp):
                 return
             self._queue_message(f"{self.player_pokemon.species.name.upper()}\nfainted!")
-            if hasattr(self, 'party') and self.party.has_alive_pokemon():
-                self._queue_message("Choose next POK\u00e9MON!")
-                self._show_next_message()
-
-                from src.states.party_state import PartyState
-                party_state = PartyState(self.game, self.party, mode="forced_switch")
-                self.game.push_state(party_state)
-            else:
-                self._queue_message("You have no more\nPOK\u00e9MON!")
-                self._queue_message("You blacked out!")
-                self._show_next_message()
-                self.phase = "end"
+            self._handle_player_faint()
             return
 
         # Check current phase to determine next phase
@@ -644,28 +990,19 @@ class BattleState(BaseState):
         if hasattr(self, "pokedex_seen"):
             self.pokedex_seen.add(self.enemy_pokemon.species.species_id)
 
-    def _apply_status_condition(self, target: Pokemon, move: Move) -> bool:
-        """
-        Roll chance and apply status if successful.
-
-        Returns:
-            True if status was applied
-        """
+    def _apply_status_after_hit(self, target: Pokemon, move: Move) -> str | None:
         if not move.meta or not move.meta.ailment or move.meta.ailment == "none":
-            return False
+            return None
 
-        # Check if target already has status
         from src.battle.status_effects import StatusCondition
         if target.status is not None and target.status != StatusCondition.NONE:
-            return False
+            return None
 
-        # Roll for ailment chance (if not 100%)
         if move.meta.ailment_chance > 0:
             import random
             if random.randint(1, 100) > move.meta.ailment_chance:
-                return False
+                return None
 
-        # Apply status
         status_map = {
             "paralysis": StatusCondition.PARALYSIS,
             "burn": StatusCondition.BURN,
@@ -678,90 +1015,112 @@ class BattleState(BaseState):
         condition = status_map.get(move.meta.ailment)
         if condition and target.apply_status(condition):
             status_name = move.meta.ailment.upper()
-            self._queue_message(f"{target.species.name.upper()} was\n{status_name}!")
-            return True
+            return f"{target.species.name.upper()} was\n{status_name}!"
 
-        return False
+        return None
 
-    def _apply_status_effects_before_move(self, pokemon: Pokemon) -> bool:
-        """
-        Check if status prevents move (paralysis, sleep, freeze).
-
-        Returns:
-            True if move is blocked
-        """
+    def _check_status_before_move(self, pokemon: Pokemon) -> tuple[bool, list[str]]:
         from src.battle.status_effects import StatusCondition
 
         if pokemon.status == StatusCondition.PARALYSIS:
-            # 25% chance to be fully paralyzed
             import random
             if random.randint(1, 4) == 1:
-                self._queue_message(f"{pokemon.species.name.upper()} is\nparalyzed!")
-                return True
+                return True, [f"{pokemon.species.name.upper()} is\nparalyzed!"]
 
-        elif pokemon.status == StatusCondition.SLEEP:
+        if pokemon.status == StatusCondition.SLEEP:
             pokemon.status_turns -= 1
             if pokemon.status_turns > 0:
-                self._queue_message(f"{pokemon.species.name.upper()} is\nfast asleep!")
-                return True
-            else:
-                pokemon.status = None
-                self._queue_message(f"{pokemon.species.name.upper()} woke up!")
+                return True, [f"{pokemon.species.name.upper()} is\nfast asleep!"]
+            pokemon.status = None
+            return False, [f"{pokemon.species.name.upper()} woke up!"]
 
-        elif pokemon.status == StatusCondition.FREEZE:
-            # Gen 1: freeze is permanent unless hit by fire move
-            self._queue_message(f"{pokemon.species.name.upper()} is\nfrozen solid!")
-            return True
+        if pokemon.status == StatusCondition.FREEZE:
+            return True, [f"{pokemon.species.name.upper()} is\nfrozen solid!"]
 
-        return False
+        return False, []
 
-    def _apply_stat_changes(self, target: Pokemon, stat_changes: list, target_name: str):
-        """Apply stat stage modifications from move."""
-        from src.battle.move import StatChange
-
+    def _apply_stat_changes_messages(self, target: Pokemon, stat_changes: list) -> list[str]:
+        messages = []
         for stat_change in stat_changes:
             changed, msg = target.apply_stat_change(stat_change.stat, stat_change.change)
+            stat_display = stat_change.stat.upper()
 
             if changed:
-                # Format stat name for display
-                stat_display = stat_change.stat.upper()
-
-                # Gen 1 messages
-                if abs(stat_change.change) >= 2:
-                    modifier = "sharply "
-                else:
-                    modifier = ""
-
+                modifier = "sharply " if abs(stat_change.change) >= 2 else ""
                 direction = "rose" if stat_change.change > 0 else "fell"
-
-                self._queue_message(f"{target_name}'s\n{stat_display} {modifier}{direction}!")
+                messages.append(f"{target.species.name.upper()}'s\n{stat_display} {modifier}{direction}!")
             else:
-                # Already at limit
                 if stat_change.change > 0:
-                    self._queue_message(f"{target_name}'s {stat_display}\nwon't go higher!")
+                    messages.append(f"{target.species.name.upper()}'s {stat_display}\nwon't go higher!")
                 else:
-                    self._queue_message(f"{target_name}'s {stat_display}\nwon't go lower!")
+                    messages.append(f"{target.species.name.upper()}'s {stat_display}\nwon't go lower!")
 
-    def _apply_status_effects_end_of_turn(self, pokemon: Pokemon):
-        """Apply poison/burn damage at end of turn."""
+        return messages
+
+    def _build_end_status_steps(self) -> list[dict]:
+        steps: list[dict] = []
         from src.battle.status_effects import StatusCondition
 
-        if pokemon.status == StatusCondition.BURN:
-            damage = pokemon.stats.hp // 16
-            pokemon.take_damage(max(1, damage))
-            self._queue_message(f"{pokemon.species.name.upper()} was\nhurt by burn!")
+        for pokemon in (self.player_pokemon, self.enemy_pokemon):
+            if pokemon.is_fainted():
+                continue
 
-        elif pokemon.status == StatusCondition.POISON:
-            damage = pokemon.stats.hp // 16
-            pokemon.take_damage(max(1, damage))
-            self._queue_message(f"{pokemon.species.name.upper()} was\nhurt by poison!")
+            def after_tick(pokemon=pokemon) -> list[dict]:
+                if pokemon.is_fainted():
+                    self._handle_fainted(pokemon)
+                return []
 
-        elif pokemon.status == StatusCondition.BADLY_POISON:
-            # Toxic: damage increases each turn (1/16, 2/16, 3/16, etc.)
-            pokemon.status_turns += 1
-            damage = (pokemon.stats.hp // 16) * pokemon.status_turns
-            pokemon.take_damage(max(1, damage))
-            self._queue_message(f"{pokemon.species.name.upper()} was\nbadly poisoned!")
+            if pokemon.status == StatusCondition.BURN:
+                damage = max(1, pokemon.stats.hp // 16)
+                steps.append({"type": "message", "text": f"{pokemon.species.name.upper()} was\nhurt by burn!"})
+                steps.append({"type": "damage", "target": pokemon, "amount": damage, "after_tick": after_tick})
+
+            elif pokemon.status == StatusCondition.POISON:
+                damage = max(1, pokemon.stats.hp // 16)
+                steps.append({"type": "message", "text": f"{pokemon.species.name.upper()} was\nhurt by poison!"})
+                steps.append({"type": "damage", "target": pokemon, "amount": damage, "after_tick": after_tick})
+
+            elif pokemon.status == StatusCondition.BADLY_POISON:
+                pokemon.status_turns += 1
+                damage = max(1, (pokemon.stats.hp // 16) * pokemon.status_turns)
+                steps.append({"type": "message", "text": f"{pokemon.species.name.upper()} was\nbadly poisoned!"})
+                steps.append({"type": "damage", "target": pokemon, "amount": damage, "after_tick": after_tick})
+
+        return steps
+
+    def _handle_fainted(self, fainted: Pokemon) -> None:
+        self.sequence_active = False
+        self.sequence_steps = []
+        self.sequence_step_type = None
+        self.attack_animation_target = None
+        self.hp_tick_target = None
+        self.pending_after_tick = None
+        self.show_message = False
+        self.awaiting_input = False
+        self.flinch_target = None
+
+        if fainted is self.enemy_pokemon:
+            self._queue_message(f"Wild {self.enemy_pokemon.species.name.upper()}\nfainted!")
+            self._handle_victory()
+            return
+
+        if fainted is self.player_pokemon:
+            self._queue_message(f"{self.player_pokemon.species.name.upper()}\nfainted!")
+            self._handle_player_faint()
+
+    def _handle_player_faint(self) -> None:
+        if hasattr(self, 'party') and self.party.has_alive_pokemon():
+            self._queue_message("Choose next POK\u00e9MON!")
+            self._show_next_message()
+
+            from src.states.party_state import PartyState
+            party_state = PartyState(self.game, self.party, mode="forced_switch")
+            self.game.push_state(party_state)
+        else:
+            self._queue_message("You have no more\nPOK\u00e9MON!")
+            self._queue_message("You blacked out!")
+            self._show_next_message()
+            self.phase = "end"
 
     def _determine_turn_order(self, player_move: Move, enemy_move: Move) -> list[str]:
         """
@@ -815,9 +1174,11 @@ class BattleState(BaseState):
         attacker_name = attacker.species.name.upper()
         prefix = "" if is_player else "Wild "
 
-        # Check if status prevents move (paralysis, sleep, freeze)
-        if self._apply_status_effects_before_move(attacker):
-            return (False, False)  # Move blocked by status
+        blocked, status_messages = self._check_status_before_move(attacker)
+        for message in status_messages:
+            self._queue_message(message)
+        if blocked:
+            return (False, False)
 
         # Check accuracy
         if not self.damage_calculator.check_accuracy(attacker, defender, move):
@@ -853,11 +1214,14 @@ class BattleState(BaseState):
             self._queue_message(f"Hit {hit_count} times!")
 
         # Apply status condition to defender
-        self._apply_status_condition(defender, move)
+        status_message = self._apply_status_after_hit(defender, move)
+        if status_message:
+            self._queue_message(status_message)
 
         # Apply stat changes (most moves affect the user)
         if move.stat_changes:
-            self._apply_stat_changes(attacker, move.stat_changes, attacker_name)
+            for message in self._apply_stat_changes_messages(attacker, move.stat_changes):
+                self._queue_message(message)
 
         # Drain/healing effects
         if move.meta:
@@ -888,70 +1252,32 @@ class BattleState(BaseState):
             move: Move to use
         """
         self.awaiting_input = False
+        self.battle_menu.deactivate()
+        if self.move_menu:
+            self.move_menu.deactivate()
 
-        # Deduct PP
         if not self.player_pokemon.use_move_pp(move.move_id):
-            self._queue_message("No PP left!")
-            self._show_next_message()
+            self._start_sequence(
+                [{"type": "message", "text": "No PP left!"}],
+                "battle_menu"
+            )
             return
 
-        # Also deduct from local tracking for move menu display
         if move.move_id in self.player_move_pp:
             self.player_move_pp[move.move_id] -= 1
 
-        # Get enemy's move
+        if not self.enemy_pokemon.moves:
+            self._start_sequence(
+                [{"type": "message", "text": "Enemy has no moves!"}],
+                "battle_menu"
+            )
+            return
+
         enemy_move_id = self.enemy_pokemon.moves[0]
         enemy_move = self.move_loader.get_move(enemy_move_id)
-
-        # Determine turn order based on priority and speed
         turn_order = self._determine_turn_order(move, enemy_move)
-
-        # Execute attacks in order
-        flinch_target = None
-        for index, attacker_name in enumerate(turn_order):
-            if attacker_name == "player":
-                if flinch_target == "player":
-                    self._queue_message(f"{self.player_pokemon.species.name.upper()} flinched!")
-                    flinch_target = None
-                    continue
-
-                _, flinched = self._execute_attack(
-                    self.player_pokemon,
-                    self.enemy_pokemon,
-                    move,
-                    is_player=True
-                )
-
-                if index == 0 and flinched:
-                    flinch_target = "enemy"
-            else:
-                if flinch_target == "enemy":
-                    self._queue_message(f"{self.enemy_pokemon.species.name.upper()} flinched!")
-                    flinch_target = None
-                    continue
-
-                _, flinched = self._execute_attack(
-                    self.enemy_pokemon,
-                    self.player_pokemon,
-                    enemy_move,
-                    is_player=False
-                )
-
-                if index == 0 and flinched:
-                    flinch_target = "player"
-
-            # Check for fainting after each attack
-            if self.enemy_pokemon.is_fainted() or self.player_pokemon.is_fainted():
-                break
-
-        # Apply end-of-turn status effects (poison/burn damage)
-        if not self.player_pokemon.is_fainted():
-            self._apply_status_effects_end_of_turn(self.player_pokemon)
-        if not self.enemy_pokemon.is_fainted():
-            self._apply_status_effects_end_of_turn(self.enemy_pokemon)
-
-        # Show messages
-        self._show_next_message()
+        steps = self._build_turn_steps(turn_order, move, enemy_move)
+        self._start_sequence(steps, "battle_menu")
 
     def _execute_enemy_attack(self):
         """

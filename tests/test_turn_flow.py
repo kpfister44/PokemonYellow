@@ -1,44 +1,8 @@
-import random
+# ABOUTME: Tests battle flow transitions after message handling
+# ABOUTME: Verifies battle state returns to menu after messages
 
-from src.battle.pokemon import Pokemon
-from src.battle.species import BaseStats, Species
 from src.states.battle_state import BattleState
-
-
-class DummyGame:
-    def __init__(self):
-        self.renderer = None
-        self.popped = False
-
-    def pop_state(self):
-        self.popped = True
-
-
-def make_species(name: str) -> Species:
-    return Species(
-        species_id=name.lower(),
-        number=999,
-        name=name,
-        genus="",
-        height=0,
-        weight=0,
-        types=["normal"],
-        base_stats=BaseStats(hp=50, attack=50, defense=50, special=50, speed=50),
-        base_experience=100,
-        growth_rate="medium",
-        capture_rate=255,
-        base_happiness=70,
-        gender_rate=-1,
-        pokedex_entry="",
-        evolution_chain={},
-        level_up_moves=[],
-        sprites=None,
-    )
-
-
-def make_pokemon(name: str, level: int = 5) -> Pokemon:
-    random.seed(0)
-    return Pokemon(make_species(name), level)
+from tests.battle_test_helpers import DummyGame, make_pokemon
 
 
 def test_advance_turn_returns_to_battle_menu_after_messages():

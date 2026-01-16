@@ -27,3 +27,5 @@ Journal
 2026-01-16
 - Read PROJECT_OVERVIEW.md and captured current phase, systems, and data layout.
 - Documented battle mechanics fix plan in battle-mechanics-fix.md.
+- Implemented sequential battle flow with attack animations and HP tick phases.
+- Added logic-only tests for battle sequencing and shared battle test helpers.
