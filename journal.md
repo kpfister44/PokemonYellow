@@ -22,3 +22,4 @@ Journal
 - Added Pokedex entry paging and right-side menu cursor actions.
 - Marked pokedex seen/caught during battles and added INFO no-data dialog.
 - Fixed battle flow to advance after faint animation completes.
+- Ensured party Pokemon always populate pokedex flags on load.

@@ -80,6 +80,10 @@ class OverworldState(BaseState):
                 self.pokedex_seen.add("pikachu")
                 self.pokedex_caught.add("pikachu")
 
+        for pokemon in self.party.pokemon:
+            self.pokedex_seen.add(pokemon.species.species_id)
+            self.pokedex_caught.add(pokemon.species.species_id)
+
     def enter(self):
         """Called when entering this state."""
         # Skip initialization if already loaded (resuming from another state)
