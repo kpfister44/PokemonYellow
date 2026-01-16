@@ -22,7 +22,8 @@ class BagState(BaseState):
         mode: str,
         active_pokemon: Optional[Pokemon] = None,
         is_trainer_battle: bool = False,
-        on_item_used: Optional[Callable[[ItemUseResult], None]] = None
+        on_item_used: Optional[Callable[[ItemUseResult], None]] = None,
+        on_cancel: Optional[Callable[[], None]] = None
     ):
         super().__init__(game)
         self.bag = bag
@@ -31,6 +32,7 @@ class BagState(BaseState):
         self.active_pokemon = active_pokemon
         self.is_trainer_battle = is_trainer_battle
         self.on_item_used = on_item_used
+        self.on_cancel = on_cancel
 
         self.item_loader = ItemLoader()
         self.item_effects = ItemEffects(self.item_loader)
@@ -49,6 +51,8 @@ class BagState(BaseState):
         elif input_handler.is_just_pressed("a"):
             self._handle_item_selection()
         elif input_handler.is_just_pressed("b"):
+            if self.on_cancel:
+                self.on_cancel()
             self.game.pop_state()
 
     def _handle_item_selection(self) -> None:

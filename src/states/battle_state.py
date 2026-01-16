@@ -210,7 +210,8 @@ class BattleState(BaseState):
                     mode="battle",
                     active_pokemon=self.player_pokemon,
                     is_trainer_battle=self.is_trainer_battle,
-                    on_item_used=self._handle_item_result
+                    on_item_used=self._handle_item_result,
+                    on_cancel=self._handle_bag_cancel
                 )
                 self.game.push_state(bag_state)
             else:
@@ -979,6 +980,11 @@ class BattleState(BaseState):
 
         self.post_message_phase = "enemy_turn"
         self._show_next_message()
+
+    def _handle_bag_cancel(self) -> None:
+        self.battle_menu.activate()
+        self.phase = "battle_menu"
+        self.awaiting_input = True
 
     def _mark_seen(self) -> None:
         if hasattr(self, "pokedex_seen"):
