@@ -70,6 +70,18 @@
       "item_id": "potion",
       "tile_x": 3,
       "tile_y": 9
+    },
+    {
+      "id": "pallet_pokeball_1",
+      "item_id": "poke-ball",
+      "tile_x": 4,
+      "tile_y": 9
+    },
+    {
+      "id": "pallet_pokeball_2",
+      "item_id": "poke-ball",
+      "tile_x": 5,
+      "tile_y": 9
     }
   ],
   "warps": [

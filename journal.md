@@ -33,3 +33,4 @@ Journal
 - Fixed battle party cancel to restore menu and added test coverage.
 - Added run escape logic and pokeball catch animation sequencing with ball sprites.
 - Hydrated item sprites from PokéAPI and extended item metadata with sprite paths.
+- Added two Poke Ball pickups to Pallet Town for catch testing.
