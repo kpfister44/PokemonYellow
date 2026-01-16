@@ -7,7 +7,8 @@ from src.ui.pokedex_screen import (
     format_height_feet_inches,
     format_weight_pounds,
     get_species_in_dex_order,
-    get_visibility_state
+    get_visibility_state,
+    paginate_text
 )
 
 
@@ -66,3 +67,15 @@ def test_format_height_feet_inches():
 def test_format_weight_pounds():
     """Weight formatting should match Yellow display."""
     assert format_weight_pounds(69) == "15.2LB."
+
+
+def test_paginate_text_splits_into_pages():
+    """Pagination should split wrapped lines into pages."""
+    text = "one two three four five six"
+
+    pages = paginate_text(text, max_chars=9, max_lines=2)
+
+    assert pages == [
+        ["one two", "three"],
+        ["four five", "six"]
+    ]

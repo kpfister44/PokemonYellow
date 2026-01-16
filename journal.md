@@ -19,3 +19,4 @@ Journal
 - Added Pokedex list/detail screens with start menu entry.
 - Persisted pokedex seen/caught flags and seeded starter on new game.
 - Hydrated Pokedex genus/height/weight data from PokéAPI.
+- Added Pokedex entry paging and right-side menu cursor actions.

@@ -10,6 +10,8 @@ from src.engine.constants import GAME_HEIGHT, GAME_WIDTH
 VISIBILITY_UNSEEN = "unseen"
 VISIBILITY_SEEN = "seen"
 VISIBILITY_CAUGHT = "caught"
+FOCUS_LIST = "list"
+FOCUS_MENU = "menu"
 
 
 def get_species_in_dex_order(species_by_id: dict[str, Species]) -> list[Species]:
@@ -42,6 +44,41 @@ def format_weight_pounds(weight_hg: int) -> str:
     return f"{pounds:.1f}LB."
 
 
+def wrap_text_lines(text: str, max_chars: int) -> list[str]:
+    """Wrap text into lines of max_chars length."""
+    lines = []
+    words = text.split()
+    current_line = []
+
+    for word in words:
+        test_line = " ".join(current_line + [word])
+        if len(test_line) <= max_chars:
+            current_line.append(word)
+        else:
+            if current_line:
+                lines.append(" ".join(current_line))
+            current_line = [word]
+
+    if current_line:
+        lines.append(" ".join(current_line))
+
+    return lines
+
+
+def paginate_text(text: str, max_chars: int, max_lines: int) -> list[list[str]]:
+    """Paginate wrapped text into pages of max_lines each."""
+    lines = wrap_text_lines(text, max_chars)
+    pages = []
+
+    for index in range(0, len(lines), max_lines):
+        pages.append(lines[index:index + max_lines])
+
+    if not pages:
+        pages.append([])
+
+    return pages
+
+
 class PokedexScreen:
     """Pokedex UI component for list and entry rendering."""
 
@@ -57,14 +94,25 @@ class PokedexScreen:
         self.pokedex_caught = set(pokedex_caught)
         self.cursor_index = 0
         self.scroll_offset = 0
+        self.menu_index = 0
+        self.focus = FOCUS_LIST
         self.mode = "list"
         self.entry_species = None
+        self.entry_pages = [[]]
+        self.entry_page_index = 0
+        self.menu_options = ["INFO", "CRY", "AREA", "PRNT", "QUIT"]
 
     def set_pokedex_flags(self, seen: Iterable[str], caught: Iterable[str]) -> None:
         self.pokedex_seen = set(seen)
         self.pokedex_caught = set(caught)
 
     def move_cursor(self, direction: int) -> None:
+        if self.focus == FOCUS_MENU:
+            if not self.menu_options:
+                return
+            self.menu_index = (self.menu_index + direction) % len(self.menu_options)
+            return
+
         if not self.species_list:
             return
         self.cursor_index = (self.cursor_index + direction) % len(self.species_list)
@@ -85,17 +133,42 @@ class PokedexScreen:
             return False
         self.mode = "entry"
         self.entry_species = species
+        self.entry_pages = paginate_text(species.pokedex_entry, max_chars=19, max_lines=3)
+        self.entry_page_index = 0
         return True
 
     def close_entry(self) -> None:
         self.mode = "list"
         self.entry_species = None
+        self.entry_page_index = 0
 
     def render(self, renderer) -> None:
         if self.mode == "entry":
             self._render_entry(renderer)
         else:
             self._render_list(renderer)
+
+    def set_focus(self, focus: str) -> None:
+        self.focus = focus
+
+    def get_selected_menu_option(self) -> str:
+        if not self.menu_options:
+            return "INFO"
+        return self.menu_options[self.menu_index]
+
+    def can_advance_page(self) -> bool:
+        return self.entry_page_index < len(self.entry_pages) - 1
+
+    def can_go_back_page(self) -> bool:
+        return self.entry_page_index > 0
+
+    def advance_page(self) -> None:
+        if self.can_advance_page():
+            self.entry_page_index += 1
+
+    def go_back_page(self) -> None:
+        if self.can_go_back_page():
+            self.entry_page_index -= 1
 
     def _render_list(self, renderer) -> None:
         renderer.clear((248, 248, 248))
@@ -126,7 +199,7 @@ class PokedexScreen:
 
             name_text = species.name.upper() if state != VISIBILITY_UNSEEN else "?????"
             name_y = base_y + row_height
-            if list_index == self.cursor_index:
+            if self.focus == FOCUS_LIST and list_index == self.cursor_index:
                 renderer.draw_text("▶", 2, name_y)
 
             name_x = 28
@@ -154,9 +227,11 @@ class PokedexScreen:
         renderer.draw_text(f"{owned_count}", x + 4, 42, text_color, 10)
 
         menu_y = 64
-        options = ["INFO", "CRY", "AREA", "PRNT", "QUIT"]
-        for i, option in enumerate(options):
-            renderer.draw_text(option, x, menu_y + (i * 12), text_color, 12)
+        for i, option in enumerate(self.menu_options):
+            y = menu_y + (i * 12)
+            if self.focus == FOCUS_MENU and i == self.menu_index:
+                renderer.draw_text("▶", x - 10, y, text_color, 12)
+            renderer.draw_text(option, x, y, text_color, 12)
 
     def _render_entry(self, renderer) -> None:
         renderer.clear((248, 248, 248))
@@ -188,28 +263,15 @@ class PokedexScreen:
 
         renderer.draw_text(f"No.{species.number:03d}", 8, 72)
 
-        entry_lines = self._wrap_text(species.pokedex_entry, max_chars=19)
-        for i, line in enumerate(entry_lines[:3]):
+        entry_lines = self.entry_pages[self.entry_page_index] if self.entry_pages else []
+        for i, line in enumerate(entry_lines):
             renderer.draw_text(line, 8, 92 + (i * 12))
 
-    def _wrap_text(self, text: str, max_chars: int) -> list[str]:
-        lines = []
-        words = text.split()
-        current_line = []
-
-        for word in words:
-            test_line = " ".join(current_line + [word])
-            if len(test_line) <= max_chars:
-                current_line.append(word)
-            else:
-                if current_line:
-                    lines.append(" ".join(current_line))
-                current_line = [word]
-
-        if current_line:
-            lines.append(" ".join(current_line))
-
-        return lines
+        if len(self.entry_pages) > 1:
+            page_text = f"{self.entry_page_index + 1}/{len(self.entry_pages)}"
+            renderer.draw_text(page_text, 124, 128)
+            if self.can_advance_page():
+                renderer.draw_text("▼", 146, 128)
 
     def _adjust_scroll(self, total_entries: int, max_lines: int) -> None:
         if total_entries <= max_lines:
