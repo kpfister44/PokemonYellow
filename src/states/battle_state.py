@@ -222,7 +222,12 @@ class BattleState(BaseState):
             # Open party screen in switch mode
             if hasattr(self, 'party'):
                 from src.states.party_state import PartyState
-                party_state = PartyState(self.game, self.party, mode="switch")
+                party_state = PartyState(
+                    self.game,
+                    self.party,
+                    mode="switch",
+                    on_cancel=self._handle_party_cancel
+                )
                 self.game.push_state(party_state)
             else:
                 self._queue_message("Party not\nimplemented yet!")
@@ -982,6 +987,11 @@ class BattleState(BaseState):
         self._show_next_message()
 
     def _handle_bag_cancel(self) -> None:
+        self.battle_menu.activate()
+        self.phase = "battle_menu"
+        self.awaiting_input = True
+
+    def _handle_party_cancel(self) -> None:
         self.battle_menu.activate()
         self.phase = "battle_menu"
         self.awaiting_input = True

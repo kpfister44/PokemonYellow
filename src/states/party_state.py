@@ -109,6 +109,8 @@ class PartyState(BaseState):
                     if self.on_cancel:
                         self.on_cancel()
             elif self.mode != "forced_switch":
+                if self.on_cancel:
+                    self.on_cancel()
                 self.game.pop_state()
 
     def update(self, dt: float):

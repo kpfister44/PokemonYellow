@@ -30,3 +30,4 @@ Journal
 - Implemented sequential battle flow with attack animations and HP tick phases.
 - Added logic-only tests for battle sequencing and shared battle test helpers.
 - Fixed battle bag cancel to restore menu and added test coverage.
+- Fixed battle party cancel to restore menu and added test coverage.
