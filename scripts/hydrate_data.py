@@ -2,6 +2,7 @@
 # ABOUTME: Hydrates local Pokemon and move data from PokéAPI
 # ABOUTME: Fetches Gen 1 Pokemon (1-151) with Yellow version data and downloads sprites
 
+import argparse
 import requests
 import yaml
 import json
@@ -21,6 +22,7 @@ MOVES_DIR = DATA_DIR / "moves"
 ENCOUNTERS_DIR = DATA_DIR / "encounters"
 ITEMS_DIR = DATA_DIR / "items"
 SPRITES_DIR = PROJECT_ROOT / "assets" / "sprites" / "pokemon"
+ITEM_SPRITES_DIR = PROJECT_ROOT / "assets" / "sprites" / "items"
 ITEM_LIST_PATH = ITEMS_DIR / "yellow_item_list.yaml"
 
 # Gen 1 constants
@@ -303,6 +305,12 @@ def fetch_item_data(item_id: str) -> Optional[Dict[str, Any]]:
         'countable': 'countable' in attributes,
         'consumable': 'consumable' in attributes
     }
+
+    sprite_url = item_data.get('sprites', {}).get('default')
+    if sprite_url:
+        sprite_path = ITEM_SPRITES_DIR / f"{item_id}.png"
+        if download_sprite(sprite_url, sprite_path):
+            item_entry['sprite'] = str(sprite_path.relative_to(PROJECT_ROOT))
 
     return item_entry
 
@@ -642,6 +650,13 @@ def hydrate_items():
 
 def main():
     """Main hydration script."""
+    parser = argparse.ArgumentParser(description="Hydrate Pokemon Yellow data from PokéAPI.")
+    parser.add_argument(
+        "--items-only",
+        action="store_true",
+        help="Only hydrate items and item sprites."
+    )
+    args = parser.parse_args()
     print("=" * 60)
     print("🌊 POKÉMON YELLOW DATA HYDRATION SCRIPT")
     print("=" * 60)
@@ -651,16 +666,20 @@ def main():
 
     # Create directories
     SPRITES_DIR.mkdir(parents=True, exist_ok=True)
+    ITEM_SPRITES_DIR.mkdir(parents=True, exist_ok=True)
     POKEMON_DIR.mkdir(parents=True, exist_ok=True)
     MOVES_DIR.mkdir(parents=True, exist_ok=True)
     ENCOUNTERS_DIR.mkdir(parents=True, exist_ok=True)
     ITEMS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Hydrate data
-    hydrate_pokemon()
-    hydrate_moves()
-    hydrate_encounters()
-    hydrate_items()
+    if args.items_only:
+        hydrate_items()
+    else:
+        hydrate_pokemon()
+        hydrate_moves()
+        hydrate_encounters()
+        hydrate_items()
 
     print("\n" + "=" * 60)
     print("✅ HYDRATION COMPLETE!")

@@ -22,6 +22,7 @@ class Item:
     usable_in_overworld: bool
     countable: bool
     consumable: bool
+    sprite: Optional[str]
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Item":
@@ -40,5 +41,6 @@ class Item:
             usable_in_battle=data.get("usable_in_battle", False),
             usable_in_overworld=data.get("usable_in_overworld", False),
             countable=data.get("countable", False),
-            consumable=data.get("consumable", False)
+            consumable=data.get("consumable", False),
+            sprite=data.get("sprite")
         )

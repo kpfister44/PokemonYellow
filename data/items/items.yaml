@@ -18,6 +18,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/antidote.png
 - id: 21
   item_id: awakening
   name: Awakening
@@ -37,6 +38,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/awakening.png
 - id: 427
   item_id: bicycle
   name: Bicycle
@@ -51,6 +53,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/bicycle.png
 - id: 545
   item_id: bike-voucher
   name: Bike Voucher
@@ -65,6 +68,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/bike-voucher.png
 - id: 19
   item_id: burn-heal
   name: Burn Heal
@@ -84,6 +88,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/burn-heal.png
 - id: 49
   item_id: calcium
   name: Calcium
@@ -103,6 +108,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/calcium.png
 - id: 48
   item_id: carbos
   name: Carbos
@@ -122,6 +128,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/carbos.png
 - id: 475
   item_id: card-key
   name: Card Key
@@ -136,6 +143,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/card-key.png
 - id: 421
   item_id: coin-case
   name: Coin Case
@@ -150,6 +158,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/coin-case.png
 - id: 56
   item_id: dire-hit
   name: Dire Hit
@@ -168,6 +177,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/dire-hit.png
 - id: 102
   item_id: dome-fossil
   name: Dome Fossil
@@ -183,6 +193,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/dome-fossil.png
 - id: 40
   item_id: elixir
   name: Elixir
@@ -202,6 +213,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/elixir.png
 - id: 78
   item_id: escape-rope
   name: Escape Rope
@@ -216,6 +228,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/escape-rope.png
 - id: 38
   item_id: ether
   name: Ether
@@ -235,6 +248,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/ether.png
 - id: 82
   item_id: fire-stone
   name: Fire Stone
@@ -251,6 +265,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/fire-stone.png
 - id: 30
   item_id: fresh-water
   name: Fresh Water
@@ -270,6 +285,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/fresh-water.png
 - id: 27
   item_id: full-heal
   name: Full Heal
@@ -289,6 +305,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/full-heal.png
 - id: 23
   item_id: full-restore
   name: Full Restore
@@ -308,6 +325,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/full-restore.png
 - id: 546
   item_id: gold-teeth
   name: Gold Teeth
@@ -322,6 +340,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/gold-teeth.png
 - id: 423
   item_id: good-rod
   name: Good Rod
@@ -336,6 +355,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/good-rod.png
 - id: 3
   item_id: great-ball
   name: Great Ball
@@ -354,6 +374,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/great-ball.png
 - id: 55
   item_id: guard-spec
   name: Guard Spec.
@@ -372,6 +393,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/guard-spec.png
 - id: 101
   item_id: helix-fossil
   name: Helix Fossil
@@ -387,6 +409,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/helix-fossil.png
 - id: 45
   item_id: hp-up
   name: HP Up
@@ -406,6 +429,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/hp-up.png
 - id: 25
   item_id: hyper-potion
   name: Hyper Potion
@@ -425,6 +449,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/hyper-potion.png
 - id: 20
   item_id: ice-heal
   name: Ice Heal
@@ -444,6 +469,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/ice-heal.png
 - id: 47
   item_id: iron
   name: Iron
@@ -463,6 +489,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/iron.png
 - id: 85
   item_id: leaf-stone
   name: Leaf Stone
@@ -479,6 +506,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/leaf-stone.png
 - id: 32
   item_id: lemonade
   name: Lemonade
@@ -498,6 +526,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/lemonade.png
 - id: 547
   item_id: lift-key
   name: Lift Key
@@ -512,6 +541,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/lift-key.png
 - id: 1
   item_id: master-ball
   name: Master Ball
@@ -530,6 +560,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/master-ball.png
 - id: 41
   item_id: max-elixir
   name: Max Elixir
@@ -549,6 +580,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/max-elixir.png
 - id: 39
   item_id: max-ether
   name: Max Ether
@@ -568,6 +600,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/max-ether.png
 - id: 24
   item_id: max-potion
   name: Max Potion
@@ -587,6 +620,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/max-potion.png
 - id: 77
   item_id: max-repel
   name: Max Repel
@@ -602,6 +636,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/max-repel.png
 - id: 29
   item_id: max-revive
   name: Max Revive
@@ -622,6 +657,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/max-revive.png
 - id: 81
   item_id: moon-stone
   name: Moon Stone
@@ -639,6 +675,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/moon-stone.png
 - id: 92
   item_id: nugget
   name: Nugget
@@ -653,6 +690,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/nugget.png
 - id: 543
   item_id: oaks-parcel
   name: "Oak\u2019s Parcel"
@@ -667,6 +705,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/oaks-parcel.png
 - id: 103
   item_id: old-amber
   name: Old Amber
@@ -682,6 +721,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/old-amber.png
 - id: 422
   item_id: old-rod
   name: Old Rod
@@ -696,6 +736,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/old-rod.png
 - id: 22
   item_id: paralyze-heal
   name: Paralyze Heal
@@ -715,6 +756,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/paralyze-heal.png
 - id: 4
   item_id: poke-ball
   name: "Pok\xE9 Ball"
@@ -733,6 +775,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/poke-ball.png
 - id: 63
   item_id: poke-doll
   name: "Pok\xE9 Doll"
@@ -751,6 +794,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/poke-doll.png
 - id: 544
   item_id: poke-flute
   name: "Pok\xE9 Flute"
@@ -765,6 +809,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/poke-flute.png
 - id: 17
   item_id: potion
   name: Potion
@@ -784,6 +829,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/potion.png
 - id: 51
   item_id: pp-up
   name: PP Up
@@ -803,6 +849,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/pp-up.png
 - id: 46
   item_id: protein
   name: Protein
@@ -822,6 +869,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/protein.png
 - id: 50
   item_id: rare-candy
   name: Rare Candy
@@ -841,6 +889,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/rare-candy.png
 - id: 79
   item_id: repel
   name: Repel
@@ -856,6 +905,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/repel.png
 - id: 28
   item_id: revive
   name: Revive
@@ -876,6 +926,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/revive.png
 - id: 433
   item_id: ss-ticket
   name: S.S. Ticket
@@ -890,6 +941,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/ss-ticket.png
 - id: 5
   item_id: safari-ball
   name: Safari Ball
@@ -909,6 +961,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/safari-ball.png
 - id: 445
   item_id: secret-key
   name: Secret Key
@@ -924,6 +977,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/secret-key.png
 - id: 548
   item_id: silph-scope
   name: Silph Scope
@@ -938,6 +992,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/silph-scope.png
 - id: 31
   item_id: soda-pop
   name: Soda Pop
@@ -957,6 +1012,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/soda-pop.png
 - id: 26
   item_id: super-potion
   name: Super Potion
@@ -976,6 +1032,7 @@ items:
   usable_in_overworld: true
   countable: true
   consumable: true
+  sprite: assets/sprites/items/super-potion.png
 - id: 76
   item_id: super-repel
   name: Super Repel
@@ -991,6 +1048,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/super-repel.png
 - id: 424
   item_id: super-rod
   name: Super Rod
@@ -1005,6 +1063,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/super-rod.png
 - id: 83
   item_id: thunder-stone
   name: Thunder Stone
@@ -1021,6 +1080,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/thunder-stone.png
 - id: 419
   item_id: town-map
   name: Town Map
@@ -1035,6 +1095,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/town-map.png
 - id: 2
   item_id: ultra-ball
   name: Ultra Ball
@@ -1053,6 +1114,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/ultra-ball.png
 - id: 84
   item_id: water-stone
   name: Water Stone
@@ -1069,6 +1131,7 @@ items:
   usable_in_overworld: false
   countable: false
   consumable: false
+  sprite: assets/sprites/items/water-stone.png
 - id: 60
   item_id: x-accuracy
   name: X Accuracy
@@ -1087,6 +1150,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/x-accuracy.png
 - id: 57
   item_id: x-attack
   name: X Attack
@@ -1105,6 +1169,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/x-attack.png
 - id: 58
   item_id: x-defense
   name: X Defense
@@ -1123,6 +1188,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/x-defense.png
 - id: 61
   item_id: x-sp-atk
   name: X Sp. Atk
@@ -1141,6 +1207,7 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/x-sp-atk.png
 - id: 59
   item_id: x-speed
   name: X Speed
@@ -1159,3 +1226,4 @@ items:
   usable_in_overworld: false
   countable: true
   consumable: true
+  sprite: assets/sprites/items/x-speed.png
