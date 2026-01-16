@@ -101,33 +101,40 @@ class PokedexScreen:
         renderer.clear((248, 248, 248))
 
         divider_x = 104
-        renderer.draw_rect((0, 0, 0), (divider_x, 0, 1, GAME_HEIGHT), 0)
+        self._render_dotted_divider(renderer, divider_x)
 
-        line_height = 12
+        row_height = 9
+        entry_height = row_height * 2
         list_top = 8
-        list_height = GAME_HEIGHT - list_top
-        max_lines = list_height // line_height
+        max_entries = 7
+        list_height = entry_height * max_entries
 
-        self._adjust_scroll(len(self.species_list), max_lines)
+        self._adjust_scroll(len(self.species_list), max_entries)
 
-        visible = self.species_list[self.scroll_offset:self.scroll_offset + max_lines]
+        visible = self.species_list[self.scroll_offset:self.scroll_offset + max_entries]
         for index, species in enumerate(visible):
-            y = list_top + (index * line_height)
+            base_y = list_top + (index * entry_height)
             list_index = self.scroll_offset + index
-
-            if list_index == self.cursor_index:
-                renderer.draw_text("▶", 2, y)
-
-            number_text = f"{species.number:03d}"
-            renderer.draw_text(number_text, 12, y)
-
             state = get_visibility_state(
                 species.species_id,
                 self.pokedex_seen,
                 self.pokedex_caught
             )
+
+            number_text = f"{species.number:03d}"
+            renderer.draw_text(number_text, 6, base_y, (0, 0, 0), 11)
+
             name_text = species.name.upper() if state != VISIBILITY_UNSEEN else "?????"
-            renderer.draw_text(name_text, 44, y)
+            name_y = base_y + row_height
+            if list_index == self.cursor_index:
+                renderer.draw_text("▶", 2, name_y)
+
+            name_x = 28
+            if state == VISIBILITY_CAUGHT:
+                renderer.draw_text("●", 12, name_y, (0, 0, 0), 10)
+                renderer.draw_text(name_text, name_x, name_y, (0, 0, 0), 11)
+            else:
+                renderer.draw_text(name_text, name_x, name_y, (0, 0, 0), 11)
 
         self._render_right_panel(renderer, divider_x + 6)
 
@@ -136,12 +143,17 @@ class PokedexScreen:
         seen_count = len(self.pokedex_seen | self.pokedex_caught)
         owned_count = len(self.pokedex_caught)
 
-        renderer.draw_text("SEEN", x, 8, text_color, 12)
-        renderer.draw_text(f"{seen_count}", x + 4, 20, text_color, 12)
-        renderer.draw_text("OWN", x, 36, text_color, 12)
-        renderer.draw_text(f"{owned_count}", x + 4, 48, text_color, 12)
+        stats_box = (divider_x := x - 6, 0, GAME_WIDTH - divider_x, 52)
+        menu_box = (divider_x, 56, GAME_WIDTH - divider_x, 88)
+        self._render_double_box(renderer, stats_box)
+        self._render_double_box(renderer, menu_box)
 
-        menu_y = 68
+        renderer.draw_text("SEEN", x, 8, text_color, 12)
+        renderer.draw_text(f"{seen_count}", x + 4, 20, text_color, 10)
+        renderer.draw_text("OWN", x, 32, text_color, 12)
+        renderer.draw_text(f"{owned_count}", x + 4, 42, text_color, 10)
+
+        menu_y = 64
         options = ["INFO", "CRY", "AREA", "PRNT", "QUIT"]
         for i, option in enumerate(options):
             renderer.draw_text(option, x, menu_y + (i * 12), text_color, 12)
@@ -208,3 +220,14 @@ class PokedexScreen:
             self.scroll_offset = self.cursor_index
         elif self.cursor_index >= self.scroll_offset + max_lines:
             self.scroll_offset = self.cursor_index - max_lines + 1
+
+    def _render_double_box(self, renderer, rect: tuple[int, int, int, int]) -> None:
+        x, y, width, height = rect
+        renderer.draw_rect((0, 0, 0), (x, y, width, height), 1)
+        renderer.draw_rect((0, 0, 0), (x + 2, y + 2, width - 4, height - 4), 1)
+
+    def _render_dotted_divider(self, renderer, x: int) -> None:
+        renderer.draw_rect((0, 0, 0), (x, 0, 1, GAME_HEIGHT), 0)
+        step = 10
+        for y in range(4, GAME_HEIGHT, step):
+            renderer.draw_rect((248, 248, 248), (x - 1, y, 3, 2), 0)
