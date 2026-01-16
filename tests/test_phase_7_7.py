@@ -128,6 +128,8 @@ def test_trainer_victory_sends_next_pokemon():
     )
 
     battle._handle_victory()
+    while battle.exp_flow_active:
+        battle._show_next_message()
 
     assert battle.enemy_pokemon == next_mon
     assert battle.phase == "battle_menu"

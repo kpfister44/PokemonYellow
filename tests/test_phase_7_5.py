@@ -69,15 +69,16 @@ def test_pokemon_experience_and_level_up_flow():
     assert pokemon.experience == current_exp
     assert pokemon.exp_to_next_level == next_exp
 
-    assert pokemon.gain_experience(next_exp - current_exp - 1) is False
-    assert pokemon.gain_experience(1) is True
+    assert pokemon.gain_experience(next_exp - current_exp - 1) == []
+    assert pokemon.gain_experience(1) == [5]
 
     old_stats = pokemon.stats
-    pokemon.level_up()
+    old_hp = pokemon.current_hp
+    old_max = old_stats.hp
 
     assert pokemon.level == 5
     assert pokemon.stats.hp >= old_stats.hp
-    assert pokemon.current_hp == pokemon.stats.hp
+    assert pokemon.current_hp == old_hp + (pokemon.stats.hp - old_max)
 
 
 def test_battle_state_victory_and_level_up_sequence():
@@ -96,12 +97,11 @@ def test_battle_state_victory_and_level_up_sequence():
 
     battle._handle_victory()
 
+    assert battle.exp_flow_active is True
     assert battle.phase == "showing_message"
     assert "gained" in battle.message
 
     battle._show_next_message()
-    battle._handle_level_up()
+    battle._show_next_message()
 
-    assert battle.phase == "end"
     assert player.level == 5
-    assert "grew to" in battle.message
