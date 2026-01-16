@@ -10,6 +10,8 @@ from src.battle.move_loader import MoveLoader
 from src.battle.move import Move
 from src.ui.battle_menu import BattleMenu
 from src.ui.move_menu import MoveMenu
+from src.ui.yes_no_menu import YesNoMenu
+from src.ui.forget_move_menu import ForgetMoveMenu
 from src.engine import constants
 from src.battle.catch_calculator import CatchCalculator
 from src.battle.hp_bar_display import HpBarDisplay
@@ -63,7 +65,7 @@ class BattleState(BaseState):
         self.trainer_pokemon_remaining = trainer_pokemon_remaining or []
 
         # Battle flow state
-        self.phase = "intro"  # intro, showing_message, battle_menu, move_selection, enemy_turn, throwing_ball, catch_result, level_up, end
+        self.phase = "intro"  # intro, showing_message, battle_menu, move_selection, move_learn_choice, forget_move, enemy_turn, throwing_ball, catch_result, end
         if self.is_trainer_battle and self.trainer:
             self.message = f"{self.trainer.trainer_class}\n{self.trainer.name} wants to fight!"
         else:
@@ -82,6 +84,8 @@ class BattleState(BaseState):
         # UI components (Phase 7.2)
         self.battle_menu = BattleMenu()
         self.move_menu = None  # Created when FIGHT is selected
+        self.learn_menu = YesNoMenu()
+        self.forget_menu = None
         self.sequence_active = False
         self.sequence_steps = []
         self.sequence_step_type = None
@@ -112,6 +116,18 @@ class BattleState(BaseState):
         self.catch_hide_enemy = False
         self.catch_attempts = 0
         self.catch_success = False
+        self.exp_flow_active = False
+        self.exp_flow_step = None
+        self.exp_recipients: list[Pokemon] = []
+        self.exp_recipient_index = 0
+        self.exp_gain = 0
+        self.pending_levels: list[int] = []
+        self.pending_moves: list[str] = []
+        self.pending_move_id: str | None = None
+        self.pending_level: int | None = None
+        self.exp_after_flow_phase: str | None = None
+        self.victory_in_progress = False
+        self.participants: list[Pokemon] = [self.player_pokemon]
 
         self.enemy_hp_bar_width = 46
         self.player_hp_bar_width = 62
@@ -139,9 +155,15 @@ class BattleState(BaseState):
 
     def _initialize_player_pp(self):
         """Initialize PP tracking for player's moves."""
-        for move_id in self.player_pokemon.moves:
-            move = self.move_loader.get_move(move_id)
-            self.player_move_pp[move_id] = move.pp
+        self.player_move_pp = {}
+        for move_id, (current_pp, _) in self.player_pokemon.move_pp.items():
+            self.player_move_pp[move_id] = current_pp
+
+    def _sync_player_move_pp(self, pokemon: Pokemon):
+        """Sync displayed PP values with Pokemon state."""
+        if pokemon is not self.player_pokemon:
+            return
+        self._initialize_player_pp()
 
     def enter(self):
         """Called when entering battle state."""
@@ -181,6 +203,21 @@ class BattleState(BaseState):
                 self._handle_battle_menu_selection(selection)
             return
 
+        if self.phase == "move_learn_choice":
+            choice = self.learn_menu.handle_input(input_handler)
+            if choice is not None:
+                self._handle_move_learning_choice(choice)
+            return
+
+        if self.phase == "forget_move":
+            if self.forget_menu:
+                selected_move, cancelled = self.forget_menu.handle_input(input_handler)
+                if cancelled:
+                    self._decline_move_learning()
+                elif selected_move:
+                    self._replace_move(selected_move)
+            return
+
         # Move selection phase - handle move menu
         if self.phase == "move_selection":
             result = self.move_menu.handle_input(input_handler)
@@ -203,8 +240,6 @@ class BattleState(BaseState):
                 self._show_next_message()
             elif self.phase == "enemy_turn":
                 self._execute_enemy_attack()
-            elif self.phase == "level_up":
-                self._handle_level_up()
             elif self.phase == "end":
                 self._end_battle()
 
@@ -282,11 +317,14 @@ class BattleState(BaseState):
         # Switch Pokemon
         old_pokemon = self.player_pokemon
         self.player_pokemon = new_pokemon
+        if new_pokemon not in self.participants:
+            self.participants.append(new_pokemon)
         self.player_hp_display = HpBarDisplay(
             self.player_pokemon.stats.hp,
             self.player_pokemon.current_hp,
             self.player_hp_bar_width
         )
+        self._sync_player_move_pp(new_pokemon)
 
         # Update sprite
         if new_pokemon.species.sprites and new_pokemon.species.sprites.back:
@@ -413,6 +451,10 @@ class BattleState(BaseState):
             self.battle_menu.render(renderer, 8, 100)
         elif self.phase == "move_selection" and self.move_menu:
             self.move_menu.render(renderer, 8, 100)
+        elif self.phase == "move_learn_choice":
+            self.learn_menu.render(renderer, 104, 88)
+        elif self.phase == "forget_move" and self.forget_menu:
+            self.forget_menu.render(renderer, 8, 72)
 
     def _render_sprites(self, renderer):
         """Render Pokemon sprites on the battle screen."""
@@ -930,15 +972,24 @@ class BattleState(BaseState):
             # No more messages, proceed to next phase
             self.show_message = False
             self.awaiting_input = False
+            if self.exp_flow_active:
+                self._advance_exp_flow()
+                return
             self._advance_turn()
 
     def _advance_turn(self):
         """Advance to next phase after messages are done."""
         # Check for fainted Pokemon
         if self.enemy_pokemon.is_fainted():
+            if self.victory_in_progress:
+                return
             if self.enemy_hp_display.is_animating(self.enemy_pokemon.current_hp):
                 return
-            self._queue_message(f"Wild {self.enemy_pokemon.species.name.upper()}\nfainted!")
+            self.victory_in_progress = True
+            if self.is_trainer_battle:
+                self._queue_message(f"Enemy {self.enemy_pokemon.species.name.upper()}\nfainted!")
+            else:
+                self._queue_message(f"Wild {self.enemy_pokemon.species.name.upper()}\nfainted!")
             self._handle_victory()
             return
 
@@ -969,47 +1020,263 @@ class BattleState(BaseState):
 
     def _handle_victory(self):
         """Handle victory and award experience."""
+        next_phase = "end"
         if self.is_trainer_battle and self.trainer_pokemon_remaining:
-            self.enemy_pokemon = self.trainer_pokemon_remaining.pop(0)
-            self.enemy_hp_display = HpBarDisplay(
-                self.enemy_pokemon.stats.hp,
-                self.enemy_pokemon.current_hp,
-                self.enemy_hp_bar_width
-            )
+            next_phase = "trainer_next"
 
-            if self.enemy_pokemon.species.sprites and self.enemy_pokemon.species.sprites.front:
-                self.enemy_sprite = self.game.renderer.load_sprite(
-                    self.enemy_pokemon.species.sprites.front
-                )
+        self._start_exp_flow(next_phase)
 
-            self._queue_message(
-                f"{self.trainer.name} sent out\n{self.enemy_pokemon.species.name.upper()}!"
-            )
-            self._mark_seen()
-            self._show_next_message()
+    def _eligible_exp_participants(self) -> list[Pokemon]:
+        """Get participating Pokemon eligible for experience."""
+        return [pokemon for pokemon in self.participants if not pokemon.is_fainted()]
 
-            self.battle_menu.activate()
-            self.phase = "battle_menu"
-            self.awaiting_input = True
-            return
-
+    def _start_exp_flow(self, next_phase: str):
+        """Start EXP award and level-up flow."""
         from src.battle.experience_calculator import ExperienceCalculator
+
+        recipients = self._eligible_exp_participants()
+        if not recipients:
+            self._finish_exp_flow(next_phase)
+            return
 
         calc = ExperienceCalculator()
         exp_gain = calc.calculate_exp_gain(
             defeated=self.enemy_pokemon,
             is_wild=not self.is_trainer_battle,
-            participated=1
+            participated=len(recipients)
         )
 
-        self._queue_message(f"{self.player_pokemon.species.name.upper()}\ngained {exp_gain} EXP!")
+        self.exp_flow_active = True
+        self.exp_flow_step = "exp_message"
+        self.exp_recipients = recipients
+        self.exp_recipient_index = 0
+        self.exp_gain = exp_gain
+        self.pending_levels = []
+        self.pending_moves = []
+        self.pending_move_id = None
+        self.pending_level = None
+        self.exp_after_flow_phase = next_phase
 
-        if self.player_pokemon.gain_experience(exp_gain):
-            self.phase = "level_up"
-            self._show_next_message()
-        else:
-            self._show_next_message()
+        self._queue_exp_message()
+        self._show_next_message()
+
+    def _queue_exp_message(self):
+        """Queue EXP message for current recipient."""
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        self._queue_message(
+            f"{pokemon.species.name.upper()}\ngained {self.exp_gain} EXP. Points!"
+        )
+
+    def _queue_level_message(self, level: int):
+        """Queue level-up message for current recipient."""
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        self._queue_message(
+            f"{pokemon.species.name.upper()}\ngrew to Lv.{level}!"
+        )
+
+    def _advance_exp_flow(self):
+        """Advance EXP award, level-up, and move learning flow."""
+        if not self.exp_flow_active:
+            return
+
+        if self.exp_flow_step == "exp_message":
+            pokemon = self.exp_recipients[self.exp_recipient_index]
+            self.pending_levels = pokemon.gain_experience(self.exp_gain)
+
+            if self.pending_levels:
+                self.pending_level = self.pending_levels.pop(0)
+                self.exp_flow_step = "level_message"
+                self._queue_level_message(self.pending_level)
+                self._show_next_message()
+                return
+
+            self._advance_exp_recipient()
+            return
+
+        if self.exp_flow_step == "level_message":
+            pokemon = self.exp_recipients[self.exp_recipient_index]
+            self.pending_moves = pokemon.get_level_up_moves(self.pending_level or pokemon.level)
+            self.exp_flow_step = "move_learning"
+            self._advance_move_learning()
+            return
+
+        if self.exp_flow_step == "move_message":
+            self.exp_flow_step = "move_learning"
+            self._advance_move_learning()
+            return
+
+        if self.exp_flow_step == "move_prompt":
+            self._prompt_move_learning()
+            return
+
+    def _advance_exp_recipient(self):
+        """Advance to the next EXP recipient or finish the flow."""
+        self.exp_recipient_index += 1
+        if self.exp_recipient_index >= len(self.exp_recipients):
+            self._finish_exp_flow(self.exp_after_flow_phase or "end")
+            return
+
+        self.exp_flow_step = "exp_message"
+        self._queue_exp_message()
+        self._show_next_message()
+
+    def _finish_exp_flow(self, next_phase: str):
+        """Finish EXP flow and continue to the next phase."""
+        self.exp_flow_active = False
+        self.exp_flow_step = None
+        self.pending_levels = []
+        self.pending_moves = []
+        self.pending_move_id = None
+        self.pending_level = None
+        self.exp_recipients = []
+        self.exp_recipient_index = 0
+        self.exp_gain = 0
+
+        if next_phase == "trainer_next":
+            self._send_next_trainer_pokemon()
+            return
+
+        self.phase = "end"
+        self.awaiting_input = True
+
+    def _send_next_trainer_pokemon(self):
+        """Send out the next trainer Pokemon after EXP flow."""
+        if not self.trainer_pokemon_remaining:
             self.phase = "end"
+            self.awaiting_input = True
+            return
+
+        self.enemy_pokemon = self.trainer_pokemon_remaining.pop(0)
+        self.enemy_hp_display = HpBarDisplay(
+            self.enemy_pokemon.stats.hp,
+            self.enemy_pokemon.current_hp,
+            self.enemy_hp_bar_width
+        )
+
+        if self.enemy_pokemon.species.sprites and self.enemy_pokemon.species.sprites.front:
+            self.enemy_sprite = self.game.renderer.load_sprite(
+                self.enemy_pokemon.species.sprites.front
+            )
+
+        self._queue_message(
+            f"{self.trainer.name} sent out\n{self.enemy_pokemon.species.name.upper()}!"
+        )
+        self._mark_seen()
+        self._show_next_message()
+
+        self.battle_menu.activate()
+        self.phase = "battle_menu"
+        self.awaiting_input = True
+        self.victory_in_progress = False
+
+    def _advance_move_learning(self):
+        """Advance through pending move learning steps."""
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        if not self.pending_moves:
+            if self.pending_levels:
+                self.pending_level = self.pending_levels.pop(0)
+                self.exp_flow_step = "level_message"
+                self._queue_level_message(self.pending_level)
+                self._show_next_message()
+                return
+
+            self._advance_exp_recipient()
+            return
+
+        move_id = self.pending_moves.pop(0)
+        status = pokemon.try_learn_move(move_id)
+
+        if status == "already_known":
+            self.exp_flow_step = "move_message"
+            self._queue_message(
+                f"{pokemon.species.name.upper()} already knows\n{move_id.upper().replace('-', ' ')}."
+            )
+            self._show_next_message()
+            return
+
+        if status == "learned":
+            self._sync_player_move_pp(pokemon)
+            self.exp_flow_step = "move_message"
+            self._queue_message(
+                f"{pokemon.species.name.upper()} learned\n{move_id.upper().replace('-', ' ')}!"
+            )
+            self._show_next_message()
+            return
+
+        if status == "needs_replacement":
+            self.pending_move_id = move_id
+            self.exp_flow_step = "move_prompt"
+            self._queue_message(
+                f"{pokemon.species.name.upper()} is trying to\nlearn {move_id.upper().replace('-', ' ')}!"
+            )
+            self._queue_message(
+                f"But {pokemon.species.name.upper()} can't\nlearn more than four moves!"
+            )
+            self._show_next_message()
+            return
+
+    def _prompt_move_learning(self):
+        """Show yes/no prompt to learn a new move."""
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        move_name = (self.pending_move_id or "").upper().replace("-", " ")
+        self.message = (
+            f"Delete an older\nmove to make room\nfor {move_name}?"
+        )
+        self.show_message = True
+        self.learn_menu.activate()
+        self.phase = "move_learn_choice"
+        self.awaiting_input = True
+
+    def _handle_move_learning_choice(self, choice: bool):
+        """Handle yes/no choice for move learning."""
+        self.learn_menu.deactivate()
+        if not choice:
+            self._decline_move_learning()
+            return
+
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        self.forget_menu = ForgetMoveMenu(pokemon.moves)
+        self.forget_menu.activate()
+        self.phase = "forget_move"
+        self.awaiting_input = True
+
+    def _decline_move_learning(self):
+        """Decline learning the pending move."""
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        move_name = (self.pending_move_id or "").upper().replace("-", " ")
+        self.pending_move_id = None
+        if self.forget_menu:
+            self.forget_menu.deactivate()
+            self.forget_menu = None
+        self.exp_flow_step = "move_message"
+        self.phase = "showing_message"
+        self._queue_message(
+            f"{pokemon.species.name.upper()} did not\nlearn {move_name}!"
+        )
+        self._show_next_message()
+
+    def _replace_move(self, old_move_id: str):
+        """Replace a move with the pending move."""
+        pokemon = self.exp_recipients[self.exp_recipient_index]
+        new_move_id = self.pending_move_id or ""
+        self.pending_move_id = None
+        if self.forget_menu:
+            self.forget_menu.deactivate()
+            self.forget_menu = None
+
+        if not pokemon.replace_move(old_move_id, new_move_id):
+            self._decline_move_learning()
+            return
+
+        self._sync_player_move_pp(pokemon)
+        old_name = old_move_id.upper().replace("-", " ")
+        new_name = new_move_id.upper().replace("-", " ")
+        self.exp_flow_step = "move_message"
+        self.phase = "showing_message"
+        self._queue_message("1, 2 and... Poof!")
+        self._queue_message(f"{pokemon.species.name.upper()} forgot\n{old_name}!")
+        self._queue_message(f"{pokemon.species.name.upper()} learned\n{new_name}!")
+        self._show_next_message()
 
     def _handle_level_up(self):
         """Handle level up sequence."""

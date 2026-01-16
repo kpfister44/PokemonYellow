@@ -1,6 +1,8 @@
 # ABOUTME: Experience calculation for Pokemon battles
 # ABOUTME: Implements Gen 1 experience formulas and level-up requirements
 
+import math
+
 from src.battle.pokemon import Pokemon
 
 
@@ -23,9 +25,9 @@ class ExperienceCalculator:
         level = defeated.level
 
         trainer_mod = 1.5 if not is_wild else 1.0
-        exp = int((base * level / 7) * trainer_mod / participated)
+        exp = (base * level / 7) * trainer_mod / participated
 
-        return exp
+        return math.floor(exp)
 
     def get_exp_for_level(self, growth_rate: str, level: int) -> int:
         """

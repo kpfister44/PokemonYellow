@@ -107,16 +107,17 @@ class Pokemon:
 
     def _determine_moves(self) -> list[str]:
         """
-        Determine which moves this Pokemon knows.
-        For Phase 6: just the first move learned at level 1.
+        Determine which moves this Pokemon knows from level-up learnset.
+        Gen 1 starts with the most recent four level-up moves at or below level.
         """
         moves = []
         for learned_move in self.species.level_up_moves:
+            if learned_move.method != "level-up":
+                continue
             if learned_move.level <= self.level:
                 moves.append(learned_move.move)
 
-        # For Phase 6, just take the first move
-        return moves[:1] if moves else []
+        return moves[-4:] if moves else []
 
     def _initialize_move_pp(self):
         """Initialize PP for all moves."""
@@ -317,35 +318,103 @@ class Pokemon:
 
         self.exp_to_next_level = next_level_exp
 
-    def gain_experience(self, amount: int) -> bool:
+    def gain_experience(self, amount: int) -> list[int]:
         """
-        Add experience and check for level up.
+        Add experience and apply any level-ups.
 
         Args:
             amount: Experience points to add
 
         Returns:
-            True if Pokemon leveled up
+            List of levels reached from this experience gain
         """
+        if amount <= 0:
+            return []
+
         self.experience += amount
+        levels_gained = []
 
-        if self.experience >= self.exp_to_next_level:
-            return True
+        while self.level < 100 and self.experience >= self.exp_to_next_level:
+            self.level_up()
+            levels_gained.append(self.level)
 
-        return False
+        return levels_gained
 
     def level_up(self):
         """Increase level and recalculate stats."""
         self.level += 1
 
         old_stats = self.stats
+        old_hp = self.current_hp
+        old_max_hp = old_stats.hp
         self.stats = self._calculate_stats()
 
-        self.current_hp = self.stats.hp
+        hp_gain = self.stats.hp - old_max_hp
+        self.current_hp = min(self.stats.hp, old_hp + hp_gain)
 
         self._update_exp_requirements()
 
         return old_stats
+
+    def get_level_up_moves(self, level: int) -> list[str]:
+        """Get level-up moves learned at the given level in learnset order."""
+        moves = []
+        for learned_move in self.species.level_up_moves:
+            if learned_move.method != "level-up":
+                continue
+            if learned_move.level == level:
+                moves.append(learned_move.move)
+        return moves
+
+    def try_learn_move(self, move_id: str) -> str:
+        """
+        Attempt to learn a move without replacement.
+
+        Returns:
+            "learned" if move was added
+            "needs_replacement" if move slots are full
+            "already_known" if move is already known
+        """
+        if move_id in self.moves:
+            return "already_known"
+
+        if len(self.moves) >= 4:
+            return "needs_replacement"
+
+        self._add_move(move_id)
+        return "learned"
+
+    def replace_move(self, old_move_id: str, new_move_id: str) -> bool:
+        """
+        Replace an existing move with a new one.
+
+        Returns:
+            True if replacement succeeded
+        """
+        if old_move_id not in self.moves:
+            return False
+
+        if new_move_id in self.moves:
+            return False
+
+        index = self.moves.index(old_move_id)
+        self.moves[index] = new_move_id
+        if old_move_id in self.move_pp:
+            del self.move_pp[old_move_id]
+
+        self._add_move(new_move_id)
+        return True
+
+    def _add_move(self, move_id: str):
+        """Add move and initialize PP."""
+        from src.battle.move_loader import MoveLoader
+
+        if move_id not in self.moves:
+            self.moves.append(move_id)
+
+        move = MoveLoader().get_move(move_id)
+        max_pp = move.pp
+        self.move_pp[move_id] = (max_pp, max_pp)
 
     def to_dict(self) -> dict:
         """Serialize this Pokemon to a dictionary."""
