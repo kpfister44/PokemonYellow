@@ -400,6 +400,8 @@ class OverworldState(BaseState):
         battle_state = BattleState(self.game, player_pokemon, wild_pokemon)
         battle_state.party = self.party
         battle_state.bag = self.bag
+        battle_state.pokedex_seen = self.pokedex_seen
+        battle_state.pokedex_caught = self.pokedex_caught
         self.game.push_state(battle_state)
 
     def _start_trainer_battle(self, npc: NPC):
@@ -433,6 +435,8 @@ class OverworldState(BaseState):
         )
         battle_state.party = self.party
         battle_state.bag = self.bag
+        battle_state.pokedex_seen = self.pokedex_seen
+        battle_state.pokedex_caught = self.pokedex_caught
 
         self.game.push_state(battle_state)
         npc.defeated = True

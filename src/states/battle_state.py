@@ -94,6 +94,7 @@ class BattleState(BaseState):
     def enter(self):
         """Called when entering battle state."""
         print(f"Battle started: {self.player_pokemon.species.name} vs {self.enemy_pokemon.species.name}")
+        self._mark_seen()
 
         # Load Pokemon sprites at native size (no scaling - perfectly crisp)
         if self.player_pokemon.species.sprites and self.player_pokemon.species.sprites.back:
@@ -520,6 +521,7 @@ class BattleState(BaseState):
             self._queue_message(
                 f"{self.trainer.name} sent out\n{self.enemy_pokemon.species.name.upper()}!"
             )
+            self._mark_seen()
             self._show_next_message()
 
             self.battle_menu.activate()
@@ -579,6 +581,7 @@ class BattleState(BaseState):
             self._queue_message(
                 f"Gotcha!\n{self.enemy_pokemon.species.name.upper()} was caught!"
             )
+            self._mark_caught()
 
             # Add to party
             if hasattr(self, 'party'):
@@ -622,6 +625,16 @@ class BattleState(BaseState):
 
         self.post_message_phase = "enemy_turn"
         self._show_next_message()
+
+    def _mark_seen(self) -> None:
+        if hasattr(self, "pokedex_seen"):
+            self.pokedex_seen.add(self.enemy_pokemon.species.species_id)
+
+    def _mark_caught(self) -> None:
+        if hasattr(self, "pokedex_caught"):
+            self.pokedex_caught.add(self.enemy_pokemon.species.species_id)
+        if hasattr(self, "pokedex_seen"):
+            self.pokedex_seen.add(self.enemy_pokemon.species.species_id)
 
     def _apply_status_condition(self, target: Pokemon, move: Move) -> bool:
         """

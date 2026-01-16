@@ -78,7 +78,8 @@ class PokedexState(BaseState):
 
     def _handle_menu_action(self, option: str) -> None:
         if option == "INFO":
-            self.screen.open_entry()
+            if not self.screen.open_entry():
+                self.active_dialog = DialogBox("No data.")
             return
         if option == "QUIT":
             self.game.pop_state()
