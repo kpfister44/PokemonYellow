@@ -26,7 +26,7 @@ The game currently has:
 - **Stat stage changes and modifiers**
 - **Advanced move effects (drain, multi-hit, flinch)**
 - **Experience gain and level-ups**
-- **Catching flow (placeholder: RUN triggers catch sequence)**
+- **Catching flow via Poké Balls from the item bag (with throw/shake animation)**
 - **Trainer battles (via NPC interaction)**
 - **All 151 Gen 1 Pokemon with Yellow version learnsets**
 - **All 165 Gen 1 moves with accurate stats**
