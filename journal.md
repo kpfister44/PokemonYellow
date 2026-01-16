@@ -23,3 +23,6 @@ Journal
 - Marked pokedex seen/caught during battles and added INFO no-data dialog.
 - Fixed battle flow to advance after faint animation completes.
 - Ensured party Pokemon always populate pokedex flags on load.
+
+2026-01-16
+- Read PROJECT_OVERVIEW.md and captured current phase, systems, and data layout.
