@@ -7,7 +7,7 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 ## Current Status
 
 **Completed**: Phases 1-7 (Core Engine through Advanced Battle Mechanics)
-**Current Phase**: Phase 8 - Advanced Features (Pokedex)
+**Current Phase**: Phase 8 - Advanced Features (Move learning + EXP flow)
 
 The game currently has:
 - A working overworld with Pallet Town and Route 1 maps
@@ -26,6 +26,7 @@ The game currently has:
 - **Stat stage changes and modifiers**
 - **Advanced move effects (drain, multi-hit, flinch)**
 - **Experience gain and level-ups**
+- **Move learning on level-up with 4-move limit and forget flow**
 - **Catching flow via Poké Balls from the item bag (with throw/shake animation)**
 - **Trainer battles (via NPC interaction)**
 - **All 151 Gen 1 Pokemon with Yellow version learnsets**
@@ -329,9 +330,7 @@ States are managed via a stack in `Game` class.
 - ❌ Building interiors (door warps)
 - ❌ NPC movement/AI
 - ❌ Advanced dialog features (typewriter effect, branching, multi-page)
-- ❌ Move learning on level up
 - ⚠️ Inventory/Bag system + item effects (missing: TMs/HMs, key items, repels, PP restores, vitamins)
-- ❌ Pokedex
 
 ### Technical Debt
 - Using colored rectangles as placeholders for tiles
@@ -456,8 +455,10 @@ The detailed phase-by-phase plan is in `IMPLEMENTATION_PLAN.md`.
 - ✅ Phase 6: Battle System Foundation (with full Gen 1 data from PokéAPI)
 
 ### Next Up (Phase 8):
-- Pokedex
 - Inventory/Bag remaining items (TMs/HMs, key items, repels, PP restores, vitamins)
+- Building interiors (door warps)
+- NPC movement/AI
+- Advanced dialog features (typewriter effect, branching, multi-page)
 
 ## Testing Checklist
 

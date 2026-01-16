@@ -35,3 +35,8 @@ Journal
 - Hydrated item sprites from PokéAPI and extended item metadata with sprite paths.
 - Added two Poke Ball pickups to Pallet Town for catch testing.
 - Updated PROJECT_OVERVIEW.md catch flow description.
+- Implemented Gen 1 EXP split and multi-level-up flow with move learning prompts.
+- Added move learning logic in Pokemon (last-4 moves, replace/skip) and battle flow integration.
+- Added logic-only tests for EXP and move learning plus updated trainer victory tests.
+- Added yes/no and forget-move menus for level-up move replacement flow.
+- Updated PROJECT_OVERVIEW.md to reflect move learning completion and next steps.
