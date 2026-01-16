@@ -57,3 +57,26 @@ def test_battle_marks_caught_adds_seen():
 
     assert "rattata" in state.pokedex_caught
     assert "rattata" in state.pokedex_seen
+
+
+def test_battle_advances_after_faint_animation():
+    """Battle should advance once faint animation finishes."""
+    player = Pokemon(make_species("Player"), 5)
+    enemy = Pokemon(make_species("Rattata"), 3)
+    state = BattleState(DummyGame(), player, enemy)
+
+    state.awaiting_input = False
+    state.show_message = False
+    state.enemy_pokemon.current_hp = 0
+
+    state.enemy_hp_display.is_animating = lambda _hp: False
+    state.player_hp_display.is_animating = lambda _hp: False
+
+    advanced = {"called": False}
+    def _advance_turn():
+        advanced["called"] = True
+    state._advance_turn = _advance_turn
+
+    state.update(0.016)
+
+    assert advanced["called"] is True

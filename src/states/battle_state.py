@@ -248,6 +248,14 @@ class BattleState(BaseState):
         self.player_hp_display.update(self.player_pokemon.current_hp, dt)
         self.enemy_hp_display.update(self.enemy_pokemon.current_hp, dt)
 
+        if not self.awaiting_input and not self.show_message:
+            enemy_done = not self.enemy_hp_display.is_animating(self.enemy_pokemon.current_hp)
+            player_done = not self.player_hp_display.is_animating(self.player_pokemon.current_hp)
+            if (self.enemy_pokemon.is_fainted() and enemy_done) or (
+                self.player_pokemon.is_fainted() and player_done
+            ):
+                self._advance_turn()
+
         # Intro phase - wait before allowing input
         if self.phase == "intro":
             self.intro_timer -= 1

@@ -21,3 +21,4 @@ Journal
 - Hydrated Pokedex genus/height/weight data from PokéAPI.
 - Added Pokedex entry paging and right-side menu cursor actions.
 - Marked pokedex seen/caught during battles and added INFO no-data dialog.
+- Fixed battle flow to advance after faint animation completes.
