@@ -144,7 +144,9 @@ class ItemEffects:
             "type": "catch",
             "ball_bonus": bonus,
             "ball_name": item.name,
-            "force_catch": item.item_id == "master-ball"
+            "force_catch": item.item_id == "master-ball",
+            "ball_item_id": item.item_id,
+            "ball_sprite": item.sprite
         }
         return ItemUseResult(True, item.consumable, ["Used the ball!"], action=action)
 

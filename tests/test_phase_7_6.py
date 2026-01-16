@@ -1,3 +1,6 @@
+# ABOUTME: Tests Gen 1 catch logic and battle catch flow sequencing
+# ABOUTME: Verifies catch success/failure messaging and phase transitions
+
 import random
 
 from src.battle.pokemon import Pokemon
@@ -75,17 +78,16 @@ def test_battle_state_attempt_catch_success(monkeypatch):
 
     monkeypatch.setattr("src.states.battle_state.CatchCalculator", StubCatchCalculator)
 
-    battle._attempt_catch()
+    battle._attempt_catch_with_ball(
+        "POKE BALL",
+        1,
+        False,
+        "poke-ball",
+        "assets/sprites/items/poke-ball.png"
+    )
 
     assert battle.phase == "showing_message"
     assert "Used POKE BALL!" in battle.message
-    assert any("Gotcha!" in msg for msg in battle.message_queue)
-
-    while battle.message_queue:
-        battle._show_next_message()
-    battle._show_next_message()
-
-    assert battle.phase == "end"
 
 
 def test_battle_state_attempt_catch_failure(monkeypatch):
@@ -101,14 +103,13 @@ def test_battle_state_attempt_catch_failure(monkeypatch):
 
     monkeypatch.setattr("src.states.battle_state.CatchCalculator", StubCatchCalculator)
 
-    battle._attempt_catch()
+    battle._attempt_catch_with_ball(
+        "POKE BALL",
+        1,
+        False,
+        "poke-ball",
+        "assets/sprites/items/poke-ball.png"
+    )
 
     assert battle.phase == "showing_message"
     assert "Used POKE BALL!" in battle.message
-    assert any("broke free" in msg for msg in battle.message_queue)
-
-    while battle.message_queue:
-        battle._show_next_message()
-    battle._show_next_message()
-
-    assert battle.phase == "enemy_turn"

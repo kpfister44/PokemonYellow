@@ -93,6 +93,25 @@ class BattleState(BaseState):
         self.attack_animation_tick = 0.0
         self.hp_tick_target = None
         self.pending_after_tick = None
+        self.escape_attempts = 0
+        self.ball_sprite_path = None
+        self.ball_position = (0.0, 0.0)
+        self.ball_start = (0.0, 0.0)
+        self.ball_end = (0.0, 0.0)
+        self.ball_throw_duration = 0.5
+        self.ball_throw_elapsed = 0.0
+        self.ball_arc_height = 24.0
+        self.ball_shake_offsets = [0, 3, 0, -3, 0]
+        self.ball_shake_index = 0
+        self.ball_shake_timer = 0.0
+        self.ball_shake_frame_time = 0.06
+        self.ball_shake_pause = 0.16
+        self.ball_shake_pause_timer = 0.0
+        self.ball_shake_offset = 0
+        self.ball_active = False
+        self.catch_hide_enemy = False
+        self.catch_attempts = 0
+        self.catch_success = False
 
         self.enemy_hp_bar_width = 46
         self.player_hp_bar_width = 62
@@ -192,6 +211,8 @@ class BattleState(BaseState):
     def _handle_battle_menu_selection(self, selection: str):
         """Handle battle menu selection."""
         self.battle_menu.deactivate()
+        if selection != "RUN":
+            self.escape_attempts = 0
 
         if selection == "FIGHT":
             # Create move menu with player's moves
@@ -241,8 +262,7 @@ class BattleState(BaseState):
                 self.phase = "battle_menu"
                 self.awaiting_input = True
             else:
-                # For now, use catch flow as placeholder for RUN
-                self._attempt_catch()
+                self._handle_run_attempt()
 
     def handle_switch(self, new_pokemon: Pokemon):
         """
@@ -312,6 +332,40 @@ class BattleState(BaseState):
                     self._advance_sequence()
                 return
 
+            if self.phase == "ball_throw":
+                self.ball_throw_elapsed += dt
+                t = min(1.0, self.ball_throw_elapsed / self.ball_throw_duration)
+                start_x, start_y = self.ball_start
+                end_x, end_y = self.ball_end
+                arc_offset = self.ball_arc_height * 4 * t * (1 - t)
+                self.ball_position = (
+                    start_x + (end_x - start_x) * t,
+                    start_y + (end_y - start_y) * t - arc_offset
+                )
+                if t >= 1.0:
+                    self.ball_position = self.ball_end
+                    self.catch_hide_enemy = True
+                    self._advance_sequence()
+                return
+
+            if self.phase == "ball_shake":
+                if self.ball_shake_pause_timer > 0:
+                    self.ball_shake_pause_timer -= dt
+                    if self.ball_shake_pause_timer <= 0:
+                        self._advance_sequence()
+                    return
+
+                self.ball_shake_timer += dt
+            if self.ball_shake_timer >= self.ball_shake_frame_time:
+                self.ball_shake_timer -= self.ball_shake_frame_time
+                self.ball_shake_index += 1
+                if self.ball_shake_index >= len(self.ball_shake_offsets):
+                    self.ball_shake_offset = 0
+                    self.ball_shake_pause_timer = self.ball_shake_pause
+                else:
+                    self.ball_shake_offset = self.ball_shake_offsets[self.ball_shake_index]
+            return
+
             return
 
         if not self.awaiting_input and not self.show_message:
@@ -373,7 +427,7 @@ class BattleState(BaseState):
 
         # Sprites are 96x96 - position them to fit in 160x144 screen
         # Enemy sprite (top-right area)
-        if self.enemy_sprite:
+        if self.enemy_sprite and not self.catch_hide_enemy:
             enemy_x = 64  # Right side (160 - 96 = 64)
             enemy_y = -24  # Slightly off top to fit better
             renderer.draw_surface(self.enemy_sprite, (enemy_x + enemy_offset_x, enemy_y))
@@ -383,6 +437,13 @@ class BattleState(BaseState):
             player_x = 0  # Left edge
             player_y = 48  # Lower area (144 - 96 = 48)
             renderer.draw_surface(self.player_sprite, (player_x + player_offset_x, player_y))
+
+        if self.ball_active and self.ball_sprite_path:
+            ball_sprite = renderer.load_sprite(self.ball_sprite_path)
+            if ball_sprite:
+                ball_x = int(self.ball_position[0] + self.ball_shake_offset)
+                ball_y = int(self.ball_position[1])
+                renderer.draw_surface(ball_sprite, (ball_x, ball_y))
 
     def _render_enemy_info(self, renderer):
         """Render enemy Pokemon info box (top-left, authentic Pokemon Yellow style)."""
@@ -546,6 +607,11 @@ class BattleState(BaseState):
         elif self.sequence_end_phase == "enemy_turn":
             self.phase = "enemy_turn"
             self.awaiting_input = True
+        elif self.sequence_end_phase == "enemy_attack":
+            self._start_enemy_attack_sequence()
+        elif self.sequence_end_phase == "end":
+            self.phase = "end"
+            self.awaiting_input = True
 
     def _advance_sequence(self) -> None:
         if not self.sequence_steps:
@@ -574,6 +640,29 @@ class BattleState(BaseState):
             self.attack_animation_target = step["target"]
             self.attack_animation_timer = step.get("duration", self.attack_animation_duration)
             self.attack_animation_tick = 0.0
+            return
+
+        if step_type == "ball_throw":
+            self.show_message = False
+            self.awaiting_input = False
+            self.phase = "ball_throw"
+            self.ball_sprite_path = step["sprite"]
+            self.ball_start = step["start"]
+            self.ball_end = step["end"]
+            self.ball_throw_elapsed = 0.0
+            self.ball_position = self.ball_start
+            self.ball_active = True
+            self.ball_shake_offset = 0
+            return
+
+        if step_type == "ball_shake":
+            self.show_message = False
+            self.awaiting_input = False
+            self.phase = "ball_shake"
+            self.ball_shake_index = 0
+            self.ball_shake_timer = 0.0
+            self.ball_shake_pause_timer = 0.0
+            self.ball_shake_offset = self.ball_shake_offsets[0]
             return
 
         if step_type == "damage":
@@ -661,6 +750,21 @@ class BattleState(BaseState):
                 self._handle_fainted(defender)
                 return
             self._advance_sequence()
+            return
+
+        if step_type == "catch_end":
+            self.ball_active = False
+            if step.get("caught"):
+                self.catch_hide_enemy = True
+            else:
+                self.catch_hide_enemy = False
+            self._advance_sequence()
+            return
+
+        if step_type == "enemy_attack":
+            self.ball_active = False
+            self.catch_hide_enemy = False
+            self._start_enemy_attack_sequence()
             return
 
         if step_type == "end_status":
@@ -918,50 +1022,72 @@ class BattleState(BaseState):
         self._show_next_message()
         self.phase = "end"
 
-    def _attempt_catch(self):
-        """Attempt to catch wild Pokemon."""
-        self._attempt_catch_with_ball("POKE BALL", 1, False)
-
-    def _attempt_catch_with_ball(self, ball_name: str, ball_bonus: float, force_catch: bool):
+    def _attempt_catch_with_ball(
+        self,
+        ball_name: str,
+        ball_bonus: float,
+        force_catch: bool,
+        ball_item_id: str | None,
+        ball_sprite: str | None
+    ):
         """Attempt to catch wild Pokemon with a ball."""
-        self.phase = "throwing_ball"
-        self._queue_message(f"Used {ball_name.upper()}!")
+        self.catch_hide_enemy = False
+        self.ball_active = False
 
         calc = CatchCalculator()
         if force_catch:
             caught = True
-            shakes = 3
+            shakes = 4
         else:
             caught, shakes = calc.calculate_catch_chance(self.enemy_pokemon, ball_bonus=ball_bonus)
 
-        for _ in range(shakes):
-            self._queue_message("...")
+        animation_shakes = 3 if caught else min(shakes, 3)
+        sprite_path = ball_sprite or "assets/sprites/items/poke-ball.png"
+
+        steps = [
+            {"type": "message", "text": f"Used {ball_name.upper()}!"},
+            {
+                "type": "ball_throw",
+                "sprite": sprite_path,
+                "start": (24.0, 104.0),
+                "end": (96.0, 40.0)
+            }
+        ]
+
+        for _ in range(animation_shakes):
+            steps.append({"type": "ball_shake"})
 
         if caught:
-            self._queue_message(
-                f"Gotcha!\n{self.enemy_pokemon.species.name.upper()} was caught!"
-            )
+            steps.append({
+                "type": "message",
+                "text": f"Gotcha!\n{self.enemy_pokemon.species.name.upper()} was caught!"
+            })
             self._mark_caught()
 
-            # Add to party
             if hasattr(self, 'party'):
                 if not self.party.is_full():
                     self.party.add(self.enemy_pokemon)
-                    self._queue_message(
-                        f"{self.enemy_pokemon.species.name.upper()} was\nadded to party!"
-                    )
+                    steps.append({
+                        "type": "message",
+                        "text": f"{self.enemy_pokemon.species.name.upper()} was\nadded to party!"
+                    })
                 else:
-                    # Party full - no PC yet
-                    self._queue_message("Party is full!\n(PC not implemented)")
+                    steps.append({
+                        "type": "message",
+                        "text": "Party is full!\n(PC not implemented)"
+                    })
 
-            self.post_message_phase = "end"
-        else:
-            self._queue_message(
-                f"{self.enemy_pokemon.species.name.upper()}\nbroke free!"
-            )
-            self.post_message_phase = "enemy_turn"
+            steps.append({"type": "catch_end", "caught": True})
+            self._start_sequence(steps, "end")
+            return
 
-        self._show_next_message()
+        steps.append({
+            "type": "message",
+            "text": f"{self.enemy_pokemon.species.name.upper()}\nbroke free!"
+        })
+        steps.append({"type": "catch_end", "caught": False})
+        steps.append({"type": "enemy_attack"})
+        self._start_sequence(steps, "battle_menu")
 
     def _handle_item_result(self, result):
         """Handle results from using an item in battle."""
@@ -976,7 +1102,9 @@ class BattleState(BaseState):
             self._attempt_catch_with_ball(
                 action.get("ball_name", "POKE BALL"),
                 action.get("ball_bonus", 1),
-                action.get("force_catch", False)
+                action.get("force_catch", False),
+                action.get("ball_item_id"),
+                action.get("ball_sprite")
             )
             return
 
@@ -995,6 +1123,64 @@ class BattleState(BaseState):
         self.battle_menu.activate()
         self.phase = "battle_menu"
         self.awaiting_input = True
+
+    def _handle_run_attempt(self) -> None:
+        if self._attempt_escape():
+            self._start_sequence(
+                [{"type": "message", "text": "Got away safely!"}],
+                "end"
+            )
+            return
+
+        self._start_sequence(
+            [{"type": "message", "text": "Can't escape!"}],
+            "enemy_attack"
+        )
+
+    def _attempt_escape(self) -> bool:
+        self.escape_attempts += 1
+
+        player_speed = self._get_escape_speed(self.player_pokemon)
+        enemy_speed = self._get_escape_speed(self.enemy_pokemon)
+
+        if player_speed >= enemy_speed:
+            return True
+
+        divisor = enemy_speed // 4
+        if divisor == 0 or divisor % 256 == 0:
+            return True
+
+        odds = ((player_speed * 32) // divisor) % 256
+        odds += 30 * self.escape_attempts
+
+        if odds > 255:
+            return True
+
+        import random
+        return random.randint(0, 255) < odds
+
+    def _get_escape_speed(self, pokemon: Pokemon) -> int:
+        speed = pokemon.stats.speed
+        speed *= pokemon.stat_stages.get_multiplier("speed")
+        from src.battle.status_effects import StatusCondition
+        if pokemon.status == StatusCondition.PARALYSIS:
+            speed = speed // 4
+        return max(1, int(speed))
+
+    def _start_enemy_attack_sequence(self) -> None:
+        if not self.enemy_pokemon.moves:
+            self._start_sequence(
+                [{"type": "message", "text": "Enemy has no moves!"}],
+                "battle_menu"
+            )
+            return
+
+        enemy_move_id = self.enemy_pokemon.moves[0]
+        enemy_move = self.move_loader.get_move(enemy_move_id)
+        attack = AttackData(self.enemy_pokemon, self.player_pokemon, enemy_move, False)
+        steps = self._build_attack_steps(attack, False)
+        steps.append({"type": "end_status"})
+        self._start_sequence(steps, "battle_menu")
 
     def _mark_seen(self) -> None:
         if hasattr(self, "pokedex_seen"):
