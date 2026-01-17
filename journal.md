@@ -40,3 +40,8 @@ Journal
 - Added logic-only tests for EXP and move learning plus updated trainer victory tests.
 - Added yes/no and forget-move menus for level-up move replacement flow.
 - Updated PROJECT_OVERVIEW.md to reflect move learning completion and next steps.
+
+2026-01-17
+- Added pokeyellow .blk conversion utilities and CLI export script.
+- Added unit test for block expansion into tile grids.
+- Generated a Pallet Town JSON export at /tmp/pallet_town_from_blk.json for verification.
