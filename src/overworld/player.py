@@ -114,7 +114,7 @@ class Player(Entity):
     def update(self):
         """Update player state (movement, animation)."""
         if self.is_moving:
-            self.update_movement(speed=2)  # 2 pixels per frame = 8 frames per tile
+            self.update_movement(speed=constants.MOVEMENT_SPEED)
             self.update_animation()
 
     def to_dict(self) -> dict:

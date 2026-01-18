@@ -3,15 +3,18 @@
 
 import pygame
 
-# Display settings (Game Boy screen size: 160x144)
-GAME_WIDTH = 160
-GAME_HEIGHT = 144
+# Display settings (Game Boy aspect ratio at 32x32 tiles)
+GAME_WIDTH = 320
+GAME_HEIGHT = 288
 SCALE_FACTOR = 3
-WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 480
-WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 432
+WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 960
+WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 864
+
+# UI scaling (2x for 320x288 resolution)
+UI_SCALE = 2
 
 # Tile and grid settings
-TILE_SIZE = 16
+TILE_SIZE = 32
 TILES_WIDE = GAME_WIDTH // TILE_SIZE  # 10 tiles
 TILES_HIGH = GAME_HEIGHT // TILE_SIZE  # 9 tiles
 
@@ -42,8 +45,8 @@ KEY_START = pygame.K_s       # Menu
 KEY_SELECT = pygame.K_LSHIFT # Future use
 
 # Movement speed (pixels per frame when moving)
-# Player moves one tile (16 pixels) over this many frames
-MOVEMENT_SPEED = 8  # 16 pixels / 8 frames = 2 pixels per frame
+# Player moves one tile (32 pixels) over 8 frames
+MOVEMENT_SPEED = 4  # 32 pixels / 8 frames = 4 pixels per frame
 
 # Directions (for entity facing and movement)
 DIR_UP = 0

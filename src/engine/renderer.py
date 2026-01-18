@@ -14,14 +14,16 @@ class Renderer:
 
     def __init__(self):
         """Initialize the renderer and display."""
-        # Run at native Game Boy resolution (no scaling - perfectly crisp)
+        # Render to an internal surface and scale to the window
         self.screen = pygame.display.set_mode(
-            (constants.GAME_WIDTH, constants.GAME_HEIGHT)
+            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)
         )
         pygame.display.set_caption("Pokemon Yellow")
 
-        # Render directly to screen (no separate surface needed)
-        self.game_surface = self.screen
+        # Render to internal surface at native resolution
+        self.game_surface = pygame.Surface(
+            (constants.GAME_WIDTH, constants.GAME_HEIGHT)
+        )
 
         # Sprite cache {filepath: Surface}
         self.sprite_cache = {}
@@ -99,7 +101,11 @@ class Renderer:
 
     def present(self):
         """Display the screen."""
-        # No scaling needed - rendering directly to screen at native resolution
+        scaled_surface = pygame.transform.scale(
+            self.game_surface,
+            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)
+        )
+        self.screen.blit(scaled_surface, (0, 0))
         pygame.display.flip()
 
     def clear_sprite_cache(self):
