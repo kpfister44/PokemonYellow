@@ -3,12 +3,12 @@
 
 import pygame
 
-# Display settings (expanded viewport at 32x32 tiles)
+# Display settings (expanded viewport at 32x32 tiles, no scaling)
 GAME_WIDTH = 480
 GAME_HEIGHT = 416
-SCALE_FACTOR = 2
-WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 960
-WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 832
+SCALE_FACTOR = 1
+WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 480
+WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 416
 
 # UI scaling (2x for menus and dialog)
 UI_SCALE = 2
