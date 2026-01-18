@@ -135,6 +135,15 @@ class Entity:
         """Get current tile position. Returns (x, y) tuple."""
         return (self.tile_x, self.tile_y)
 
+    def get_rect(self) -> pygame.Rect:
+        """Get the entity's current hitbox rectangle."""
+        return pygame.Rect(
+            self.pixel_x,
+            self.pixel_y,
+            constants.TILE_SIZE,
+            constants.TILE_SIZE
+        )
+
     def get_target_tile_position(self):
         """Get target tile position (where entity is moving to). Returns (x, y) tuple."""
         return (self.target_tile_x, self.target_tile_y)

@@ -2,7 +2,7 @@
 # ABOUTME: Manages map rendering, player control, and camera following
 
 from src.states.base_state import BaseState
-from src.overworld.map import Map
+from src.overworld.map import MapManager
 from src.overworld.camera import Camera
 from src.overworld.player import Player
 from src.overworld.npc import NPC
@@ -91,7 +91,7 @@ class OverworldState(BaseState):
             return
 
         # Load the map
-        self.current_map = Map(self.map_path, self.game.renderer)
+        self.current_map = MapManager(self.map_path)
 
         # Create player
         self.player = Player(self.player_start_x, self.player_start_y)
@@ -107,20 +107,8 @@ class OverworldState(BaseState):
             else:
                 self.player.direction = self.player_direction
 
-        # Load NPCs from map data
-        self.npcs = []
-        npc_data = self.current_map.map_data.get("npcs", [])
-        for npc_info in npc_data:
-            npc = NPC(
-                npc_info["id"],
-                npc_info["tile_x"],
-                npc_info["tile_y"],
-                npc_info.get("direction", "down"),
-                npc_info.get("dialog", "..."),
-                npc_info.get("is_trainer", False),
-                npc_info.get("trainer")
-            )
-            self.npcs.append(npc)
+        # Load NPCs from TMX object layer
+        self.npcs = list(self.current_map.npcs)
 
         self._apply_defeated_trainers()
         self._load_item_pickups()
@@ -155,26 +143,14 @@ class OverworldState(BaseState):
             spawn_y: Tile Y coordinate to spawn player
         """
         # Build path to new map
-        map_path = f"data/maps/{map_name}.json"
+        map_path = self._map_path_from_name(map_name)
 
         # Load new map
-        self.current_map = Map(map_path, self.game.renderer)
+        self.current_map = MapManager(map_path)
         self.map_path = map_path
 
         # Load NPCs from new map
-        self.npcs = []
-        npc_data = self.current_map.map_data.get("npcs", [])
-        for npc_info in npc_data:
-            npc = NPC(
-                npc_info["id"],
-                npc_info["tile_x"],
-                npc_info["tile_y"],
-                npc_info.get("direction", "down"),
-                npc_info.get("dialog", "..."),
-                npc_info.get("is_trainer", False),
-                npc_info.get("trainer")
-            )
-            self.npcs.append(npc)
+        self.npcs = list(self.current_map.npcs)
 
         self._apply_defeated_trainers()
         self._load_item_pickups()
@@ -284,16 +260,18 @@ class OverworldState(BaseState):
     def _load_item_pickups(self):
         """Load item pickups from the current map data."""
         self.item_pickups = []
-        items_data = self.current_map.map_data.get("items", [])
-        for item_info in items_data:
-            pickup_id = item_info.get("id")
-            item_id = item_info.get("item_id")
-            tile_x = item_info.get("tile_x")
-            tile_y = item_info.get("tile_y")
-            key = f"{self.current_map.map_name}:{pickup_id}"
+        for pickup in self.current_map.item_pickups:
+            key = f"{self.current_map.map_name}:{pickup.pickup_id}"
             if key in self.collected_items:
                 continue
-            self.item_pickups.append(ItemPickup(pickup_id, item_id, tile_x, tile_y))
+            self.item_pickups.append(pickup)
+
+    def _map_path_from_name(self, map_name: str) -> str:
+        if map_name.lower().endswith(".tmx"):
+            filename = map_name
+        else:
+            filename = f"{map_name}.tmx"
+        return f"assets/maps/{filename}"
 
     def _trainer_key(self, npc_id: str) -> str:
         if self.current_map:
@@ -343,26 +321,21 @@ class OverworldState(BaseState):
             npc.update()
 
         # Check for warps after player finishes moving
-        if not self.player.is_moving:
+        if not self.player.is_moving and self.player_was_moving:
             warp = self.current_map.get_warp_at(self.player.tile_x, self.player.tile_y)
             if warp:
-                # Only process "route" warps for Phase 4 (ignore "door" warps)
-                if warp.get("warp_type") == "route":
-                    self.switch_map(
-                        warp["target_map"],
-                        warp["target_x"],
-                        warp["target_y"]
-                    )
+                self.switch_map(
+                    warp["dest_map"],
+                    warp["dest_x"],
+                    warp["dest_y"]
+                )
 
         # Check for wild encounters after player finishes moving on grass
         if not self.player.is_moving and self.player_was_moving:
             # Player just stopped moving - check for encounter
             encounter_zone = encounter_zones.get_encounter_zone(self.current_map.map_name)
             if encounter_zone:
-                # Get the ground tile the player is standing on
-                ground_tile_id = self.current_map.ground_layer[self.player.tile_y][self.player.tile_x]
-
-                if encounter_zone.is_grass_tile(ground_tile_id):
+                if self.current_map.is_grass(self.player.tile_x, self.player.tile_y):
                     if encounter_zone.should_encounter():
                         self._trigger_wild_battle(encounter_zone)
 
@@ -461,18 +434,17 @@ class OverworldState(BaseState):
         camera_x, camera_y = self.camera.get_offset()
 
         # Render the map with camera offset
-        map_surface = self.current_map.render(camera_x, camera_y)
-        renderer.draw_surface(map_surface, (0, 0))
+        self.current_map.draw_base(renderer, camera_x, camera_y)
 
-        # Render NPCs (same layer as player)
-        for pickup in self.item_pickups:
-            pickup.render(renderer, camera_x, camera_y)
+        renderables = []
+        renderables.extend(self.item_pickups)
+        renderables.extend(self.npcs)
+        renderables.append(self.player)
 
-        for npc in self.npcs:
-            npc.render(renderer, camera_x, camera_y)
+        for entity in sorted(renderables, key=lambda item: item.get_rect().bottom):
+            entity.render(renderer, camera_x, camera_y)
 
-        # Render the player
-        self.player.render(renderer, camera_x, camera_y)
+        self.current_map.draw_fringe(renderer, camera_x, camera_y)
 
         # Render dialog on top of everything
         if self.active_dialog:

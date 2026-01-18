@@ -107,7 +107,7 @@ class SaveData:
         return cls(
             player_name=player_data.get("name", "PLAYER"),
             player_direction=player_data.get("direction", "down"),
-            map_path=overworld_data.get("map_path", "data/maps/pallet_town.json"),
+            map_path=overworld_data.get("map_path", "assets/maps/pallet_town.tmx"),
             player_x=overworld_data.get("x", 0),
             player_y=overworld_data.get("y", 0),
             party=party,

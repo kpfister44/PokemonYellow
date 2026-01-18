@@ -1,6 +1,8 @@
 # ABOUTME: Overworld item pickup entity for visible map items
 # ABOUTME: Renders pickup sprites and tracks item identifiers
 
+import pygame
+
 from src.engine import constants
 
 
@@ -16,4 +18,14 @@ class ItemPickup:
     def render(self, renderer, camera_x: int, camera_y: int) -> None:
         x = self.tile_x * constants.TILE_SIZE - camera_x
         y = self.tile_y * constants.TILE_SIZE - camera_y
-        renderer.draw_rect((0, 0, 0), (x + 4, y + 4, 8, 8), 0)
+        size = constants.TILE_SIZE // 2
+        offset = constants.TILE_SIZE // 4
+        renderer.draw_rect((0, 0, 0), (x + offset, y + offset, size, size), 0)
+
+    def get_rect(self) -> pygame.Rect:
+        return pygame.Rect(
+            self.tile_x * constants.TILE_SIZE,
+            self.tile_y * constants.TILE_SIZE,
+            constants.TILE_SIZE,
+            constants.TILE_SIZE
+        )

@@ -57,7 +57,7 @@ class TitleMenuState(BaseState):
         elif selection == "NEW GAME":
             overworld = OverworldState(
                 self.game,
-                "data/maps/pallet_town.json",
+                "assets/maps/pallet_town.tmx",
                 player_start_x=8,
                 player_start_y=13,
                 pokedex_seen={"pikachu"},

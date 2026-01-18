@@ -137,7 +137,7 @@ def test_trainer_victory_sends_next_pokemon():
 
 def test_overworld_starts_trainer_battle(monkeypatch):
     game = DummyGame()
-    state = OverworldState(game, "data/maps/route_1.json")
+    state = OverworldState(game, "assets/maps/route_1.tmx")
 
     npc = NPC(
         "trainer_1",

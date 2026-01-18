@@ -20,7 +20,7 @@ def test_party_pokemon_marked_seen_and_caught():
 
     state = OverworldState(
         DummyGame(),
-        "data/maps/pallet_town.json",
+        "assets/maps/pallet_town.tmx",
         party=party,
         bag=Bag(),
         pokedex_seen=set(),

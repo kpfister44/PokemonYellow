@@ -113,7 +113,7 @@ def test_save_data_round_trip():
     save_data = SaveData(
         player_name="PLAYER",
         player_direction="down",
-        map_path="data/maps/pallet_town.json",
+        map_path="assets/maps/pallet_town.tmx",
         player_x=8,
         player_y=13,
         party=party,
@@ -141,7 +141,7 @@ def test_save_data_normalizes_pokedex_sets():
     save_data = SaveData(
         player_name="PLAYER",
         player_direction="down",
-        map_path="data/maps/pallet_town.json",
+        map_path="assets/maps/pallet_town.tmx",
         player_x=8,
         player_y=13,
         party=party,
@@ -168,7 +168,7 @@ def test_save_storage_round_trip(tmp_path: Path):
     save_data = SaveData(
         player_name="PLAYER",
         player_direction="left",
-        map_path="data/maps/route_1.json",
+        map_path="assets/maps/route_1.tmx",
         player_x=5,
         player_y=7,
         party=party,

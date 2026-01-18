@@ -37,7 +37,7 @@ class FakeRenderer:
     def draw_rect(self, _color, _rect, _width):
         pass
 
-    def draw_text(self, _text, _x, _y, _color=None, _size=None):
+    def draw_text(self, _text, _x, _y, _color=None, _size=None, font_size=None):
         pass
 
 
@@ -316,7 +316,7 @@ def test_start_menu_state_handles_save_selection(monkeypatch):
         party=Party(),
         bag=Bag(),
         player=StubPlayer(),
-        map_path="data/maps/pallet_town.json"
+        map_path="assets/maps/pallet_town.tmx"
     )
 
     captured = {}

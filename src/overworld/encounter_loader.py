@@ -39,10 +39,9 @@ class EncounterLoader:
                 encounter_rate = 10
 
                 # Create encounter zone
-                # Grass tile is ID 0 in our tileset
                 zone = EncounterZone(
                     map_name=self._normalize_map_name(location_key),
-                    grass_tiles=[0],  # Tile ID 0 is grass
+                    grass_tiles=[],
                     encounters=encounter_slots,
                     encounter_rate=encounter_rate
                 )
