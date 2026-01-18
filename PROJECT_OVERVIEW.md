@@ -11,6 +11,7 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 
 The game currently has:
 - A working overworld with Pallet Town and Route 1 maps
+- TMX-based map system (Tiled) with cached lower/fringe layers
 - Player character that can walk around with smooth movement
 - Collision detection (tiles and NPCs)
 - Smooth camera following
@@ -46,6 +47,7 @@ The game currently has:
 ### Language & Framework
 - **Python 3.11+** (using Python 3.13.5)
 - **PyGame 2.6.1** - Game framework
+- **pytmx** - Tiled TMX map loader for PyGame
 - **PyYAML** - For Pokemon/move data files
 - **Requests** - For PokéAPI data hydration (build-time only)
 
@@ -55,7 +57,7 @@ The game currently has:
 - **ALWAYS** use `uv run python` or `uv sync`
 
 ### Data Formats
-- **Maps**: JSON files in `data/maps/`
+- **Maps**: Tiled `.tmx/.tsx` files in `assets/maps/`
 - **Pokemon/Moves**: YAML files in `data/pokemon/` and `data/moves/`
 - **Encounters**: YAML file in `data/encounters/`
 - **Type Chart**: YAML file in `data/types/`
@@ -182,9 +184,7 @@ pokemon_yellow/
 │       └── bag_screen.py            # Bag UI list
 │       └── party_screen.py          # Party UI list
 ├── data/
-│   ├── maps/
-│   │   ├── pallet_town.json         # Pallet Town map data
-│   │   └── route_1.json             # Route 1 map
+│   ├── maps/                        # (Legacy JSON maps removed)
 │   ├── pokemon/
 │   │   └── species.yaml             # All 151 Gen 1 Pokemon (from PokéAPI)
 │   ├── moves/
@@ -197,6 +197,7 @@ pokemon_yellow/
 │   └── types/
 │       └── type_chart.yaml          # Gen 1 type effectiveness
 ├── assets/
+│   ├── maps/                        # TMX/TSX maps and tileset images
 │   └── sprites/
 │       └── pokemon/                 # 302 Pokemon sprites (front + back)
 ├── scripts/

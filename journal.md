@@ -40,3 +40,10 @@ Journal
 - Added logic-only tests for EXP and move learning plus updated trainer victory tests.
 - Added yes/no and forget-move menus for level-up move replacement flow.
 - Updated PROJECT_OVERVIEW.md to reflect move learning completion and next steps.
+
+2026-01-18
+- Migrated map system to TMX via pytmx with cached lower/fringe layers and object parsing.
+- Switched resolution to 320x288, added UI_SCALE=2, and scaled battle/menus/UI layout.
+- Updated overworld to use TMX collisions/grass properties, warp objects, and Y-sorted rendering.
+- Added TMX fixture maps and tests for map loading, collisions, grass, and object spawns.
+- Removed legacy JSON maps and updated save/menu defaults to assets/maps TMX paths.
