@@ -47,7 +47,7 @@ The game currently has:
 ### Language & Framework
 - **Python 3.11+** (using Python 3.13.5)
 - **PyGame 2.6.1** - Game framework
-- **Resolution**: 320x288 internal render size, scaled 2x to 640x576 window
+- **Resolution**: 480x416 internal render size, scaled 2x to 960x832 window
 - **Tile Size**: 32x32 pixels (2x original Game Boy 16x16)
 - **pytmx** - Tiled TMX map loader for PyGame
 - **PyYAML** - For Pokemon/move data files
@@ -272,8 +272,8 @@ States are managed via a stack in `Game` class.
 - **Collision**: Tile-based boolean grid
 
 ### Rendering Pipeline
-1. Game renders at native **320x288** resolution (32x32 tiles, 10x9 viewport)
-2. Scaled **2x** to **640x576** window
+1. Game renders at native **480x416** resolution (32x32 tiles, 15x13 viewport)
+2. Scaled **2x** to **960x832** window
 3. Layers: Background (lower) → Entities (player/NPCs) → Fringe (upper) → UI
 4. Camera follows player, clamped to map bounds
 
@@ -285,10 +285,10 @@ States are managed via a stack in `Game` class.
 ## Technical Specifications
 
 ### Display
-- **Internal Resolution**: 320x288 pixels
-- **Window Size**: 640x576 pixels (2x scale)
+- **Internal Resolution**: 480x416 pixels
+- **Window Size**: 960x832 pixels (2x scale)
 - **Tile Size**: 32x32 pixels
-- **Viewport**: 10 tiles wide × 9 tiles tall
+- **Viewport**: 15 tiles wide × 13 tiles tall
 - **FPS**: 60
 - **UI Scale**: 2x (for menus and dialog)
 
