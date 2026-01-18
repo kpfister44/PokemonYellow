@@ -47,6 +47,7 @@ The game currently has:
 ### Language & Framework
 - **Python 3.11+** (using Python 3.13.5)
 - **PyGame 2.6.1** - Game framework
+- **Resolution**: 320x288 internal render size, scaled 3x in window
 - **pytmx** - Tiled TMX map loader for PyGame
 - **PyYAML** - For Pokemon/move data files
 - **Requests** - For PokéAPI data hydration (build-time only)
