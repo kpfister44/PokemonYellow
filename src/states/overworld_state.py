@@ -93,8 +93,15 @@ class OverworldState(BaseState):
         # Load the map
         self.current_map = MapManager(self.map_path)
 
+        # Use map's player_start if no explicit start position provided
+        start_x = self.player_start_x
+        start_y = self.player_start_y
+        if self.current_map.player_start is not None:
+            if start_x < 0 or start_y < 0:
+                start_x, start_y = self.current_map.player_start
+
         # Create player
-        self.player = Player(self.player_start_x, self.player_start_y)
+        self.player = Player(start_x, start_y)
         if self.player_direction is not None:
             direction_map = {
                 "up": constants.DIR_UP,

@@ -239,65 +239,197 @@ pokemon_yellow/
 - ✅ Save/Load system
 - ❌ Pokedex
 
-### Phase 9: Authentic Map Graphics Overhaul
-**Goal**: Replace placeholder tile graphics with authentic Pokemon Yellow tileset from original Game Boy ROM
+### Phase 9: TMX Map System with pylletTown Tilesets ✅ COMPLETE
+**Goal**: Replace placeholder tile graphics with authentic Pokemon-style graphics using TMX maps
 
-**Motivation**: Current maps use colored rectangles as placeholder tiles. This phase replaces them with pixel-perfect Gen 1 graphics for visual authenticity.
+**What Was Implemented**:
+- ✅ Integrated pylletTown project's 32x32 Game Boy-style tilesets
+- ✅ TMX-based map system using pytmx for loading
+- ✅ Cached layer rendering (lower and fringe surfaces)
+- ✅ Tile property-based collision detection (`solid` property)
+- ✅ Tile property-based grass detection (`is_grass` property)
+- ✅ Tile property-based warps (`entry` property) + object-based warps
+- ✅ Player spawn point from `playerStart` tile property
+- ✅ Resolution: 320x288 internal, 2x scaled to 640x576 window
 
-**Resources**:
-1. **Map Sheets** (reference): [The Spriters Resource - Pokemon Yellow World Map](https://www.spriters-resource.com/game_boy_gbc/pokemonyellow/sheet/63031/)
-2. **Tilesets** (assets): [The Spriters Resource - Pokemon Yellow Tilesets](https://www.spriters-resource.com/game_boy_gbc/pokemonyellow/sheet/10649/)
-3. **Map Data** (logic): [pokeyellow decomp - Map Headers](https://github.com/pret/pokeyellow/tree/master/maps)
+**Tileset Source**:
+- **pylletTown**: https://github.com/renfredxh/pylletTown
+- 32x32 pixel tiles (2x original Game Boy 16x16)
+- Game Boy grayscale color palette
+- 7 tileset PNGs: groundCompiled, lab, house, indoors, objects, sprites, triggers
 
-**Tools**:
-- **Tiled Map Editor** (free, industry-standard 2D tile editor)
-- **PolishedMap** (optional, for opening pokeyellow .blk files)
+**Current Maps**:
+- `pallet_town.tmx` - 40x36 tiles, full Pallet Town with Oak's Lab
+- `player_house.tmx` - 18x18 tiles, interior map
+- `route_1.tmx` - Placeholder (needs real graphics)
 
-**Workflow**:
-1. Download overworld tileset from Spriters Resource
-2. Set up Tiled Map Editor with 16x16 grid (Game Boy standard)
-3. Import tileset into Tiled as a tileset palette
-4. Use pokeyellow decomp .blk files or world map image as reference
-5. Rebuild Pallet Town and Route 1 in Tiled
-6. Export to JSON (Tiled's native format, compatible with PyGame)
-7. Update `src/overworld/map.py` to load Tiled JSON format
-8. Create tile ID mapping system (grass tiles might be IDs 3,4,5 instead of single ID 0)
-9. Update `src/overworld/encounter_loader.py` to handle new grass tile IDs
-10. Test all map transitions, collisions, and encounters still work
+---
 
-**Files to Create**:
-- `assets/tilesets/overworld.png` - Gen 1 overworld tileset (16x16 tiles)
-- `assets/tilesets/overworld.tsx` - Tiled tileset definition (optional)
-- Updated `data/maps/pallet_town.json` - Rebuilt in Tiled
-- Updated `data/maps/route_1.json` - Rebuilt in Tiled
+## Phase 10: Creating Additional Maps (Guide for Future Development)
 
-**Files to Update**:
-- `src/overworld/map.py` - Support Tiled JSON format (if different from current)
-- `src/overworld/tile.py` - Add tile sprite rendering (replace colored rectangles)
-- `src/overworld/encounter_zones.py` - Update grass tile ID list
-- `src/overworld/encounter_loader.py` - Map new tile IDs to encounter zones
+**Goal**: Expand the game world by creating new maps using the TMX system.
 
-**Technical Notes**:
-- Tiled exports multiple JSON formats; choose the one closest to current structure
-- Tileset should be a single PNG with all tiles in a grid
-- Each 16x16 tile gets a unique ID (0, 1, 2, etc.)
-- Collision layer can stay boolean (0/1) or use tile properties in Tiled
-- Warp points remain in JSON metadata (Tiled supports custom properties)
+### How to Create a New Map
 
-**Success Criteria**:
-- ✅ Maps render with authentic Gen 1 graphics instead of colored rectangles
-- ✅ Grass tiles use real grass sprites from tileset
-- ✅ Buildings, trees, water, paths all use authentic sprites
-- ✅ All collisions still work correctly
-- ✅ Map transitions (Pallet Town ↔ Route 1) still work
-- ✅ Wild encounters still trigger on grass tiles
-- ✅ Camera and rendering performance unchanged
+#### Step 1: Install Tiled Map Editor
+Download from https://www.mapeditor.org/ (free, cross-platform)
+
+#### Step 2: Open Existing Map as Template
+1. Open `assets/maps/pallet_town.tmx` in Tiled
+2. Use "File > Save As" to create a new map file
+
+#### Step 3: Map Structure Requirements
+Each map must have:
+
+**Tile Layers** (rendered in order):
+- `background` - Base ground tiles (grass, paths, water)
+- `foreground` - Buildings, trees, decorations (rendered on top)
+- `triggers` (optional, invisible) - Warp and spawn point tiles
+
+**Tile Properties** (set in tileset):
+| Property | Value | Purpose |
+|----------|-------|---------|
+| `solid` | `""` or `"true"` | Blocks player movement |
+| `is_grass` | `""` or `"true"` | Triggers wild encounters |
+| `entry` | `"mapname.tmx"` | Warp destination map |
+| `playerStart` | `"down"` | Player spawn point + facing direction |
+| `water` | `""` or `"true"` | Water tile (blocks movement) |
+
+**Object Layer** (alternative to tile properties):
+```xml
+<objectgroup name="Objects">
+  <!-- NPC -->
+  <object name="oak" type="NPC" x="320" y="256">
+    <properties>
+      <property name="npc_id" value="oak"/>
+      <property name="dialog_id" value="oak_greeting"/>
+      <property name="direction" value="down"/>
+    </properties>
+  </object>
+
+  <!-- Warp (alternative to tile entry property) -->
+  <object name="warp_1" type="Warp" x="320" y="544">
+    <properties>
+      <property name="dest_map" value="route_1.tmx"/>
+      <property name="dest_x" type="int" value="5"/>
+      <property name="dest_y" type="int" value="0"/>
+    </properties>
+  </object>
+
+  <!-- Item Pickup -->
+  <object name="potion_1" type="Item" x="128" y="64">
+    <properties>
+      <property name="item_id" value="potion"/>
+      <property name="pickup_id" value="pallet_potion_1"/>
+    </properties>
+  </object>
+</objectgroup>
+```
+
+#### Step 4: Tileset Requirements
+- **Tile Size**: 32x32 pixels (MUST match `constants.TILE_SIZE`)
+- **Format**: PNG with transparency for overlays
+- **Location**: `assets/maps/` (same directory as TMX files)
+
+To add a new tileset:
+1. Create tileset PNG (grid of 32x32 tiles)
+2. In Tiled: Map > New Tileset
+3. Set tile size to 32x32
+4. Set tile properties (solid, is_grass, etc.) by clicking tiles
+
+#### Step 5: Connecting Maps
+1. Place warp tiles at map edges or doorways
+2. Set `entry` property to destination map filename
+3. In destination map, place `playerStart` tile where player should appear
+4. OR use Object-based warps with explicit `dest_x`/`dest_y` coordinates
+
+#### Step 6: Testing
+```bash
+# Test map loads correctly
+uv run python -c "
+from src.overworld.map import MapManager
+import pygame
+pygame.init()
+pygame.display.set_mode((320, 288))
+mm = MapManager('assets/maps/YOUR_MAP.tmx')
+print(f'Size: {mm.width}x{mm.height}')
+print(f'Player start: {mm.player_start}')
+print(f'Warps: {len(mm.warps)}')
+print(f'NPCs: {len(mm.npcs)}')
+"
+
+# Run game and navigate to map
+uv run python -m src.main
+```
+
+### Available Tilesets
+
+| Tileset | Contents | File |
+|---------|----------|------|
+| groundCompiled | Grass, paths, terrain | `groundCompiled.png` |
+| lab | Oak's Lab interior/exterior | `lab.png` |
+| house | Building exteriors | `house.png` |
+| indoors | Interior floors, walls, furniture | `indoors.png` |
+| objects | Signs, fences, decorations | `objects.png` |
+| sprites | Animated tiles (water, flowers) | `sprites.png` |
+| triggers | Warp zones, spawn points (invisible) | `triggers.png` |
+
+### MapManager API Reference
+
+```python
+class MapManager:
+    # Attributes
+    width: int                    # Map width in tiles
+    height: int                   # Map height in tiles
+    player_start: tuple[int,int]  # (x, y) from playerStart tile
+    warps: list[dict]             # [{tile_x, tile_y, dest_map, dest_x, dest_y}]
+    npcs: list[NPC]               # NPCs from object layer
+    item_pickups: list[ItemPickup] # Items from object layer
+
+    # Methods
+    is_walkable(tile_x, tile_y) -> bool   # Check collision
+    is_grass(tile_x, tile_y) -> bool      # Check for encounters
+    get_warp_at(tile_x, tile_y) -> dict   # Get warp at position
+    draw_base(renderer, cam_x, cam_y)     # Draw lower layers
+    draw_fringe(renderer, cam_x, cam_y)   # Draw upper layers
+```
+
+### Adding Encounters to a Map
+
+1. Mark grass tiles with `is_grass` property in tileset
+2. Add encounter data to `data/encounters/yellow_encounters.yaml`:
+```yaml
+your_map_name:
+  - pokemon: rattata
+    method: walk
+    chance: 40
+    min_level: 2
+    max_level: 4
+  - pokemon: pidgey
+    method: walk
+    chance: 35
+    min_level: 2
+    max_level: 5
+```
+
+### Resources for Creating Authentic Maps
+
+**Reference Materials**:
+- [pret/pokeyellow](https://github.com/pret/pokeyellow) - Original game disassembly
+- [The Spriters Resource](https://www.spriters-resource.com/game_boy_gbc/pokemonyellow/) - Ripped sprites
+- [Bulbapedia Maps](https://bulbapedia.bulbagarden.net/wiki/Kanto) - Map layouts
+
+**Alternative Tileset Sources**:
+- [pylletTown](https://github.com/renfredxh/pylletTown) - Current source (32x32)
+- [DeviantArt Pokemon Tilesets](https://www.deviantart.com/tag/pokemontileset) - Fan-made
+- [OpenGameArt](https://opengameart.org/) - Pokemon-style tiles
 
 **Deferred** (Future Phases):
-- Rebuilding all 25 Kanto routes + dungeons (Phase 10+)
-- Animated tiles (water animation, grass rustling)
-- Weather effects
-- Day/night cycle
+- Route 1 with real graphics
+- Viridian City and beyond
+- Building interiors (Mart, Center, Gym)
+- Animated tiles (water, flowers)
+- Day/night palette swaps
 
 ## Key Technical Decisions
 

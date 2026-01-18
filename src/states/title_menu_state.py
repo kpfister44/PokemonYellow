@@ -58,8 +58,8 @@ class TitleMenuState(BaseState):
             overworld = OverworldState(
                 self.game,
                 "assets/maps/pallet_town.tmx",
-                player_start_x=8,
-                player_start_y=13,
+                player_start_x=-1,
+                player_start_y=-1,
                 pokedex_seen={"pikachu"},
                 pokedex_caught={"pikachu"}
             )

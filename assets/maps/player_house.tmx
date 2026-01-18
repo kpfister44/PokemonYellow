@@ -1,52 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="10" height="9" tilewidth="32" tileheight="32" infinite="0" nextlayerid="3" nextobjectid="4">
- <tileset firstgid="1" source="test_tiles.tsx"/>
- <layer id="1" name="Ground" width="10" height="9">
-  <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,
-1,2,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1
+<map version="1.0" orientation="orthogonal" width="18" height="18" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="indoors" tilewidth="32" tileheight="32">
+  <image source="indoors.png" width="512" height="128"/>
+ </tileset>
+ <tileset firstgid="65" name="triggers" tilewidth="32" tileheight="32">
+  <image source="triggers.png" width="192" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="playerStart" value="up"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="entry" value="pallet_town.tmx"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="entry" value="pallet_town.tmx"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="18" height="18">
+  <data encoding="base64" compression="zlib">
+   eJzV0ccKAkEQhOFRMHtRMHsx55yz7/9U/peBYmGhXS9rw0fRc5gpGOecSyApmUIaGWQNu58SypIVVFFD3bD76aArOcAQI4xlD+YKa7lng63kAUeccJY9mC+85Z6w96zpJ+w9a/5LnwWWyCGPAopybu3zwBMNNNFCW86/7TPBFDPMf+hzwRU33CP0idt/9dCXjNpnh72ktU+c5gNkhSlJ
   </data>
  </layer>
- <layer id="2" name="Fringe" width="10" height="9">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0
+ <layer name="triggers" width="18" height="18" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxzZWBgcAViNwpoEPaGYh8KaB+omejmwwA6HxfA5R4YQOfjAjD3UApg7qEUDDX34IpHUt2DKx6HunuIBbSOL0cgdqKCe9yB2INE9zAwYIanMxC7INGEyg1cwBOIvZBoYgAAy+Ag3w==
   </data>
  </layer>
- <objectgroup id="3" name="Objects">
-  <object id="1" name="npc_1" type="NPC" x="64" y="64" width="32" height="32">
-   <properties>
-    <property name="dialog_id" value="Hello there!"/>
-    <property name="direction" value="down"/>
-    <property name="npc_id" value="npc_1"/>
-   </properties>
-  </object>
-  <object id="2" name="warp_1" type="Warp" x="96" y="32" width="32" height="32">
-   <properties>
-    <property name="dest_map" value="player_house"/>
-    <property name="dest_x" type="int" value="2"/>
-    <property name="dest_y" type="int" value="3"/>
-   </properties>
-  </object>
-  <object id="3" name="item_1" type="Item" x="128" y="32" width="32" height="32">
-   <properties>
-    <property name="item_id" value="potion"/>
-    <property name="pickup_id" value="test_item"/>
-   </properties>
-  </object>
- </objectgroup>
 </map>

@@ -47,7 +47,8 @@ The game currently has:
 ### Language & Framework
 - **Python 3.11+** (using Python 3.13.5)
 - **PyGame 2.6.1** - Game framework
-- **Resolution**: 320x288 internal render size, scaled 3x in window
+- **Resolution**: 320x288 internal render size, scaled 2x to 640x576 window
+- **Tile Size**: 32x32 pixels (2x original Game Boy 16x16)
 - **pytmx** - Tiled TMX map loader for PyGame
 - **PyYAML** - For Pokemon/move data files
 - **Requests** - For PokéAPI data hydration (build-time only)
@@ -271,33 +272,25 @@ States are managed via a stack in `Game` class.
 - **Collision**: Tile-based boolean grid
 
 ### Rendering Pipeline
-1. Game renders at native **160x144** resolution
-2. Scaled **3x** to **480x432** window
-3. Layers: Background (map) → Entities (player) → UI
+1. Game renders at native **320x288** resolution (32x32 tiles, 10x9 viewport)
+2. Scaled **2x** to **640x576** window
+3. Layers: Background (lower) → Entities (player/NPCs) → Fringe (upper) → UI
 4. Camera follows player, clamped to map bounds
 
 ### Data-Driven Design
-- Maps defined in JSON with layers: ground, decorations, collision
-- Warp points defined in map data (ready for Phase 4)
-- Future: Pokemon stats, moves in YAML
+- Maps defined in TMX format (Tiled editor) with tile properties
+- Warp points defined via tile `entry` property or object layer
+- Pokemon stats, moves, items in YAML files
 
 ## Technical Specifications
 
 ### Display
-- **Native Resolution**: 160x144 pixels (Game Boy)
-- **Window Size**: 480x432 pixels (3x scale)
-- **Tile Size**: 16x16 pixels
+- **Internal Resolution**: 320x288 pixels
+- **Window Size**: 640x576 pixels (2x scale)
+- **Tile Size**: 32x32 pixels
 - **Viewport**: 10 tiles wide × 9 tiles tall
 - **FPS**: 60
-
-### Colors (Game Boy Palette)
-- Light green grass: `(139, 172, 15)`
-- Dark green trees: `(34, 139, 34)`
-- Gray buildings: `(48, 98, 48)`
-- Tan paths: `(180, 180, 150)`
-- Blue water: `(50, 100, 200)`
-- Brown signs: `(139, 69, 19)`
-- Yellow player: Circle placeholder
+- **UI Scale**: 2x (for menus and dialog)
 
 ### Controls
 - **Arrow Keys**: Move player
@@ -305,22 +298,23 @@ States are managed via a stack in `Game` class.
 - **X**: B button (cancel/back)
 - **Start (S)**: Start button (menu)
 
-## Current Map: Pallet Town
+## Current Maps
 
-### Layout
-- **Size**: 20 × 18 tiles (320 × 288 pixels)
-- **Professor Oak's Lab**: Top center (larger building)
-- **Player's House**: Bottom left
-- **Rival's House**: Bottom right
-- **Pond**: Left side (water tiles)
-- **Trees**: Perimeter
-- **Signs**: 5 sign posts
+### Pallet Town (`assets/maps/pallet_town.tmx`)
+- **Size**: 40 × 36 tiles (1280 × 1152 pixels)
+- **Tileset Source**: pylletTown project (32x32 Game Boy style graphics)
+- **Player Start**: Tile (10, 12) - defined via `playerStart` tile property
+- **Warps**: 6 entry points to `player_house.tmx`
 
-### Player Starting Position
-- Tile (8, 13) - On the path between the houses
-- Set for New Game in `src/states/title_menu_state.py`
+### Player House (`assets/maps/player_house.tmx`)
+- **Size**: 18 × 18 tiles (576 × 576 pixels)
+- **Player Start**: Tile (5, 14)
+- **Warps**: 4 exit points back to `pallet_town.tmx`
 
-### Warp Points (Defined, Not Yet Functional)
+### Route 1 (`assets/maps/route_1.tmx`)
+- **Status**: Placeholder (uses test tileset, needs real graphics)
+
+### Warp Points
 - Route 1: Two tiles at top (x=8, y=0) and (x=10, y=0)
 - Player's house door: (x=4, y=14)
 - Rival's house door: (x=14, y=14)

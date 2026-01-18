@@ -47,3 +47,16 @@ Journal
 - Updated overworld to use TMX collisions/grass properties, warp objects, and Y-sorted rendering.
 - Added TMX fixture maps and tests for map loading, collisions, grass, and object spawns.
 - Removed legacy JSON maps and updated save/menu defaults to assets/maps TMX paths.
+
+2026-01-18 (Session 2)
+- Integrated pylletTown tilesets (32x32 Game Boy-style graphics) from GitHub.
+- Copied pallet_town.tmx and player_house.tmx from pylletTown with real tile graphics.
+- Updated MapManager._is_truthy() to handle empty string as truthy (pylletTown convention).
+- Added _build_tile_warps() to parse tile-based warps from `entry` property.
+- Added player_start attribute from `playerStart` tile property.
+- Updated OverworldState to use map's player_start when coords are -1,-1.
+- Fixed SCALE_FACTOR from 3 to 2 (was too zoomed in with 32x32 tiles).
+- Deleted old save file that referenced removed JSON map paths.
+- Updated PROJECT_OVERVIEW.md with new resolution/map system details.
+- Added Phase 10 map creation guide to IMPLEMENTATION_PLAN.md for future agents.
+- Phase 9 complete: Maps now render with authentic Pokemon-style graphics.

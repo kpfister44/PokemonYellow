@@ -49,8 +49,10 @@ class MapManager:
         self.npcs: list[NPC] = []
         self.warps: list[dict[str, Any]] = []
         self.item_pickups: list[ItemPickup] = []
+        self.player_start: tuple[int, int] | None = None
         self.dialog_loader = DialogLoader()
         self._parse_objects()
+        self._build_tile_warps()
 
     def _collect_layers(self) -> None:
         for layer in self.tmx_data.layers:
@@ -169,9 +171,37 @@ class MapManager:
             return default
 
     def _is_truthy(self, value: Any) -> bool:
+        if value is None:
+            return False
         if isinstance(value, str):
-            return value.strip().lower() in ("true", "1", "yes")
+            lower = value.strip().lower()
+            if lower in ("false", "0", "no"):
+                return False
+            # Empty string or any other string value means property is set
+            return True
         return bool(value)
+
+    def _build_tile_warps(self) -> None:
+        """Scan tiles for entry/playerStart properties (pylletTown format)."""
+        for layer in self.tmx_data.layers:
+            if not isinstance(layer, pytmx.TiledTileLayer):
+                continue
+            for x, y, gid in layer:
+                if gid == 0:
+                    continue
+                properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
+                entry = properties.get("entry")
+                if entry:
+                    self.warps.append({
+                        "tile_x": x,
+                        "tile_y": y,
+                        "dest_map": entry,
+                        "dest_x": 0,
+                        "dest_y": 0
+                    })
+                player_start = properties.get("playerStart")
+                if player_start and self.player_start is None:
+                    self.player_start = (x, y)
 
     def draw_base(self, renderer, camera_x: int, camera_y: int) -> None:
         renderer.draw_surface(self.lower_surface, (-camera_x, -camera_y))
