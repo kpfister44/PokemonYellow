@@ -3,20 +3,20 @@
 
 import pygame
 
-# Display settings (Game Boy aspect ratio at 32x32 tiles)
-GAME_WIDTH = 320
-GAME_HEIGHT = 288
+# Display settings (expanded viewport at 32x32 tiles)
+GAME_WIDTH = 480
+GAME_HEIGHT = 416
 SCALE_FACTOR = 2
-WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 640
-WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 576
+WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 960
+WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 832
 
-# UI scaling (2x for 320x288 resolution)
+# UI scaling (2x for menus and dialog)
 UI_SCALE = 2
 
 # Tile and grid settings
 TILE_SIZE = 32
-TILES_WIDE = GAME_WIDTH // TILE_SIZE  # 10 tiles
-TILES_HIGH = GAME_HEIGHT // TILE_SIZE  # 9 tiles
+TILES_WIDE = GAME_WIDTH // TILE_SIZE  # 15 tiles
+TILES_HIGH = GAME_HEIGHT // TILE_SIZE  # 13 tiles
 
 # Frame rate
 FPS = 60
