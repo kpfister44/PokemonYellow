@@ -2,7 +2,8 @@
 # ABOUTME: Implements 2x2 grid menu with cursor navigation for Pokemon Yellow battles
 
 from typing import Optional
-from src.engine.constants import COLOR_BLACK, COLOR_WHITE
+
+from src.engine import constants
 
 
 class BattleMenu:
@@ -70,15 +71,22 @@ class BattleMenu:
             return
 
         # Menu dimensions (2x2 grid)
-        option_width = 36
-        option_height = 16
-        padding = 4
+        option_width = 36 * constants.UI_SCALE
+        option_height = 16 * constants.UI_SCALE
+        padding = 4 * constants.UI_SCALE
 
         # Draw menu box border
         menu_width = option_width * 2 + padding * 3
         menu_height = option_height * 2 + padding * 3
-        renderer.draw_rect(COLOR_BLACK, (x, y, menu_width, menu_height), 2)
-        renderer.draw_rect(COLOR_WHITE, (x + 2, y + 2, menu_width - 4, menu_height - 4), 0)
+        border_width = 2 * constants.UI_SCALE
+        inner_offset = 2 * constants.UI_SCALE
+        renderer.draw_rect(constants.COLOR_BLACK, (x, y, menu_width, menu_height), border_width)
+        renderer.draw_rect(
+            constants.COLOR_WHITE,
+            (x + inner_offset, y + inner_offset,
+             menu_width - (inner_offset * 2), menu_height - (inner_offset * 2)),
+            0
+        )
 
         # Render each option
         for row in range(2):
@@ -89,13 +97,26 @@ class BattleMenu:
                 # Draw cursor indicator if this is the selected option
                 if row == self.cursor_row and col == self.cursor_col:
                     # Draw selection background
-                    renderer.draw_rect(COLOR_BLACK, (option_x - 2, option_y - 2, option_width, option_height), 1)
+                    renderer.draw_rect(
+                        constants.COLOR_BLACK,
+                        (option_x - (2 * constants.UI_SCALE),
+                         option_y - (2 * constants.UI_SCALE),
+                         option_width,
+                         option_height),
+                        1 * constants.UI_SCALE
+                    )
 
                 # Draw option text
                 option_text = self.options[row][col]
-                text_x = option_x + 4
-                text_y = option_y + 4
-                renderer.draw_text(option_text, text_x, text_y, COLOR_BLACK, 10)
+                text_x = option_x + (4 * constants.UI_SCALE)
+                text_y = option_y + (4 * constants.UI_SCALE)
+                renderer.draw_text(
+                    option_text,
+                    text_x,
+                    text_y,
+                    constants.COLOR_BLACK,
+                    10 * constants.UI_SCALE
+                )
 
     def activate(self):
         """Activate the menu."""

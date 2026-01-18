@@ -3,6 +3,8 @@
 
 import pygame
 
+from src.engine import constants
+
 
 class DialogBox:
     """Dialog box for NPC conversations."""
@@ -20,10 +22,10 @@ class DialogBox:
         self.visible = True
 
         # Dialog box position (bottom of screen)
-        self.x = 8
-        self.y = 100  # Near bottom of 144px screen
-        self.width = 160 - 16  # Full width minus padding
-        self.height = 36
+        self.x = 8 * constants.UI_SCALE
+        self.y = 100 * constants.UI_SCALE
+        self.width = (160 - 16) * constants.UI_SCALE
+        self.height = 36 * constants.UI_SCALE
 
         # Colors (Game Boy palette)
         self.bg_color = (248, 248, 248)  # Light
@@ -70,19 +72,38 @@ class DialogBox:
             return
 
         # Draw background box
-        renderer.draw_rect(self.border_color, (self.x, self.y, self.width, self.height), 2)
-        renderer.draw_rect(self.bg_color, (self.x+2, self.y+2, self.width-4, self.height-4), 0)
+        border_width = 2 * constants.UI_SCALE
+        inner_offset = 2 * constants.UI_SCALE
+        renderer.draw_rect(self.border_color, (self.x, self.y, self.width, self.height), border_width)
+        renderer.draw_rect(
+            self.bg_color,
+            (self.x + inner_offset, self.y + inner_offset,
+             self.width - (inner_offset * 2), self.height - (inner_offset * 2)),
+            0
+        )
 
         # Draw NPC name if present
-        text_y = self.y + 6
+        text_y = self.y + (6 * constants.UI_SCALE)
         if self.npc_name:
-            renderer.draw_text(f"{self.npc_name}:", self.x + 6, text_y, self.text_color, 12)
-            text_y += 14
+            renderer.draw_text(
+                f"{self.npc_name}:",
+                self.x + (6 * constants.UI_SCALE),
+                text_y,
+                self.text_color,
+                12 * constants.UI_SCALE
+            )
+            text_y += 14 * constants.UI_SCALE
 
         # Draw dialog text with word wrapping
         wrapped_lines = self._wrap_text(self.text, max_chars=21)
         for i, line in enumerate(wrapped_lines[:2]):  # Max 2 lines
-            renderer.draw_text(line, self.x + 6, text_y + (i * 13), self.text_color, 12)
+            renderer.draw_text(
+                line,
+                self.x + (6 * constants.UI_SCALE),
+                text_y + (i * (13 * constants.UI_SCALE)),
+                self.text_color,
+                12 * constants.UI_SCALE
+            )
 
     def close(self):
         """Hide the dialog box."""

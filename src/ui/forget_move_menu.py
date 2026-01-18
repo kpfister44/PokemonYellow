@@ -2,7 +2,8 @@
 # ABOUTME: Shows the Pokemon's current moves without PP or type details
 
 from typing import Optional
-from src.engine.constants import COLOR_BLACK, COLOR_WHITE
+
+from src.engine import constants
 
 
 class ForgetMoveMenu:
@@ -39,19 +40,38 @@ class ForgetMoveMenu:
         if not self.is_active:
             return
 
-        menu_width = 120
-        menu_height = 8 + len(self.move_ids) * 12
-        padding = 4
+        menu_width = 120 * constants.UI_SCALE
+        menu_height = (8 + len(self.move_ids) * 12) * constants.UI_SCALE
+        padding = 4 * constants.UI_SCALE
 
-        renderer.draw_rect(COLOR_BLACK, (x, y, menu_width, menu_height), 2)
-        renderer.draw_rect(COLOR_WHITE, (x + 2, y + 2, menu_width - 4, menu_height - 4), 0)
+        border_width = 2 * constants.UI_SCALE
+        inner_offset = 2 * constants.UI_SCALE
+        renderer.draw_rect(constants.COLOR_BLACK, (x, y, menu_width, menu_height), border_width)
+        renderer.draw_rect(
+            constants.COLOR_WHITE,
+            (x + inner_offset, y + inner_offset,
+             menu_width - (inner_offset * 2), menu_height - (inner_offset * 2)),
+            0
+        )
 
         for i, move_id in enumerate(self.move_ids):
-            move_y = y + padding + i * 12
+            move_y = y + padding + i * (12 * constants.UI_SCALE)
             cursor = ">" if i == self.cursor_position else " "
             move_name = move_id.upper().replace("-", " ")
-            renderer.draw_text(cursor, x + padding, move_y, COLOR_BLACK, 10)
-            renderer.draw_text(move_name, x + padding + 10, move_y, COLOR_BLACK, 10)
+            renderer.draw_text(
+                cursor,
+                x + padding,
+                move_y,
+                constants.COLOR_BLACK,
+                10 * constants.UI_SCALE
+            )
+            renderer.draw_text(
+                move_name,
+                x + padding + (10 * constants.UI_SCALE),
+                move_y,
+                constants.COLOR_BLACK,
+                10 * constants.UI_SCALE
+            )
 
     def activate(self):
         """Activate the menu."""

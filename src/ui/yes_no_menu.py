@@ -2,7 +2,8 @@
 # ABOUTME: Handles simple confirmation input with a two-option cursor
 
 from typing import Optional
-from src.engine.constants import COLOR_BLACK, COLOR_WHITE
+
+from src.engine import constants
 
 
 class YesNoMenu:
@@ -40,19 +41,38 @@ class YesNoMenu:
         if not self.is_active:
             return
 
-        menu_width = 44
-        option_height = 12
-        menu_height = option_height * len(self.options) + 8
-        padding = 4
+        menu_width = 44 * constants.UI_SCALE
+        option_height = 12 * constants.UI_SCALE
+        menu_height = option_height * len(self.options) + (8 * constants.UI_SCALE)
+        padding = 4 * constants.UI_SCALE
 
-        renderer.draw_rect(COLOR_BLACK, (x, y, menu_width, menu_height), 2)
-        renderer.draw_rect(COLOR_WHITE, (x + 2, y + 2, menu_width - 4, menu_height - 4), 0)
+        border_width = 2 * constants.UI_SCALE
+        inner_offset = 2 * constants.UI_SCALE
+        renderer.draw_rect(constants.COLOR_BLACK, (x, y, menu_width, menu_height), border_width)
+        renderer.draw_rect(
+            constants.COLOR_WHITE,
+            (x + inner_offset, y + inner_offset,
+             menu_width - (inner_offset * 2), menu_height - (inner_offset * 2)),
+            0
+        )
 
         for i, option in enumerate(self.options):
             option_y = y + padding + i * option_height
             cursor = ">" if i == self.cursor_index else " "
-            renderer.draw_text(cursor, x + padding, option_y, COLOR_BLACK, 10)
-            renderer.draw_text(option, x + padding + 10, option_y, COLOR_BLACK, 10)
+            renderer.draw_text(
+                cursor,
+                x + padding,
+                option_y,
+                constants.COLOR_BLACK,
+                10 * constants.UI_SCALE
+            )
+            renderer.draw_text(
+                option,
+                x + padding + (10 * constants.UI_SCALE),
+                option_y,
+                constants.COLOR_BLACK,
+                10 * constants.UI_SCALE
+            )
 
     def activate(self):
         """Activate the menu."""

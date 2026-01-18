@@ -3,10 +3,11 @@
 
 import pygame
 from typing import Optional
-from src.party.party import Party
-from src.battle.pokemon import Pokemon
-from src.engine.constants import GAME_WIDTH, GAME_HEIGHT
+
 from src.battle.hp_bar_display import HpBarDisplay
+from src.battle.pokemon import Pokemon
+from src.engine import constants
+from src.party.party import Party
 
 
 class PartyScreen:
@@ -21,7 +22,7 @@ class PartyScreen:
         """
         self.party = party
         self.cursor_index = 0
-        self.bar_width = 48
+        self.bar_width = 48 * constants.UI_SCALE
         self.hp_displays = [
             HpBarDisplay(pokemon.stats.hp, pokemon.current_hp, self.bar_width)
             for pokemon in self.party.pokemon
@@ -73,15 +74,25 @@ class PartyScreen:
             self._render_party_slot(renderer, i)
 
         # Draw prompt box at bottom (y=120, height=24 for 144 total)
-        prompt_y = 120
+        prompt_y = 120 * constants.UI_SCALE
+        prompt_height = 24 * constants.UI_SCALE
         bg_color = (248, 248, 248)
         border_color = (0, 0, 0)
 
         # Draw bordered box
-        renderer.draw_rect(bg_color, (0, prompt_y, GAME_WIDTH, 24), 0)
-        renderer.draw_rect(border_color, (0, prompt_y, GAME_WIDTH, 24), 1)
+        renderer.draw_rect(bg_color, (0, prompt_y, constants.GAME_WIDTH, prompt_height), 0)
+        renderer.draw_rect(
+            border_color,
+            (0, prompt_y, constants.GAME_WIDTH, prompt_height),
+            1 * constants.UI_SCALE
+        )
 
-        renderer.draw_text("Choose a POKéMON.", 8, prompt_y + 6)
+        renderer.draw_text(
+            "Choose a POKéMON.",
+            8 * constants.UI_SCALE,
+            prompt_y + (6 * constants.UI_SCALE),
+            font_size=16 * constants.UI_SCALE
+        )
 
     def _render_party_slot(self, renderer, index: int) -> None:
         """
@@ -98,46 +109,51 @@ class PartyScreen:
         display = self.hp_displays[index]
 
         # Each Pokemon gets 20px (two rows of ~10px each)
-        slot_height = 20
-        y = 2 + (index * slot_height)
+        slot_height = 20 * constants.UI_SCALE
+        y = (2 * constants.UI_SCALE) + (index * slot_height)
 
         # === ROW 1: Cursor, Sprite, Name, Level ===
 
         # Draw selection cursor at x=4
         if index == self.cursor_index:
-            renderer.draw_text("▶", 4, y)
+            renderer.draw_text("▶", 4 * constants.UI_SCALE, y, font_size=16 * constants.UI_SCALE)
 
         # Draw Pokemon sprite (16x16) at x=16
         if pokemon.species.sprites and pokemon.species.sprites.front:
             sprite = renderer.load_sprite(pokemon.species.sprites.front)
             if sprite:
-                scaled_sprite = pygame.transform.scale(sprite, (16, 16))
+                sprite_size = 16 * constants.UI_SCALE
+                scaled_sprite = pygame.transform.scale(sprite, (sprite_size, sprite_size))
                 if pokemon.is_fainted():
                     scaled_sprite.set_alpha(100)
-                renderer.game_surface.blit(scaled_sprite, (16, y))
+                renderer.game_surface.blit(scaled_sprite, (16 * constants.UI_SCALE, y))
 
         # Draw Pokemon name at x=36
         name_text = pokemon.species.name.upper()
-        renderer.draw_text(name_text, 36, y)
+        renderer.draw_text(name_text, 36 * constants.UI_SCALE, y, font_size=16 * constants.UI_SCALE)
 
         # Draw level (format: :L##)
         level_text = f":L{pokemon.level}"
-        renderer.draw_text(level_text, 100, y)
+        renderer.draw_text(level_text, 100 * constants.UI_SCALE, y, font_size=16 * constants.UI_SCALE)
 
         # === ROW 2: HP bar + HP values ===
-        row2_y = y + 10
+        row2_y = y + (10 * constants.UI_SCALE)
 
         if pokemon.is_fainted():
             # Just show FNT for fainted Pokemon
-            renderer.draw_text("FNT", 36, row2_y)
+            renderer.draw_text("FNT", 36 * constants.UI_SCALE, row2_y, font_size=16 * constants.UI_SCALE)
         else:
             # Draw HP bar
-            bar_x = 36
+            bar_x = 36 * constants.UI_SCALE
             bar_width = self.bar_width
-            bar_height = 4
+            bar_height = 4 * constants.UI_SCALE
 
             # Background (empty bar)
-            renderer.draw_rect((200, 200, 200), (bar_x, row2_y + 2, bar_width, bar_height), 0)
+            renderer.draw_rect(
+                (200, 200, 200),
+                (bar_x, row2_y + (2 * constants.UI_SCALE), bar_width, bar_height),
+                0
+            )
 
             # Calculate HP percentage and color
             hp_percent = display.display_hp / pokemon.stats.hp if pokemon.stats.hp > 0 else 0
@@ -153,14 +169,27 @@ class PartyScreen:
 
             # Draw filled portion
             if filled_width > 0:
-                renderer.draw_rect(color, (bar_x, row2_y + 2, filled_width, bar_height), 0)
+                renderer.draw_rect(
+                    color,
+                    (bar_x, row2_y + (2 * constants.UI_SCALE), filled_width, bar_height),
+                    0
+                )
 
             # Draw border
-            renderer.draw_rect((0, 0, 0), (bar_x, row2_y + 2, bar_width, bar_height), 1)
+            renderer.draw_rect(
+                (0, 0, 0),
+                (bar_x, row2_y + (2 * constants.UI_SCALE), bar_width, bar_height),
+                1 * constants.UI_SCALE
+            )
 
             # Draw HP values next to bar
             hp_text = f"{display.display_hp}/{pokemon.stats.hp}"
-            renderer.draw_text(hp_text, bar_x + bar_width + 4, row2_y)
+            renderer.draw_text(
+                hp_text,
+                bar_x + bar_width + (4 * constants.UI_SCALE),
+                row2_y,
+                font_size=16 * constants.UI_SCALE
+            )
 
     def _sync_displays(self) -> None:
         if len(self.hp_displays) != self.party.size():

@@ -2,7 +2,8 @@
 # ABOUTME: Handles menu rendering and cursor navigation
 
 import pygame
-from src.engine.constants import GAME_WIDTH
+
+from src.engine import constants
 
 
 class TitleMenu:
@@ -55,31 +56,38 @@ class TitleMenu:
         Args:
             renderer: Renderer instance for drawing
         """
-        menu_width = 96
-        menu_height = 8 + len(self.options) * 16 + 8
-        menu_x = GAME_WIDTH - menu_width - 8
-        menu_y = 8
+        menu_width = 96 * constants.UI_SCALE
+        menu_height = (8 + len(self.options) * 16 + 8) * constants.UI_SCALE
+        menu_x = constants.GAME_WIDTH - menu_width - (8 * constants.UI_SCALE)
+        menu_y = 8 * constants.UI_SCALE
 
         border_color = (0, 0, 0)
         bg_color = (248, 248, 248)
         text_color = (0, 0, 0)
         disabled_color = (96, 96, 96)
 
-        renderer.draw_rect(border_color, (menu_x, menu_y, menu_width, menu_height), 2)
-        renderer.draw_rect(bg_color, (menu_x + 2, menu_y + 2, menu_width - 4, menu_height - 4), 0)
+        border_width = 2 * constants.UI_SCALE
+        inner_offset = 2 * constants.UI_SCALE
+        renderer.draw_rect(border_color, (menu_x, menu_y, menu_width, menu_height), border_width)
+        renderer.draw_rect(
+            bg_color,
+            (menu_x + inner_offset, menu_y + inner_offset,
+             menu_width - (inner_offset * 2), menu_height - (inner_offset * 2)),
+            0
+        )
 
-        text_x = menu_x + 8
-        text_y = menu_y + 8
-        line_height = 16
+        text_x = menu_x + (8 * constants.UI_SCALE)
+        text_y = menu_y + (8 * constants.UI_SCALE)
+        line_height = 16 * constants.UI_SCALE
 
         for i, option in enumerate(self.options):
             y = text_y + (i * line_height)
             if i == self.cursor_index:
                 points = [
-                    (text_x - 10, y + 2),
-                    (text_x - 10, y + 10),
-                    (text_x - 4, y + 6)
+                    (text_x - (10 * constants.UI_SCALE), y + (2 * constants.UI_SCALE)),
+                    (text_x - (10 * constants.UI_SCALE), y + (10 * constants.UI_SCALE)),
+                    (text_x - (4 * constants.UI_SCALE), y + (6 * constants.UI_SCALE))
                 ]
                 pygame.draw.polygon(renderer.game_surface, text_color, points)
             color = disabled_color if option in self.disabled_options else text_color
-            renderer.draw_text(option, text_x, y, color, 12)
+            renderer.draw_text(option, text_x, y, color, 12 * constants.UI_SCALE)

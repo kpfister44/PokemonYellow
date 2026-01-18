@@ -3,9 +3,10 @@
 
 import pygame
 from typing import Optional
-from src.party.party import Party
+
 from src.battle.pokemon import Pokemon
-from src.engine.constants import GAME_WIDTH, GAME_HEIGHT
+from src.engine import constants
+from src.party.party import Party
 
 
 class SummaryScreen:
@@ -71,6 +72,7 @@ class SummaryScreen:
             renderer: Renderer instance
         """
         renderer.clear((248, 248, 248))
+        font_size = 16 * constants.UI_SCALE
 
         # === TOP SECTION ===
 
@@ -78,34 +80,67 @@ class SummaryScreen:
         if self.pokemon.species.sprites and self.pokemon.species.sprites.front:
             sprite = renderer.load_sprite(self.pokemon.species.sprites.front)
             if sprite and isinstance(sprite, pygame.Surface):
-                scaled_sprite = pygame.transform.scale(sprite, (56, 56))
-                renderer.game_surface.blit(scaled_sprite, (8, 8))
+                sprite_size = 56 * constants.UI_SCALE
+                scaled_sprite = pygame.transform.scale(sprite, (sprite_size, sprite_size))
+                renderer.game_surface.blit(scaled_sprite, (8 * constants.UI_SCALE, 8 * constants.UI_SCALE))
 
         # Draw Pokedex number below sprite
         pokedex_num = f"No.{self.pokemon.species.number:03d}"
-        renderer.draw_text(pokedex_num, 8, 66)
+        renderer.draw_text(
+            pokedex_num,
+            8 * constants.UI_SCALE,
+            66 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
         # === RIGHT PANEL (x=72) ===
 
         # Pokemon name
         name_text = self.pokemon.species.name.upper()
-        renderer.draw_text(name_text, 72, 8)
+        renderer.draw_text(
+            name_text,
+            72 * constants.UI_SCALE,
+            8 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
         # Level
         level_text = f":L{self.pokemon.level}"
-        renderer.draw_text(level_text, 128, 8)
+        renderer.draw_text(
+            level_text,
+            128 * constants.UI_SCALE,
+            8 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
         # HP bar + values
-        self._draw_hp_bar(renderer, 72, 24, 80, 8)
+        self._draw_hp_bar(
+            renderer,
+            72 * constants.UI_SCALE,
+            24 * constants.UI_SCALE,
+            80 * constants.UI_SCALE,
+            8 * constants.UI_SCALE,
+            font_size
+        )
         hp_text = f"{self.pokemon.current_hp:3d}/{self.pokemon.stats.hp:3d}"
-        renderer.draw_text(hp_text, 100, 34)
+        renderer.draw_text(
+            hp_text,
+            100 * constants.UI_SCALE,
+            34 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
         # Status
         if self.pokemon.status and self.pokemon.status.name != "NONE":
             status_text = f"STATUS/{self.pokemon.status.name}"
         else:
             status_text = "STATUS/OK"
-        renderer.draw_text(status_text, 72, 48)
+        renderer.draw_text(
+            status_text,
+            72 * constants.UI_SCALE,
+            48 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
         # === BOTTOM SECTION (y=76+) ===
 
@@ -118,20 +153,38 @@ class SummaryScreen:
         ]
 
         for i, (stat_name, stat_value) in enumerate(stats):
-            y = 76 + (i * 12)
-            renderer.draw_text(stat_name, 8, y)
-            renderer.draw_text(f"{stat_value:3d}", 56, y)
+            y = (76 * constants.UI_SCALE) + (i * (12 * constants.UI_SCALE))
+            renderer.draw_text(stat_name, 8 * constants.UI_SCALE, y, font_size=font_size)
+            renderer.draw_text(f"{stat_value:3d}", 56 * constants.UI_SCALE, y, font_size=font_size)
 
         # Type on right side
         for i, poke_type in enumerate(self.pokemon.species.types):
             type_label = f"TYPE{i + 1}/" if len(self.pokemon.species.types) > 1 else "TYPE/"
             type_text = f"{type_label}{poke_type.upper()}"
-            renderer.draw_text(type_text, 96, 76 + (i * 12))
+            renderer.draw_text(
+                type_text,
+                96 * constants.UI_SCALE,
+                (76 * constants.UI_SCALE) + (i * (12 * constants.UI_SCALE)),
+                font_size=font_size
+            )
 
         # Page indicator at bottom right
-        renderer.draw_text("INFO", 128, 128)
+        renderer.draw_text(
+            "INFO",
+            128 * constants.UI_SCALE,
+            128 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
-    def _draw_hp_bar(self, renderer, x: int, y: int, width: int, height: int) -> None:
+    def _draw_hp_bar(
+        self,
+        renderer,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        font_size: int
+    ) -> None:
         """
         Draw HP bar with color based on HP percentage.
 
@@ -141,10 +194,10 @@ class SummaryScreen:
             width, height: Bar dimensions
         """
         # Draw "HP:" label
-        renderer.draw_text("HP:", x, y - 2)
+        renderer.draw_text("HP:", x, y - (2 * constants.UI_SCALE), font_size=font_size)
 
-        bar_x = x + 20
-        bar_width = width - 20
+        bar_x = x + (20 * constants.UI_SCALE)
+        bar_width = width - (20 * constants.UI_SCALE)
 
         # Background (empty bar)
         renderer.draw_rect((200, 200, 200), (bar_x, y, bar_width, height), 0)
@@ -166,7 +219,7 @@ class SummaryScreen:
             renderer.draw_rect(color, (bar_x, y, filled_width, height), 0)
 
         # Draw border
-        renderer.draw_rect((0, 0, 0), (bar_x, y, bar_width, height), 1)
+        renderer.draw_rect((0, 0, 0), (bar_x, y, bar_width, height), 1 * constants.UI_SCALE)
 
     def _render_moves_page(self, renderer) -> None:
         """
@@ -176,6 +229,7 @@ class SummaryScreen:
             renderer: Renderer instance
         """
         renderer.clear((248, 248, 248))
+        font_size = 16 * constants.UI_SCALE
 
         # === HEADER SECTION ===
 
@@ -183,33 +237,62 @@ class SummaryScreen:
         if self.pokemon.species.sprites and self.pokemon.species.sprites.front:
             sprite = renderer.load_sprite(self.pokemon.species.sprites.front)
             if sprite and isinstance(sprite, pygame.Surface):
-                scaled_sprite = pygame.transform.scale(sprite, (32, 32))
-                renderer.game_surface.blit(scaled_sprite, (8, 4))
+                sprite_size = 32 * constants.UI_SCALE
+                scaled_sprite = pygame.transform.scale(sprite, (sprite_size, sprite_size))
+                renderer.game_surface.blit(
+                    scaled_sprite,
+                    (8 * constants.UI_SCALE, 4 * constants.UI_SCALE)
+                )
 
         # Pokemon name and level
         name_text = self.pokemon.species.name.upper()
-        renderer.draw_text(name_text, 48, 8)
+        renderer.draw_text(
+            name_text,
+            48 * constants.UI_SCALE,
+            8 * constants.UI_SCALE,
+            font_size=font_size
+        )
         level_text = f":L{self.pokemon.level}"
-        renderer.draw_text(level_text, 120, 8)
+        renderer.draw_text(
+            level_text,
+            120 * constants.UI_SCALE,
+            8 * constants.UI_SCALE,
+            font_size=font_size
+        )
 
         # === MOVES SECTION ===
 
-        moves_y = 40
+        moves_y = 40 * constants.UI_SCALE
 
         if self.pokemon.moves:
             for i, move_id in enumerate(self.pokemon.moves[:4]):
-                y = moves_y + (i * 24)
+                y = moves_y + (i * (24 * constants.UI_SCALE))
 
                 # Move name
                 move_name = move_id.upper().replace("-", " ")
-                renderer.draw_text(move_name, 8, y)
+                renderer.draw_text(move_name, 8 * constants.UI_SCALE, y, font_size=font_size)
 
                 # PP display
                 current_pp, max_pp = self.pokemon.get_move_pp(move_id)
                 pp_text = f"PP {current_pp:2d}/{max_pp:2d}"
-                renderer.draw_text(pp_text, 100, y)
+                renderer.draw_text(
+                    pp_text,
+                    100 * constants.UI_SCALE,
+                    y,
+                    font_size=font_size
+                )
         else:
-            renderer.draw_text("No moves", 8, moves_y)
+            renderer.draw_text(
+                "No moves",
+                8 * constants.UI_SCALE,
+                moves_y,
+                font_size=font_size
+            )
 
         # Page indicator at bottom right
-        renderer.draw_text("MOVES", 128, 128)
+        renderer.draw_text(
+            "MOVES",
+            128 * constants.UI_SCALE,
+            128 * constants.UI_SCALE,
+            font_size=font_size
+        )

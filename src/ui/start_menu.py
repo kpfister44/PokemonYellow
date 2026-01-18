@@ -2,7 +2,8 @@
 # ABOUTME: Handles menu rendering and cursor navigation
 
 import pygame
-from src.engine.constants import GAME_WIDTH, GAME_HEIGHT
+
+from src.engine import constants
 
 
 class StartMenu:
@@ -47,10 +48,10 @@ class StartMenu:
             renderer: Renderer instance for drawing
         """
         # Menu box dimensions (right side of screen)
-        menu_width = 80
-        menu_height = 120
-        menu_x = GAME_WIDTH - menu_width - 8
-        menu_y = 8
+        menu_width = 80 * constants.UI_SCALE
+        menu_height = 120 * constants.UI_SCALE
+        menu_x = constants.GAME_WIDTH - menu_width - (8 * constants.UI_SCALE)
+        menu_y = 8 * constants.UI_SCALE
 
         # Colors (Game Boy palette)
         border_color = (0, 0, 0)
@@ -58,20 +59,33 @@ class StartMenu:
         text_color = (0, 0, 0)
 
         # Draw menu background box
-        renderer.draw_rect(border_color, (menu_x, menu_y, menu_width, menu_height), 2)
-        renderer.draw_rect(bg_color, (menu_x + 2, menu_y + 2, menu_width - 4, menu_height - 4), 0)
+        border_width = 2 * constants.UI_SCALE
+        inner_offset = 2 * constants.UI_SCALE
+        renderer.draw_rect(border_color, (menu_x, menu_y, menu_width, menu_height), border_width)
+        renderer.draw_rect(
+            bg_color,
+            (menu_x + inner_offset, menu_y + inner_offset,
+             menu_width - (inner_offset * 2), menu_height - (inner_offset * 2)),
+            0
+        )
 
         # Draw options
-        text_x = menu_x + 8
-        text_y = menu_y + 8
-        line_height = 16
+        text_x = menu_x + (8 * constants.UI_SCALE)
+        text_y = menu_y + (8 * constants.UI_SCALE)
+        line_height = 16 * constants.UI_SCALE
 
         for i, option in enumerate(self.options):
             y = text_y + (i * line_height)
 
             # Draw cursor
             if i == self.cursor_index:
-                renderer.draw_text("▶", text_x - 10, y, text_color, 12)
+                renderer.draw_text(
+                    "▶",
+                    text_x - (10 * constants.UI_SCALE),
+                    y,
+                    text_color,
+                    12 * constants.UI_SCALE
+                )
 
             # Draw option text
-            renderer.draw_text(option, text_x, y, text_color, 12)
+            renderer.draw_text(option, text_x, y, text_color, 12 * constants.UI_SCALE)

@@ -3,6 +3,8 @@
 
 from dataclasses import dataclass
 
+import pygame
+
 from src.states.base_state import BaseState
 from src.battle.pokemon import Pokemon
 from src.battle.damage_calculator import DamageCalculator
@@ -104,8 +106,14 @@ class BattleState(BaseState):
         self.ball_end = (0.0, 0.0)
         self.ball_throw_duration = 0.5
         self.ball_throw_elapsed = 0.0
-        self.ball_arc_height = 24.0
-        self.ball_shake_offsets = [0, 3, 0, -3, 0]
+        self.ball_arc_height = 24.0 * constants.UI_SCALE
+        self.ball_shake_offsets = [
+            0,
+            3 * constants.UI_SCALE,
+            0,
+            -3 * constants.UI_SCALE,
+            0
+        ]
         self.ball_shake_index = 0
         self.ball_shake_timer = 0.0
         self.ball_shake_frame_time = 0.06
@@ -129,8 +137,8 @@ class BattleState(BaseState):
         self.victory_in_progress = False
         self.participants: list[Pokemon] = [self.player_pokemon]
 
-        self.enemy_hp_bar_width = 46
-        self.player_hp_bar_width = 62
+        self.enemy_hp_bar_width = 46 * constants.UI_SCALE
+        self.player_hp_bar_width = 62 * constants.UI_SCALE
         self.enemy_hp_display = HpBarDisplay(
             self.enemy_pokemon.stats.hp,
             self.enemy_pokemon.current_hp,
@@ -173,9 +181,25 @@ class BattleState(BaseState):
         # Load Pokemon sprites at native size (no scaling - perfectly crisp)
         if self.player_pokemon.species.sprites and self.player_pokemon.species.sprites.back:
             self.player_sprite = self.game.renderer.load_sprite(self.player_pokemon.species.sprites.back)
+            if self.player_sprite:
+                self.player_sprite = pygame.transform.scale(
+                    self.player_sprite,
+                    (
+                        self.player_sprite.get_width() * constants.UI_SCALE,
+                        self.player_sprite.get_height() * constants.UI_SCALE
+                    )
+                )
 
         if self.enemy_pokemon.species.sprites and self.enemy_pokemon.species.sprites.front:
             self.enemy_sprite = self.game.renderer.load_sprite(self.enemy_pokemon.species.sprites.front)
+            if self.enemy_sprite:
+                self.enemy_sprite = pygame.transform.scale(
+                    self.enemy_sprite,
+                    (
+                        self.enemy_sprite.get_width() * constants.UI_SCALE,
+                        self.enemy_sprite.get_height() * constants.UI_SCALE
+                    )
+                )
 
     def exit(self):
         """Called when exiting battle state."""
@@ -448,41 +472,66 @@ class BattleState(BaseState):
 
         # Render menus (Phase 7.2)
         if self.phase == "battle_menu":
-            self.battle_menu.render(renderer, 8, 100)
+            self.battle_menu.render(
+                renderer,
+                8 * constants.UI_SCALE,
+                100 * constants.UI_SCALE
+            )
         elif self.phase == "move_selection" and self.move_menu:
-            self.move_menu.render(renderer, 8, 100)
+            self.move_menu.render(
+                renderer,
+                8 * constants.UI_SCALE,
+                100 * constants.UI_SCALE
+            )
         elif self.phase == "move_learn_choice":
-            self.learn_menu.render(renderer, 104, 88)
+            self.learn_menu.render(
+                renderer,
+                104 * constants.UI_SCALE,
+                88 * constants.UI_SCALE
+            )
         elif self.phase == "forget_move" and self.forget_menu:
-            self.forget_menu.render(renderer, 8, 72)
+            self.forget_menu.render(
+                renderer,
+                8 * constants.UI_SCALE,
+                72 * constants.UI_SCALE
+            )
 
     def _render_sprites(self, renderer):
         """Render Pokemon sprites on the battle screen."""
         player_offset_x = 0
         enemy_offset_x = 0
         if self.phase == "attack_animation":
-            offset = 2 if int(self.attack_animation_tick * 20) % 2 == 0 else -2
+            offset = 2 * constants.UI_SCALE
+            if int(self.attack_animation_tick * 20) % 2 != 0:
+                offset = -offset
             if self.attack_animation_target == "player":
                 player_offset_x = offset
             elif self.attack_animation_target == "enemy":
                 enemy_offset_x = offset
 
-        # Sprites are 96x96 - position them to fit in 160x144 screen
+        # Sprites are authored at 96x96 and scaled for the battle layout
         # Enemy sprite (top-right area)
         if self.enemy_sprite and not self.catch_hide_enemy:
-            enemy_x = 64  # Right side (160 - 96 = 64)
-            enemy_y = -24  # Slightly off top to fit better
+            enemy_x = 64 * constants.UI_SCALE
+            enemy_y = -24 * constants.UI_SCALE
             renderer.draw_surface(self.enemy_sprite, (enemy_x + enemy_offset_x, enemy_y))
 
         # Player sprite (bottom-left area)
         if self.player_sprite:
-            player_x = 0  # Left edge
-            player_y = 48  # Lower area (144 - 96 = 48)
+            player_x = 0
+            player_y = 48 * constants.UI_SCALE
             renderer.draw_surface(self.player_sprite, (player_x + player_offset_x, player_y))
 
         if self.ball_active and self.ball_sprite_path:
             ball_sprite = renderer.load_sprite(self.ball_sprite_path)
             if ball_sprite:
+                ball_sprite = pygame.transform.scale(
+                    ball_sprite,
+                    (
+                        ball_sprite.get_width() * constants.UI_SCALE,
+                        ball_sprite.get_height() * constants.UI_SCALE
+                    )
+                )
                 ball_x = int(self.ball_position[0] + self.ball_shake_offset)
                 ball_y = int(self.ball_position[1])
                 renderer.draw_surface(ball_sprite, (ball_x, ball_y))
@@ -490,30 +539,52 @@ class BattleState(BaseState):
     def _render_enemy_info(self, renderer):
         """Render enemy Pokemon info box (top-left, authentic Pokemon Yellow style)."""
         # Info box position
-        box_x = 8
-        box_y = 8
-        box_width = 64
-        box_height = 28
+        box_x = 8 * constants.UI_SCALE
+        box_y = 8 * constants.UI_SCALE
+        box_width = 64 * constants.UI_SCALE
+        box_height = 28 * constants.UI_SCALE
 
         # Draw info box frame
-        renderer.draw_rect(constants.COLOR_BLACK, (box_x, box_y, box_width, box_height), 1)
+        renderer.draw_rect(
+            constants.COLOR_BLACK,
+            (box_x, box_y, box_width, box_height),
+            1 * constants.UI_SCALE
+        )
 
         # Pokemon name (uppercase)
         enemy_name = self.enemy_pokemon.species.name.upper()
-        renderer.draw_text(enemy_name, box_x + 2, box_y + 2, constants.COLOR_BLACK, 10)
+        renderer.draw_text(
+            enemy_name,
+            box_x + (2 * constants.UI_SCALE),
+            box_y + (2 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            10 * constants.UI_SCALE
+        )
 
         # Level (with :L prefix like in Pokemon Yellow)
         level_text = f":L{self.enemy_pokemon.level}"
-        renderer.draw_text(level_text, box_x + 2, box_y + 11, constants.COLOR_BLACK, 10)
+        renderer.draw_text(
+            level_text,
+            box_x + (2 * constants.UI_SCALE),
+            box_y + (11 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            10 * constants.UI_SCALE
+        )
 
         # HP label
-        renderer.draw_text("HP:", box_x + 2, box_y + 19, constants.COLOR_BLACK, 8)
+        renderer.draw_text(
+            "HP:",
+            box_x + (2 * constants.UI_SCALE),
+            box_y + (19 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            8 * constants.UI_SCALE
+        )
 
         # HP bar
-        hp_bar_x = box_x + 14
-        hp_bar_y = box_y + 20
+        hp_bar_x = box_x + (14 * constants.UI_SCALE)
+        hp_bar_y = box_y + (20 * constants.UI_SCALE)
         hp_bar_width = self.enemy_hp_bar_width
-        hp_bar_height = 3
+        hp_bar_height = 3 * constants.UI_SCALE
         hp_percentage = self.enemy_hp_display.display_hp / self.enemy_pokemon.stats.hp
 
         # Background (empty part of HP bar)
@@ -528,30 +599,52 @@ class BattleState(BaseState):
     def _render_player_info(self, renderer):
         """Render player Pokemon info box (bottom-right, authentic Pokemon Yellow style)."""
         # Info box position
-        box_x = 72
-        box_y = 80
-        box_width = 80
-        box_height = 36
+        box_x = 72 * constants.UI_SCALE
+        box_y = 80 * constants.UI_SCALE
+        box_width = 80 * constants.UI_SCALE
+        box_height = 36 * constants.UI_SCALE
 
         # Draw info box frame
-        renderer.draw_rect(constants.COLOR_BLACK, (box_x, box_y, box_width, box_height), 1)
+        renderer.draw_rect(
+            constants.COLOR_BLACK,
+            (box_x, box_y, box_width, box_height),
+            1 * constants.UI_SCALE
+        )
 
         # Pokemon name (uppercase, right-aligned-ish)
         player_name = self.player_pokemon.species.name.upper()
-        renderer.draw_text(player_name, box_x + 26, box_y + 2, constants.COLOR_BLACK, 10)
+        renderer.draw_text(
+            player_name,
+            box_x + (26 * constants.UI_SCALE),
+            box_y + (2 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            10 * constants.UI_SCALE
+        )
 
         # Level (with :L prefix)
         level_text = f":L{self.player_pokemon.level}"
-        renderer.draw_text(level_text, box_x + 26, box_y + 11, constants.COLOR_BLACK, 10)
+        renderer.draw_text(
+            level_text,
+            box_x + (26 * constants.UI_SCALE),
+            box_y + (11 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            10 * constants.UI_SCALE
+        )
 
         # HP label
-        renderer.draw_text("HP:", box_x + 2, box_y + 19, constants.COLOR_BLACK, 8)
+        renderer.draw_text(
+            "HP:",
+            box_x + (2 * constants.UI_SCALE),
+            box_y + (19 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            8 * constants.UI_SCALE
+        )
 
         # HP bar
-        hp_bar_x = box_x + 14
-        hp_bar_y = box_y + 20
+        hp_bar_x = box_x + (14 * constants.UI_SCALE)
+        hp_bar_y = box_y + (20 * constants.UI_SCALE)
         hp_bar_width = self.player_hp_bar_width
-        hp_bar_height = 3
+        hp_bar_height = 3 * constants.UI_SCALE
         hp_percentage = self.player_hp_display.display_hp / self.player_pokemon.stats.hp
 
         # Background
@@ -565,7 +658,13 @@ class BattleState(BaseState):
 
         # HP numbers (current / max)
         hp_text = f"{self.player_hp_display.display_hp:3}/ {self.player_pokemon.stats.hp:3}"
-        renderer.draw_text(hp_text, box_x + 20, box_y + 26, constants.COLOR_BLACK, 10)
+        renderer.draw_text(
+            hp_text,
+            box_x + (20 * constants.UI_SCALE),
+            box_y + (26 * constants.UI_SCALE),
+            constants.COLOR_BLACK,
+            10 * constants.UI_SCALE
+        )
 
     def _get_hp_bar_color(self, hp_percentage):
         """Get HP bar color based on percentage (green > yellow > red)."""
@@ -610,20 +709,37 @@ class BattleState(BaseState):
 
     def _render_message_box(self, renderer):
         """Render battle message box (authentic Pokemon Yellow style)."""
-        box_x = 8
-        box_y = 112
-        box_width = 144
-        box_height = 28
+        box_x = 8 * constants.UI_SCALE
+        box_y = 112 * constants.UI_SCALE
+        box_width = 144 * constants.UI_SCALE
+        box_height = 28 * constants.UI_SCALE
 
         # Draw double border (authentic style)
-        renderer.draw_rect(constants.COLOR_BLACK, (box_x, box_y, box_width, box_height), 2)
-        renderer.draw_rect(constants.COLOR_BLACK, (box_x + 4, box_y + 4, box_width - 8, box_height - 8), 2)
-        renderer.draw_rect(constants.COLOR_WHITE, (box_x + 6, box_y + 6, box_width - 12, box_height - 12), 0)
+        border_width = 2 * constants.UI_SCALE
+        renderer.draw_rect(constants.COLOR_BLACK, (box_x, box_y, box_width, box_height), border_width)
+        renderer.draw_rect(
+            constants.COLOR_BLACK,
+            (box_x + (4 * constants.UI_SCALE), box_y + (4 * constants.UI_SCALE),
+             box_width - (8 * constants.UI_SCALE), box_height - (8 * constants.UI_SCALE)),
+            border_width
+        )
+        renderer.draw_rect(
+            constants.COLOR_WHITE,
+            (box_x + (6 * constants.UI_SCALE), box_y + (6 * constants.UI_SCALE),
+             box_width - (12 * constants.UI_SCALE), box_height - (12 * constants.UI_SCALE)),
+            0
+        )
 
         # Draw message (supports \n for line breaks)
         lines = self.message.split('\n')
         for i, line in enumerate(lines[:2]):  # Max 2 lines
-            renderer.draw_text(line, box_x + 10, box_y + 8 + (i * 10), constants.COLOR_BLACK, 10)
+            renderer.draw_text(
+                line,
+                box_x + (10 * constants.UI_SCALE),
+                box_y + (8 * constants.UI_SCALE) + (i * (10 * constants.UI_SCALE)),
+                constants.COLOR_BLACK,
+                10 * constants.UI_SCALE
+            )
 
     def _start_sequence(self, steps: list[dict], end_phase: str) -> None:
         self.sequence_active = True
@@ -1316,8 +1432,8 @@ class BattleState(BaseState):
             {
                 "type": "ball_throw",
                 "sprite": sprite_path,
-                "start": (24.0, 104.0),
-                "end": (96.0, 40.0)
+                "start": (24.0 * constants.UI_SCALE, 104.0 * constants.UI_SCALE),
+                "end": (96.0 * constants.UI_SCALE, 40.0 * constants.UI_SCALE)
             }
         ]
 
