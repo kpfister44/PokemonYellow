@@ -20,7 +20,23 @@ assets/maps/
 ├── objects.png          # Signs, fences, decorations
 ├── sprites.png          # Animated tiles (water, flowers)
 └── triggers.png         # Invisible warp/spawn markers
+
+assets/sprites/
+├── player/
+│   └── red.png          # Player sprite sheet (16x96, 6 frames)
+└── npcs/
+    ├── youngster.png    # Default NPC sprite
+    ├── girl.png         # Lass trainer sprite
+    ├── oak.png          # Professor Oak
+    └── mom.png          # Player's mother
 ```
+
+**Sprite Sheet Format:** Character sprites are 16x96 PNG files containing 6 frames (16x16 each):
+- Frame 0-1: Down (standing, walking)
+- Frame 2-3: Up (standing, walking)
+- Frame 4-5: Side (standing, walking) - flipped for right direction
+
+Sprites are scaled 2x to 32x32 to match tile size.
 
 ## How MapManager Works
 
@@ -78,9 +94,25 @@ For more control, use an object layer instead of/in addition to tile properties:
     <property name="npc_id" value="oak"/>
     <property name="dialog_id" value="oak_greeting"/>
     <property name="direction" value="down"/>
+    <property name="sprite_id" value="oak.png"/>
   </properties>
 </object>
 ```
+
+**NPC Properties:**
+| Property | Required | Description |
+|----------|----------|-------------|
+| `npc_id` | No | Unique identifier (auto-generated if missing) |
+| `dialog_id` | No | Dialog key for speech |
+| `direction` | No | Facing direction: `up`, `down`, `left`, `right` (default: `down`) |
+| `sprite_id` | No | Sprite filename override (e.g., `oak.png`) |
+| `is_trainer` | No | Set to trigger battle |
+| `trainer_class` | No | Trainer type for sprite selection (e.g., `Youngster`, `Lass`) |
+
+**Sprite Selection:** NPCs select sprites in this priority:
+1. `sprite_id` property if specified
+2. `trainer_class` mapped to sprite (Youngster→youngster.png, Lass→girl.png)
+3. Default: youngster.png
 
 ### Item Pickup Object
 ```xml

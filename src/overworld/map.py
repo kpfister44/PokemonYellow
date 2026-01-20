@@ -87,9 +87,10 @@ class MapManager:
                 if gid == 0:
                     continue
                 properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
-                if self._is_truthy(properties.get("solid")):
+                # Check if property KEY exists (pytmx converts "" to None)
+                if "solid" in properties:
                     self._solid_grid[y][x] = True
-                if self._is_truthy(properties.get("is_grass")):
+                if "is_grass" in properties:
                     self._grass_grid[y][x] = True
 
     def _build_cached_surfaces(self) -> None:
@@ -132,7 +133,26 @@ class MapManager:
         dialog_id = obj.properties.get("dialog_id")
         dialog_text = self.dialog_loader.get_dialog(dialog_id) if dialog_id else "..."
         tile_x, tile_y = self._object_tile_position(obj)
-        self.npcs.append(NPC(npc_id, tile_x, tile_y, direction=direction, dialog_text=dialog_text))
+        sprite_id = obj.properties.get("sprite_id")
+
+        is_trainer = bool(obj.properties.get("is_trainer"))
+        trainer_data = None
+        if is_trainer:
+            trainer_data = {
+                "name": obj.properties.get("trainer_name", "Trainer"),
+                "class": obj.properties.get("trainer_class", "Trainer"),
+                "team": self._parse_team(obj.properties.get("team")),
+                "prize_money": self._coerce_int(obj.properties.get("prize_money"), 0)
+            }
+
+        self.npcs.append(NPC(
+            npc_id, tile_x, tile_y,
+            direction=direction,
+            dialog_text=dialog_text,
+            is_trainer=is_trainer,
+            trainer_data=trainer_data,
+            sprite_id=sprite_id
+        ))
 
     def _spawn_item(self, obj: pytmx.TiledObject) -> None:
         item_id = obj.properties.get("item_id")
@@ -170,6 +190,18 @@ class MapManager:
         except (TypeError, ValueError):
             return default
 
+    def _parse_team(self, team_str: Any) -> list:
+        """Parse team from JSON string or return empty list."""
+        if not team_str:
+            return []
+        if isinstance(team_str, list):
+            return team_str
+        try:
+            import json
+            return json.loads(team_str)
+        except (json.JSONDecodeError, TypeError):
+            return []
+
     def _is_truthy(self, value: Any) -> bool:
         if value is None:
             return False
@@ -196,8 +228,8 @@ class MapManager:
                         "tile_x": x,
                         "tile_y": y,
                         "dest_map": entry,
-                        "dest_x": 0,
-                        "dest_y": 0
+                        "dest_x": -1,  # -1 means use destination map's playerStart
+                        "dest_y": -1
                     })
                 player_start = properties.get("playerStart")
                 if player_start and self.player_start is None:

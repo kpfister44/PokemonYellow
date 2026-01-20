@@ -1,9 +1,13 @@
 # ABOUTME: Player character class with movement and collision
 # ABOUTME: Handles player input, grid-based movement, and map collision detection
 
+import os
 import pygame
 from src.engine import constants
-from src.overworld.entity import Entity
+from src.overworld.entity import Entity, SpriteSheet
+
+
+PLAYER_SPRITE_PATH = os.path.join("assets", "sprites", "player", "red.png")
 
 
 class Player(Entity):
@@ -17,24 +21,16 @@ class Player(Entity):
             tile_x: Starting tile X coordinate
             tile_y: Starting tile Y coordinate
         """
-        # Create placeholder sprite (will be replaced with actual sprite later)
-        sprite = self._create_placeholder_sprite()
-        super().__init__(tile_x, tile_y, sprite)
+        super().__init__(tile_x, tile_y, sprite_surface=None)
+        self.sprite_sheet = SpriteSheet(PLAYER_SPRITE_PATH)
 
-    def _create_placeholder_sprite(self):
-        """Create a simple placeholder sprite for the player."""
-        sprite = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE))
-        sprite.fill(constants.COLOR_LIGHTEST)  # Light background
-
-        # Draw a simple character shape
-        pygame.draw.circle(
-            sprite,
-            (255, 200, 0),  # Yellow (Pikachu-ish)
-            (constants.TILE_SIZE // 2, constants.TILE_SIZE // 2),
-            constants.TILE_SIZE // 3
-        )
-
-        return sprite
+    def render(self, renderer, camera_x, camera_y):
+        """Render the player using direction-aware sprite."""
+        use_walk_frame = self.is_moving and self.animation_frame == 1
+        frame = self.sprite_sheet.get_frame(self.direction, use_walk_frame)
+        screen_x = self.pixel_x - camera_x
+        screen_y = self.pixel_y - camera_y
+        renderer.draw_surface(frame, (screen_x, screen_y))
 
     def handle_input(self, input_handler, current_map, npcs=None, item_pickups=None):
         """

@@ -5,6 +5,70 @@ import pygame
 from src.engine import constants
 
 
+class SpriteSheet:
+    """Handles sprite sheet loading and frame extraction for entity sprites."""
+
+    def __init__(self, filepath: str, frame_width: int = 16, frame_height: int = 16, scale: int = 2):
+        """
+        Load a sprite sheet and extract frames.
+
+        Args:
+            filepath: Path to sprite sheet PNG
+            frame_width: Width of each frame in pixels (default 16)
+            frame_height: Height of each frame in pixels (default 16)
+            scale: Scale factor for output frames (default 2, for 32x32 output)
+        """
+        self.sheet = pygame.image.load(filepath).convert_alpha()
+        self.frame_width = frame_width
+        self.frame_height = frame_height
+        self.scale = scale
+        self.frames = self._extract_frames()
+        self._frame_cache = {}
+
+    def _extract_frames(self) -> list[pygame.Surface]:
+        """Extract and scale all frames from the sprite sheet."""
+        frames = []
+        num_frames = self.sheet.get_height() // self.frame_height
+        for i in range(num_frames):
+            frame = pygame.Surface((self.frame_width, self.frame_height), pygame.SRCALPHA)
+            frame.blit(self.sheet, (0, 0), (0, i * self.frame_height, self.frame_width, self.frame_height))
+            scaled = pygame.transform.scale(frame, (self.frame_width * self.scale, self.frame_height * self.scale))
+            frames.append(scaled)
+        return frames
+
+    def get_frame(self, direction: int, is_walking: bool) -> pygame.Surface:
+        """
+        Get the appropriate frame for direction and walking state.
+
+        Frame layout (from Pokemon Yellow ROM):
+        - 0: Down standing, 1: Down walking
+        - 2: Up standing, 3: Up walking
+        - 4: Side standing, 5: Side walking (flip for right)
+        """
+        cache_key = (direction, is_walking)
+        if cache_key in self._frame_cache:
+            return self._frame_cache[cache_key]
+
+        frame_map = {
+            (constants.DIR_DOWN, False): 0,
+            (constants.DIR_DOWN, True): 1,
+            (constants.DIR_UP, False): 2,
+            (constants.DIR_UP, True): 3,
+            (constants.DIR_LEFT, False): 4,
+            (constants.DIR_LEFT, True): 5,
+            (constants.DIR_RIGHT, False): 4,
+            (constants.DIR_RIGHT, True): 5,
+        }
+        frame_idx = frame_map.get((direction, is_walking), 0)
+        frame = self.frames[frame_idx]
+
+        if direction == constants.DIR_RIGHT:
+            frame = pygame.transform.flip(frame, True, False)
+
+        self._frame_cache[cache_key] = frame
+        return frame
+
+
 class Entity:
     """Base class for entities (player, NPCs) in the overworld."""
 
