@@ -27,7 +27,9 @@ class Trainer:
         """
         party = []
         for pokemon_data in self.team:
-            species = species_loader.get_species(pokemon_data["species_id"])
+            # Accept either "species" or "species_id" for flexibility
+            species_name = pokemon_data.get("species") or pokemon_data.get("species_id")
+            species = species_loader.get_species(species_name)
             pokemon = Pokemon(species, pokemon_data["level"])
             party.append(pokemon)
 

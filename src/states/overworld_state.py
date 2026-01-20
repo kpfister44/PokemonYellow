@@ -162,6 +162,13 @@ class OverworldState(BaseState):
         self._apply_defeated_trainers()
         self._load_item_pickups()
 
+        # Use map's player_start if spawn coords are -1 (tile-based warps)
+        if spawn_x < 0 or spawn_y < 0:
+            if self.current_map.player_start is not None:
+                spawn_x, spawn_y = self.current_map.player_start
+            else:
+                spawn_x, spawn_y = 0, 0
+
         # Reposition player (update both tile and pixel positions)
         self.player.tile_x = spawn_x
         self.player.tile_y = spawn_y

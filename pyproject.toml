@@ -7,6 +7,7 @@ version = "0.1.0"
 description = "Pixel-perfect recreation of Pokemon Yellow using PyGame"
 requires-python = ">=3.11"
 dependencies = [
+    "pillow>=12.1.0",
     "pygame>=2.5.0",
     "pytmx>=3.32",
     "pyyaml>=6.0",
