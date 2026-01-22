@@ -13,6 +13,7 @@ from src.engine import constants
 from src.overworld.dialog_loader import DialogLoader
 from src.overworld.item_pickup import ItemPickup
 from src.overworld.npc import NPC
+from src.overworld.sprite_loop import SpriteLoop
 
 
 class MapManager:
@@ -23,8 +24,8 @@ class MapManager:
         self.map_name = os.path.splitext(os.path.basename(map_filepath))[0]
         self.tmx_data = pytmx.load_pygame(map_filepath)
 
-        self.width = self.tmx_data.width
-        self.height = self.tmx_data.height
+        self.width = self.tmx_data.width       # Map width in base tiles
+        self.height = self.tmx_data.height     # Map height in base tiles
         self.tile_width = self.tmx_data.tilewidth
         self.tile_height = self.tmx_data.tileheight
 
@@ -34,12 +35,17 @@ class MapManager:
                 f"does not match TILE_SIZE={constants.TILE_SIZE}"
             )
 
+        # Map dimensions in metatiles (for collision/movement grid)
+        self.metatile_width = self.width // 2
+        self.metatile_height = self.height // 2
+
         self.lower_layers: list[pytmx.TiledTileLayer] = []
         self.fringe_layers: list[pytmx.TiledTileLayer] = []
         self._collect_layers()
 
-        self._solid_grid = [[False for _ in range(self.width)] for _ in range(self.height)]
-        self._grass_grid = [[False for _ in range(self.width)] for _ in range(self.height)]
+        # Collision grids are on metatile grid (16x16), not base tile grid (8x8)
+        self._solid_grid = [[False for _ in range(self.metatile_width)] for _ in range(self.metatile_height)]
+        self._grass_grid = [[False for _ in range(self.metatile_width)] for _ in range(self.metatile_height)]
         self._build_collision_and_grass()
 
         self.lower_surface: pygame.Surface
@@ -49,10 +55,12 @@ class MapManager:
         self.npcs: list[NPC] = []
         self.warps: list[dict[str, Any]] = []
         self.item_pickups: list[ItemPickup] = []
+        self.animated_sprites: list[SpriteLoop] = []
         self.player_start: tuple[int, int] | None = None
         self.dialog_loader = DialogLoader()
         self._parse_objects()
         self._build_tile_warps()
+        self._parse_animated_tiles()
 
     def _collect_layers(self) -> None:
         for layer in self.tmx_data.layers:
@@ -80,18 +88,32 @@ class MapManager:
         return any(tag in name for tag in ("fringe", "upper", "top", "above", "roof"))
 
     def _build_collision_and_grass(self) -> None:
-        for layer in self.tmx_data.layers:
-            if not isinstance(layer, pytmx.TiledTileLayer):
-                continue
-            for x, y, gid in layer:
-                if gid == 0:
-                    continue
-                properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
-                # Check if property KEY exists (pytmx converts "" to None)
-                if "solid" in properties:
-                    self._solid_grid[y][x] = True
-                if "is_grass" in properties:
-                    self._grass_grid[y][x] = True
+        # Build collision on metatile grid (16x16), aggregating 2x2 base tiles
+        # A metatile is solid if ANY of its 4 base tiles are solid
+        # A metatile is grass if ANY of its 4 base tiles are grass
+        for metatile_y in range(self.metatile_height):
+            for metatile_x in range(self.metatile_width):
+                base_x = metatile_x * 2
+                base_y = metatile_y * 2
+
+                # Check all 4 base tiles in this metatile
+                for dy in range(2):
+                    for dx in range(2):
+                        tile_x = base_x + dx
+                        tile_y = base_y + dy
+
+                        # Check all layers for this tile position
+                        for layer in self.tmx_data.layers:
+                            if not isinstance(layer, pytmx.TiledTileLayer):
+                                continue
+                            gid = layer.data[tile_y][tile_x] if tile_y < len(layer.data) and tile_x < len(layer.data[tile_y]) else 0
+                            if gid == 0:
+                                continue
+                            properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
+                            if "solid" in properties:
+                                self._solid_grid[metatile_y][metatile_x] = True
+                            if "is_grass" in properties:
+                                self._grass_grid[metatile_y][metatile_x] = True
 
     def _build_cached_surfaces(self) -> None:
         width_px = self.width * self.tile_width
@@ -113,7 +135,13 @@ class MapManager:
                     continue
                 tile = self.tmx_data.get_tile_image_by_gid(gid)
                 if tile:
-                    surface.blit(tile, (x * self.tile_width, y * self.tile_height))
+                    # Tiled anchors larger tiles at the bottom, so adjust Y for tiles
+                    # taller than the map's base tile size
+                    tile_height = tile.get_height()
+                    y_offset = tile_height - self.tile_height
+                    px = x * self.tile_width
+                    py = y * self.tile_height - y_offset
+                    surface.blit(tile, (px, py))
 
     def _parse_objects(self) -> None:
         for obj in self.tmx_data.objects:
@@ -178,9 +206,10 @@ class MapManager:
         })
 
     def _object_tile_position(self, obj: pytmx.TiledObject) -> tuple[int, int]:
-        tile_x = int(obj.x // self.tile_width)
-        tile_y = int(obj.y // self.tile_height)
-        return tile_x, tile_y
+        """Convert pixel position to metatile position."""
+        metatile_x = int(obj.x // constants.METATILE_SIZE)
+        metatile_y = int(obj.y // constants.METATILE_SIZE)
+        return metatile_x, metatile_y
 
     def _coerce_int(self, value: Any, default: int) -> int:
         if value is None:
@@ -224,16 +253,64 @@ class MapManager:
                 properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
                 entry = properties.get("entry")
                 if entry:
+                    # Convert base tile to metatile coordinates
+                    metatile_x = x // 2
+                    metatile_y = y // 2
                     self.warps.append({
-                        "tile_x": x,
-                        "tile_y": y,
+                        "tile_x": metatile_x,
+                        "tile_y": metatile_y,
                         "dest_map": entry,
                         "dest_x": -1,  # -1 means use destination map's playerStart
                         "dest_y": -1
                     })
                 player_start = properties.get("playerStart")
                 if player_start and self.player_start is None:
-                    self.player_start = (x, y)
+                    # Convert base tile to metatile coordinates
+                    self.player_start = (x // 2, y // 2)
+
+    def _parse_animated_tiles(self) -> None:
+        """Scan tiles for animation properties and create SpriteLoop instances."""
+        for layer in self.tmx_data.layers:
+            if not isinstance(layer, pytmx.TiledTileLayer):
+                continue
+            for x, y, gid in layer:
+                if gid == 0:
+                    continue
+                properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
+
+                # Check if tile has animation properties
+                src = properties.get("src")
+                if not src:
+                    continue
+
+                # Build cell dict for SpriteLoop
+                # Use frame_count instead of frames (pytmx reserves 'frames')
+                frame_width = properties.get("frame_width", properties.get("width", 16))
+                frame_height = properties.get("frame_height", properties.get("height", 16))
+                cell = {
+                    "src": src,
+                    "frame_width": frame_width,
+                    "frame_height": frame_height,
+                    "frame_count": properties.get("frame_count", 2),
+                    "mspf": properties.get("mspf", 500),
+                }
+
+                # Create SpriteLoop at tile pixel position
+                pixel_x = x * self.tile_width
+                y_offset = max(0, int(frame_height) - self.tile_height)
+                pixel_y = y * self.tile_height - y_offset
+                sprite = SpriteLoop((pixel_x, pixel_y), cell)
+                self.animated_sprites.append(sprite)
+
+    def update_animated_sprites(self, dt: int) -> None:
+        """Update all animated sprites."""
+        for sprite in self.animated_sprites:
+            sprite.update(dt)
+
+    def draw_animated_sprites(self, renderer, camera_x: int, camera_y: int) -> None:
+        """Draw all animated sprites."""
+        for sprite in self.animated_sprites:
+            sprite.render(renderer, camera_x, camera_y)
 
     def draw_base(self, renderer, camera_x: int, camera_y: int) -> None:
         renderer.draw_surface(self.lower_surface, (-camera_x, -camera_y))
@@ -241,15 +318,21 @@ class MapManager:
     def draw_fringe(self, renderer, camera_x: int, camera_y: int) -> None:
         renderer.draw_surface(self.fringe_surface, (-camera_x, -camera_y))
 
-    def is_walkable(self, tile_x: int, tile_y: int) -> bool:
-        if tile_x < 0 or tile_x >= self.width or tile_y < 0 or tile_y >= self.height:
+    def is_walkable(self, metatile_x: int, metatile_y: int) -> bool:
+        """Check if metatile position is walkable."""
+        if metatile_x < 0 or metatile_x >= self.metatile_width:
             return False
-        return not self._solid_grid[tile_y][tile_x]
+        if metatile_y < 0 or metatile_y >= self.metatile_height:
+            return False
+        return not self._solid_grid[metatile_y][metatile_x]
 
-    def is_grass(self, tile_x: int, tile_y: int) -> bool:
-        if tile_x < 0 or tile_x >= self.width or tile_y < 0 or tile_y >= self.height:
+    def is_grass(self, metatile_x: int, metatile_y: int) -> bool:
+        """Check if metatile position is grass."""
+        if metatile_x < 0 or metatile_x >= self.metatile_width:
             return False
-        return self._grass_grid[tile_y][tile_x]
+        if metatile_y < 0 or metatile_y >= self.metatile_height:
+            return False
+        return self._grass_grid[metatile_y][metatile_x]
 
     def get_warp_at(self, tile_x: int, tile_y: int) -> dict[str, Any] | None:
         for warp in self.warps:

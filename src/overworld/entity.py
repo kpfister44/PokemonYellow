@@ -1,98 +1,88 @@
 # ABOUTME: Base entity class for player and NPCs
-# ABOUTME: Handles position, sprite, animation states, and movement logic
+# ABOUTME: Handles position, sprite, animation states, and movement logic (pylletTown-style)
 
 import pygame
 from src.engine import constants
 
 
 class SpriteSheet:
-    """Handles sprite sheet loading and frame extraction for entity sprites."""
+    """Handles sprite sheet loading with scroll-based frame selection (pylletTown style).
 
-    def __init__(self, filepath: str, frame_width: int = 16, frame_height: int = 16, scale: int = 2):
+    Sprite sheet layout (32x64 for 16x16 frames):
+    - 2 columns: standing (left) + walking (right)
+    - 4 rows: down, up, left, right
+    """
+
+    def __init__(self, filepath: str, frame_size: int = 16):
         """
-        Load a sprite sheet and extract frames.
+        Load a sprite sheet.
 
         Args:
             filepath: Path to sprite sheet PNG
-            frame_width: Width of each frame in pixels (default 16)
-            frame_height: Height of each frame in pixels (default 16)
-            scale: Scale factor for output frames (default 2, for 32x32 output)
+            frame_size: Size of each frame in pixels (default 16)
         """
-        self.sheet = pygame.image.load(filepath).convert_alpha()
-        self.frame_width = frame_width
-        self.frame_height = frame_height
-        self.scale = scale
-        self.frames = self._extract_frames()
-        self._frame_cache = {}
+        self.original_image = pygame.image.load(filepath).convert_alpha()
+        self.image = self.original_image.copy()
+        self.frame_size = frame_size
 
-    def _extract_frames(self) -> list[pygame.Surface]:
-        """Extract and scale all frames from the sprite sheet."""
-        frames = []
-        num_frames = self.sheet.get_height() // self.frame_height
-        for i in range(num_frames):
-            frame = pygame.Surface((self.frame_width, self.frame_height), pygame.SRCALPHA)
-            frame.blit(self.sheet, (0, 0), (0, i * self.frame_height, self.frame_width, self.frame_height))
-            scaled = pygame.transform.scale(frame, (self.frame_width * self.scale, self.frame_height * self.scale))
-            frames.append(scaled)
-        return frames
+    def set_orientation(self, direction: int):
+        """Reset image and scroll to the correct row for the given direction."""
+        self.image = self.original_image.copy()
 
-    def get_frame(self, direction: int, is_walking: bool) -> pygame.Surface:
-        """
-        Get the appropriate frame for direction and walking state.
+        # Scroll vertically to correct row
+        if direction == constants.DIR_DOWN:
+            pass  # Row 0, no scroll needed
+        elif direction == constants.DIR_UP:
+            self.image.scroll(0, -self.frame_size)
+        elif direction == constants.DIR_LEFT:
+            self.image.scroll(0, -self.frame_size * 2)
+        elif direction == constants.DIR_RIGHT:
+            self.image.scroll(0, -self.frame_size * 3)
 
-        Frame layout (from Pokemon Yellow ROM):
-        - 0: Down standing, 1: Down walking
-        - 2: Up standing, 3: Up walking
-        - 4: Side standing, 5: Side walking (flip for right)
-        """
-        cache_key = (direction, is_walking)
-        if cache_key in self._frame_cache:
-            return self._frame_cache[cache_key]
+    def set_walking_frame(self):
+        """Scroll horizontally to the walking frame (column 1)."""
+        self.image.scroll(-self.frame_size, 0)
 
-        frame_map = {
-            (constants.DIR_DOWN, False): 0,
-            (constants.DIR_DOWN, True): 1,
-            (constants.DIR_UP, False): 2,
-            (constants.DIR_UP, True): 3,
-            (constants.DIR_LEFT, False): 4,
-            (constants.DIR_LEFT, True): 5,
-            (constants.DIR_RIGHT, False): 4,
-            (constants.DIR_RIGHT, True): 5,
-        }
-        frame_idx = frame_map.get((direction, is_walking), 0)
-        frame = self.frames[frame_idx]
+    def flip_horizontal(self):
+        """Flip the image horizontally for foot alternation."""
+        self.image = pygame.transform.flip(self.image, True, False)
 
-        if direction == constants.DIR_RIGHT:
-            frame = pygame.transform.flip(frame, True, False)
-
-        self._frame_cache[cache_key] = frame
+    def get_current_frame(self) -> pygame.Surface:
+        """Get the current visible frame (top-left frame_size x frame_size area)."""
+        frame = pygame.Surface((self.frame_size, self.frame_size), pygame.SRCALPHA)
+        frame.blit(self.image, (0, 0), (0, 0, self.frame_size, self.frame_size))
         return frame
 
 
 class Entity:
     """Base class for entities (player, NPCs) in the overworld."""
 
+    # Frames to hold direction before walking starts (6 frames at 60 FPS ≈ 100ms)
+    HOLD_FRAMES_THRESHOLD = 6
+
     def __init__(self, tile_x, tile_y, sprite_surface=None):
         """
         Initialize an entity.
 
         Args:
-            tile_x: Starting tile X coordinate
-            tile_y: Starting tile Y coordinate
+            tile_x: Starting metatile X coordinate
+            tile_y: Starting metatile Y coordinate
             sprite_surface: Optional pygame Surface for the entity sprite
         """
-        # Grid position (in tiles)
+        # Grid position (in metatiles, not base tiles)
         self.tile_x = tile_x
         self.tile_y = tile_y
 
-        # Pixel position (for smooth movement)
-        self.pixel_x = tile_x * constants.TILE_SIZE
-        self.pixel_y = tile_y * constants.TILE_SIZE
+        # Pixel position (for smooth movement) uses METATILE_SIZE
+        self.pixel_x = tile_x * constants.METATILE_SIZE
+        self.pixel_y = tile_y * constants.METATILE_SIZE
 
         # Movement state
         self.is_moving = False
-        self.move_progress = 0  # 0 to TILE_SIZE
+        self.move_progress = 0  # 0 to METATILE_SIZE
         self.direction = constants.DIR_DOWN  # Facing direction
+        self.hold_time = 0  # Time direction key has been held
+        self.step = 'right_foot'  # Tracks which foot for alternating animation
 
         # Target position when moving
         self.target_tile_x = tile_x
@@ -153,16 +143,16 @@ class Entity:
 
         # Update pixel position based on direction and progress
         if self.direction == constants.DIR_UP:
-            self.pixel_y = self.tile_y * constants.TILE_SIZE - self.move_progress
+            self.pixel_y = self.tile_y * constants.METATILE_SIZE - self.move_progress
         elif self.direction == constants.DIR_DOWN:
-            self.pixel_y = self.tile_y * constants.TILE_SIZE + self.move_progress
+            self.pixel_y = self.tile_y * constants.METATILE_SIZE + self.move_progress
         elif self.direction == constants.DIR_LEFT:
-            self.pixel_x = self.tile_x * constants.TILE_SIZE - self.move_progress
+            self.pixel_x = self.tile_x * constants.METATILE_SIZE - self.move_progress
         elif self.direction == constants.DIR_RIGHT:
-            self.pixel_x = self.tile_x * constants.TILE_SIZE + self.move_progress
+            self.pixel_x = self.tile_x * constants.METATILE_SIZE + self.move_progress
 
         # Check if movement is complete
-        if self.move_progress >= constants.TILE_SIZE:
+        if self.move_progress >= constants.METATILE_SIZE:
             self.finish_move()
 
     def finish_move(self):
@@ -171,8 +161,8 @@ class Entity:
         self.move_progress = 0
         self.tile_x = self.target_tile_x
         self.tile_y = self.target_tile_y
-        self.pixel_x = self.tile_x * constants.TILE_SIZE
-        self.pixel_y = self.tile_y * constants.TILE_SIZE
+        self.pixel_x = self.tile_x * constants.METATILE_SIZE
+        self.pixel_y = self.tile_y * constants.METATILE_SIZE
 
     def cancel_move(self):
         """Cancel current movement and snap back to original position."""
@@ -180,8 +170,8 @@ class Entity:
         self.move_progress = 0
         self.target_tile_x = self.tile_x
         self.target_tile_y = self.tile_y
-        self.pixel_x = self.tile_x * constants.TILE_SIZE
-        self.pixel_y = self.tile_y * constants.TILE_SIZE
+        self.pixel_x = self.tile_x * constants.METATILE_SIZE
+        self.pixel_y = self.tile_y * constants.METATILE_SIZE
 
     def update_animation(self):
         """Update animation frame counter."""
@@ -204,8 +194,8 @@ class Entity:
         return pygame.Rect(
             self.pixel_x,
             self.pixel_y,
-            constants.TILE_SIZE,
-            constants.TILE_SIZE
+            constants.METATILE_SIZE,
+            constants.METATILE_SIZE
         )
 
     def get_target_tile_position(self):

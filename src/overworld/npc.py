@@ -71,12 +71,13 @@ class NPC(Entity):
             sprite_file = DEFAULT_SPRITE
 
         sprite_path = os.path.join(NPC_SPRITE_DIR, sprite_file)
-        return SpriteSheet(sprite_path)
+        sheet = SpriteSheet(sprite_path)
+        sheet.set_orientation(self.direction)
+        return sheet
 
     def render(self, renderer, camera_x, camera_y):
-        """Render the NPC using direction-aware sprite."""
-        use_walk_frame = self.is_moving and self.animation_frame == 1
-        frame = self.sprite_sheet.get_frame(self.direction, use_walk_frame)
+        """Render the NPC using the current sprite frame."""
+        frame = self.sprite_sheet.get_current_frame()
         screen_x = self.pixel_x - camera_x
         screen_y = self.pixel_y - camera_y
         renderer.draw_surface(frame, (screen_x, screen_y))

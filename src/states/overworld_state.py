@@ -128,8 +128,8 @@ class OverworldState(BaseState):
         # Center camera on player
         player_pixel_x, player_pixel_y = self.player.get_pixel_position()
         self.camera.center_on(
-            player_pixel_x + constants.TILE_SIZE // 2,
-            player_pixel_y + constants.TILE_SIZE // 2
+            player_pixel_x + constants.METATILE_SIZE // 2,
+            player_pixel_y + constants.METATILE_SIZE // 2
         )
 
         print(f"Loaded map: {self.map_path}")
@@ -172,8 +172,8 @@ class OverworldState(BaseState):
         # Reposition player (update both tile and pixel positions)
         self.player.tile_x = spawn_x
         self.player.tile_y = spawn_y
-        self.player.pixel_x = spawn_x * constants.TILE_SIZE
-        self.player.pixel_y = spawn_y * constants.TILE_SIZE
+        self.player.pixel_x = spawn_x * constants.METATILE_SIZE
+        self.player.pixel_y = spawn_y * constants.METATILE_SIZE
 
         # Reset movement state (safety)
         self.player.is_moving = False
@@ -190,8 +190,8 @@ class OverworldState(BaseState):
         # Center camera on player's new position
         player_pixel_x, player_pixel_y = self.player.get_pixel_position()
         self.camera.center_on(
-            player_pixel_x + constants.TILE_SIZE // 2,
-            player_pixel_y + constants.TILE_SIZE // 2
+            player_pixel_x + constants.METATILE_SIZE // 2,
+            player_pixel_y + constants.METATILE_SIZE // 2
         )
 
     def handle_input(self, input_handler):
@@ -334,6 +334,10 @@ class OverworldState(BaseState):
         for npc in self.npcs:
             npc.update()
 
+        # Update animated sprites (dt is in seconds, convert to ms)
+        dt_ms = int(dt * 1000)
+        self.current_map.update_animated_sprites(dt_ms)
+
         # Check for warps after player finishes moving
         if not self.player.is_moving and self.player_was_moving:
             warp = self.current_map.get_warp_at(self.player.tile_x, self.player.tile_y)
@@ -359,8 +363,8 @@ class OverworldState(BaseState):
         # Update camera to follow player
         player_pixel_x, player_pixel_y = self.player.get_pixel_position()
         self.camera.center_on(
-            player_pixel_x + constants.TILE_SIZE // 2,
-            player_pixel_y + constants.TILE_SIZE // 2
+            player_pixel_x + constants.METATILE_SIZE // 2,
+            player_pixel_y + constants.METATILE_SIZE // 2
         )
 
     def _trigger_wild_battle(self, encounter_zone):
@@ -449,6 +453,9 @@ class OverworldState(BaseState):
 
         # Render the map with camera offset
         self.current_map.draw_base(renderer, camera_x, camera_y)
+
+        # Render animated sprites (water, flowers) on top of base
+        self.current_map.draw_animated_sprites(renderer, camera_x, camera_y)
 
         renderables = []
         renderables.extend(self.item_pickups)

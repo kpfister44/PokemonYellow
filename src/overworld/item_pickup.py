@@ -16,16 +16,16 @@ class ItemPickup:
         self.tile_y = tile_y
 
     def render(self, renderer, camera_x: int, camera_y: int) -> None:
-        x = self.tile_x * constants.TILE_SIZE - camera_x
-        y = self.tile_y * constants.TILE_SIZE - camera_y
-        size = constants.TILE_SIZE // 2
-        offset = constants.TILE_SIZE // 4
+        x = self.tile_x * constants.METATILE_SIZE - camera_x
+        y = self.tile_y * constants.METATILE_SIZE - camera_y
+        size = constants.METATILE_SIZE // 2
+        offset = constants.METATILE_SIZE // 4
         renderer.draw_rect((0, 0, 0), (x + offset, y + offset, size, size), 0)
 
     def get_rect(self) -> pygame.Rect:
         return pygame.Rect(
-            self.tile_x * constants.TILE_SIZE,
-            self.tile_y * constants.TILE_SIZE,
-            constants.TILE_SIZE,
-            constants.TILE_SIZE
+            self.tile_x * constants.METATILE_SIZE,
+            self.tile_y * constants.METATILE_SIZE,
+            constants.METATILE_SIZE,
+            constants.METATILE_SIZE
         )

@@ -1,5 +1,5 @@
 # ABOUTME: Player character class with movement and collision
-# ABOUTME: Handles player input, grid-based movement, and map collision detection
+# ABOUTME: Handles player input, grid-based movement, and pylletTown-style animation
 
 import os
 import pygame
@@ -11,7 +11,7 @@ PLAYER_SPRITE_PATH = os.path.join("assets", "sprites", "player", "red.png")
 
 
 class Player(Entity):
-    """Player character controlled by user input."""
+    """Player character controlled by user input (pylletTown-style animation)."""
 
     def __init__(self, tile_x, tile_y):
         """
@@ -23,18 +23,18 @@ class Player(Entity):
         """
         super().__init__(tile_x, tile_y, sprite_surface=None)
         self.sprite_sheet = SpriteSheet(PLAYER_SPRITE_PATH)
+        self.sprite_sheet.set_orientation(self.direction)
 
     def render(self, renderer, camera_x, camera_y):
-        """Render the player using direction-aware sprite."""
-        use_walk_frame = self.is_moving and self.animation_frame == 1
-        frame = self.sprite_sheet.get_frame(self.direction, use_walk_frame)
+        """Render the player using the current sprite frame."""
+        frame = self.sprite_sheet.get_current_frame()
         screen_x = self.pixel_x - camera_x
         screen_y = self.pixel_y - camera_y
         renderer.draw_surface(frame, (screen_x, screen_y))
 
     def handle_input(self, input_handler, current_map, npcs=None, item_pickups=None):
         """
-        Handle player input for movement.
+        Handle player input for movement (pylletTown-style with hold delay).
 
         Args:
             input_handler: Input instance with current input state
@@ -45,54 +45,61 @@ class Player(Entity):
         Returns:
             True if player attempted to move, False otherwise
         """
-        # Don't accept input while moving
+        # Get direction from input
+        direction = input_handler.get_direction()
+
+        # No direction key pressed
+        if direction is None:
+            self.hold_time = 0
+            self.step = 'right_foot'
+            return False
+
+        # Don't accept new direction input while walking
         if self.is_moving:
             return False
 
-        # Get direction from input
-        direction = input_handler.get_direction()
-        if direction is None:
-            return False
-
-        # Check if we can move in that direction
-        target_x, target_y = self._get_target_tile(direction)
-
-        # Check map collision
-        if not current_map.is_walkable(target_x, target_y):
-            # Just turn to face that direction
+        # Turn to face direction if different
+        if self.direction != direction:
             self.direction = direction
+            self.sprite_sheet.set_orientation(direction)
+            self.hold_time = 0  # Reset hold counter on direction change
+
+        # Accumulate hold frames
+        self.hold_time += 1
+
+        # Start walking after hold threshold
+        if self.hold_time >= self.HOLD_FRAMES_THRESHOLD:
+            target_x, target_y = self._get_target_tile(direction)
+
+            # Check collisions
+            if not self._can_move_to(target_x, target_y, current_map, npcs, item_pickups):
+                return False
+
+            # Start moving
+            self.start_move(direction)
+            return True
+
+        return False
+
+    def _can_move_to(self, target_x, target_y, current_map, npcs, item_pickups):
+        """Check if player can move to target position."""
+        if not current_map.is_walkable(target_x, target_y):
             return False
 
-        # Check NPC collision
         if npcs:
             for npc in npcs:
                 if npc.tile_x == target_x and npc.tile_y == target_y:
-                    # Just turn to face that direction
-                    self.direction = direction
                     return False
 
-        # Check item pickup collision
         if item_pickups:
             for pickup in item_pickups:
                 if pickup.tile_x == target_x and pickup.tile_y == target_y:
-                    # Just turn to face that direction
-                    self.direction = direction
                     return False
 
-        # All clear, start moving
-        self.start_move(direction)
         return True
 
     def _get_target_tile(self, direction):
-        """
-        Get the target tile position for a given direction.
-
-        Args:
-            direction: Direction constant
-
-        Returns:
-            Tuple of (target_x, target_y)
-        """
+        """Get the target tile position for a given direction."""
         target_x = self.tile_x
         target_y = self.tile_y
 
@@ -108,10 +115,27 @@ class Player(Entity):
         return (target_x, target_y)
 
     def update(self):
-        """Update player state (movement, animation)."""
-        if self.is_moving:
-            self.update_movement(speed=constants.MOVEMENT_SPEED)
-            self.update_animation()
+        """Update player state (movement, animation) pylletTown-style."""
+        if not self.is_moving:
+            return
+
+        # Move pixels
+        self.update_movement(speed=constants.MOVEMENT_SPEED)
+
+        # Switch to walking sprite at halfway point
+        if self.move_progress == constants.METATILE_SIZE // 2:
+            # Alternate feet for up/down directions
+            if (self.direction == constants.DIR_UP or
+                    self.direction == constants.DIR_DOWN) and self.step == 'left_foot':
+                self.sprite_sheet.flip_horizontal()
+                self.step = 'right_foot'
+            else:
+                self.sprite_sheet.set_walking_frame()
+                self.step = 'left_foot'
+
+        # Reset sprite when movement completes
+        if not self.is_moving:
+            self.sprite_sheet.set_orientation(self.direction)
 
     def to_dict(self) -> dict:
         """Serialize player position and direction."""
@@ -138,8 +162,8 @@ class Player(Entity):
             "right": constants.DIR_RIGHT
         }
         player.direction = direction_map.get(data.get("direction"), constants.DIR_DOWN)
-        player.pixel_x = player.tile_x * constants.TILE_SIZE
-        player.pixel_y = player.tile_y * constants.TILE_SIZE
+        player.pixel_x = player.tile_x * constants.METATILE_SIZE
+        player.pixel_y = player.tile_y * constants.METATILE_SIZE
         player.is_moving = False
         player.move_progress = 0
         player.target_tile_x = player.tile_x
