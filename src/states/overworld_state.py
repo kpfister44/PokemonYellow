@@ -334,9 +334,6 @@ class OverworldState(BaseState):
         for npc in self.npcs:
             npc.update()
 
-        # Update animated sprites (dt is in seconds, convert to ms)
-        dt_ms = int(dt * 1000)
-        self.current_map.update_animated_sprites(dt_ms)
 
         # Check for warps after player finishes moving
         if not self.player.is_moving and self.player_was_moving:
@@ -454,8 +451,6 @@ class OverworldState(BaseState):
         # Render the map with camera offset
         self.current_map.draw_base(renderer, camera_x, camera_y)
 
-        # Render animated sprites (water, flowers) on top of base
-        self.current_map.draw_animated_sprites(renderer, camera_x, camera_y)
 
         renderables = []
         renderables.extend(self.item_pickups)

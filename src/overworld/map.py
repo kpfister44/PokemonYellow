@@ -13,7 +13,6 @@ from src.engine import constants
 from src.overworld.dialog_loader import DialogLoader
 from src.overworld.item_pickup import ItemPickup
 from src.overworld.npc import NPC
-from src.overworld.sprite_loop import SpriteLoop
 
 
 class MapManager:
@@ -55,12 +54,10 @@ class MapManager:
         self.npcs: list[NPC] = []
         self.warps: list[dict[str, Any]] = []
         self.item_pickups: list[ItemPickup] = []
-        self.animated_sprites: list[SpriteLoop] = []
         self.player_start: tuple[int, int] | None = None
         self.dialog_loader = DialogLoader()
         self._parse_objects()
         self._build_tile_warps()
-        self._parse_animated_tiles()
 
     def _collect_layers(self) -> None:
         for layer in self.tmx_data.layers:
@@ -268,49 +265,6 @@ class MapManager:
                     # Convert base tile to metatile coordinates
                     self.player_start = (x // 2, y // 2)
 
-    def _parse_animated_tiles(self) -> None:
-        """Scan tiles for animation properties and create SpriteLoop instances."""
-        for layer in self.tmx_data.layers:
-            if not isinstance(layer, pytmx.TiledTileLayer):
-                continue
-            for x, y, gid in layer:
-                if gid == 0:
-                    continue
-                properties = self.tmx_data.get_tile_properties_by_gid(gid) or {}
-
-                # Check if tile has animation properties
-                src = properties.get("src")
-                if not src:
-                    continue
-
-                # Build cell dict for SpriteLoop
-                # Use frame_count instead of frames (pytmx reserves 'frames')
-                frame_width = properties.get("frame_width", properties.get("width", 16))
-                frame_height = properties.get("frame_height", properties.get("height", 16))
-                cell = {
-                    "src": src,
-                    "frame_width": frame_width,
-                    "frame_height": frame_height,
-                    "frame_count": properties.get("frame_count", 2),
-                    "mspf": properties.get("mspf", 500),
-                }
-
-                # Create SpriteLoop at tile pixel position
-                pixel_x = x * self.tile_width
-                y_offset = max(0, int(frame_height) - self.tile_height)
-                pixel_y = y * self.tile_height - y_offset
-                sprite = SpriteLoop((pixel_x, pixel_y), cell)
-                self.animated_sprites.append(sprite)
-
-    def update_animated_sprites(self, dt: int) -> None:
-        """Update all animated sprites."""
-        for sprite in self.animated_sprites:
-            sprite.update(dt)
-
-    def draw_animated_sprites(self, renderer, camera_x: int, camera_y: int) -> None:
-        """Draw all animated sprites."""
-        for sprite in self.animated_sprites:
-            sprite.render(renderer, camera_x, camera_y)
 
     def draw_base(self, renderer, camera_x: int, camera_y: int) -> None:
         renderer.draw_surface(self.lower_surface, (-camera_x, -camera_y))
