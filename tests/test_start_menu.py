@@ -4,6 +4,7 @@
 from dataclasses import dataclass
 
 from src.ui.start_menu import StartMenu
+from src.engine import constants
 from src.states.start_menu_state import StartMenuState
 from src.party.party import Party
 from src.items.bag import Bag
@@ -34,8 +35,11 @@ class FakeGame:
 
 
 class FakeRenderer:
+    def __init__(self):
+        self.rects = []
+
     def draw_rect(self, _color, _rect, _width):
-        pass
+        self.rects.append(_rect)
 
     def draw_text(self, _text, _x, _y, _color=None, _size=None, font_size=None):
         pass
@@ -105,6 +109,21 @@ def test_start_menu_get_selection():
 
     menu.cursor_index = 6
     assert menu.get_selection() == "EXIT"
+
+
+def test_start_menu_render_fits_screen():
+    menu = StartMenu()
+    renderer = FakeRenderer()
+
+    menu.render(renderer)
+
+    assert renderer.rects
+    for rect in renderer.rects:
+        x, y, width, height = rect
+        assert x >= 0
+        assert y >= 0
+        assert x + width <= constants.GAME_WIDTH
+        assert y + height <= constants.GAME_HEIGHT
 
 
 # StartMenuState tests

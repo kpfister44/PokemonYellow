@@ -10,8 +10,8 @@ SCALE_FACTOR = 1
 WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 160
 WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 144
 
-# UI scaling (2x for menus and dialog)
-UI_SCALE = 2
+# UI scaling (1x for menus and dialog)
+UI_SCALE = 1
 
 # Tile and grid settings
 TILE_SIZE = 8                    # Base tile for rendering (8x8 pixels)
