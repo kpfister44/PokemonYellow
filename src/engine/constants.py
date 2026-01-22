@@ -3,12 +3,12 @@
 
 import pygame
 
-# Display settings (expanded viewport at 16x16 tiles, no scaling)
-GAME_WIDTH = 480
-GAME_HEIGHT = 416
+# Display settings (Game Boy viewport at 20x18 tiles, no scaling)
+GAME_WIDTH = 160
+GAME_HEIGHT = 144
 SCALE_FACTOR = 1
-WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 480
-WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 416
+WINDOW_WIDTH = GAME_WIDTH * SCALE_FACTOR  # 160
+WINDOW_HEIGHT = GAME_HEIGHT * SCALE_FACTOR  # 144
 
 # UI scaling (2x for menus and dialog)
 UI_SCALE = 2
@@ -16,12 +16,12 @@ UI_SCALE = 2
 # Tile and grid settings
 TILE_SIZE = 8                    # Base tile for rendering (8x8 pixels)
 METATILE_SIZE = 16               # Movement/collision grid (2x2 base tiles)
-TILES_WIDE = GAME_WIDTH // TILE_SIZE    # 60 base tiles
-TILES_HIGH = GAME_HEIGHT // TILE_SIZE   # 52 base tiles
+TILES_WIDE = GAME_WIDTH // TILE_SIZE    # 20 base tiles
+TILES_HIGH = GAME_HEIGHT // TILE_SIZE   # 18 base tiles
 
 # Movement operates on metatile grid
-METATILES_WIDE = GAME_WIDTH // METATILE_SIZE   # 30 metatiles
-METATILES_HIGH = GAME_HEIGHT // METATILE_SIZE  # 26 metatiles
+METATILES_WIDE = GAME_WIDTH // METATILE_SIZE   # 10 metatiles
+METATILES_HIGH = GAME_HEIGHT // METATILE_SIZE  # 9 metatiles
 
 # Frame rate
 FPS = 60

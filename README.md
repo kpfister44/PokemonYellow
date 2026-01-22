@@ -11,7 +11,7 @@ A pixel-perfect recreation of Pokemon Yellow using PyGame, built incrementally f
 - ✅ Core game loop with 60 FPS frame timing
 - ✅ State machine architecture
 - ✅ Input handling system (Arrow keys + Z/X/Enter)
-- ✅ Rendering pipeline with 3x scaling (160x144 → 480x432)
+- ✅ Rendering pipeline at native 160x144 resolution
 - ✅ Sprite caching system
 - ✅ Game Boy color palette
 - ✅ Tile-based map system with multi-layer rendering
@@ -144,8 +144,8 @@ pokemon_yellow/
 
 ## Technical Details
 
-- **Display**: 160x144 native resolution scaled 3x to 480x432
-- **Tile Size**: 16x16 pixels (Game Boy standard)
+- **Display**: 160x144 native resolution (no scaling)
+- **Tile Size**: 8x8 pixels (Game Boy standard)
 - **Frame Rate**: 60 FPS
 - **Architecture**: State machine with clean separation
 - **Data Format**: JSON for maps, YAML for Pokemon/moves

@@ -47,8 +47,8 @@ The game currently has:
 ### Language & Framework
 - **Python 3.11+** (using Python 3.13.5)
 - **PyGame 2.6.1** - Game framework
-- **Resolution**: 480x416 native resolution (no scaling)
-- **Tile Size**: 32x32 pixels (2x original Game Boy 16x16)
+- **Resolution**: 160x144 native resolution (no scaling)
+- **Tile Size**: 8x8 pixels (Game Boy standard)
 - **pytmx** - Tiled TMX map loader for PyGame
 - **PyYAML** - For Pokemon/move data files
 - **Requests** - For PokéAPI data hydration (build-time only)
@@ -272,7 +272,7 @@ States are managed via a stack in `Game` class.
 - **Collision**: Tile-based boolean grid
 
 ### Rendering Pipeline
-1. Game renders at native **480x416** resolution (32x32 tiles, 15x13 viewport)
+1. Game renders at native **160x144** resolution (8x8 tiles, 20x18 viewport)
 2. No scaling - window matches internal resolution
 3. Layers: Background (lower) → Entities (player/NPCs) → Fringe (upper) → UI
 4. Camera follows player, clamped to map bounds
@@ -285,8 +285,8 @@ States are managed via a stack in `Game` class.
 ## Technical Specifications
 
 ### Display
-- **Window Size**: 480x416 pixels (no scaling)
-- **Tile Size**: 32x32 pixels
+- **Window Size**: 160x144 pixels (no scaling)
+- **Tile Size**: 8x8 pixels
 - **Viewport**: 15 tiles wide × 13 tiles tall
 - **FPS**: 60
 - **UI Scale**: 2x (for menus and dialog)
@@ -301,7 +301,7 @@ States are managed via a stack in `Game` class.
 
 ### Pallet Town (`assets/maps/pallet_town.tmx`)
 - **Size**: 40 × 36 tiles (1280 × 1152 pixels)
-- **Tileset Source**: pylletTown project (32x32 Game Boy style graphics)
+- **Tileset Source**: pylletTown project (8x8 Game Boy style graphics)
 - **Player Start**: Tile (10, 12) - defined via `playerStart` tile property
 - **Warps**: 6 entry points to `player_house.tmx`
 

@@ -4,7 +4,7 @@
 
 Maps are TMX files created with [Tiled Map Editor](https://www.mapeditor.org/) and loaded via the `pytmx` library. Each map contains embedded tilesets, tile layers, and optional object layers for NPCs/items/warps.
 
-**Current Resolution**: 480x416 pixels (15x13 tiles at 32x32 each)
+**Current Resolution**: 160x144 pixels (20x18 tiles at 8x8 each)
 
 ## File Structure
 
@@ -36,7 +36,7 @@ assets/sprites/
 - Frame 2-3: Up (standing, walking)
 - Frame 4-5: Side (standing, walking) - flipped for right direction
 
-Sprites are scaled 2x to 32x32 to match tile size.
+Sprites are 16x16 to match metatiles (2x2 base tiles).
 
 ## How MapManager Works
 
@@ -147,7 +147,7 @@ For more control, use an object layer instead of/in addition to tile properties:
 1. File → New → New Map
 2. Settings:
    - Orientation: Orthogonal
-   - Tile size: **32 x 32 pixels** (must match)
+   - Tile size: **8 x 8 pixels** (must match)
    - Map size: Your desired dimensions (e.g., 20x15 tiles)
 3. Save as `assets/maps/your_map.tmx`
 
@@ -156,7 +156,7 @@ For more control, use an object layer instead of/in addition to tile properties:
 1. Map → New Tileset
 2. Name it (e.g., "ground")
 3. Source: Browse to `assets/maps/groundCompiled.png`
-4. Tile size: **32 x 32**
+4. Tile size: **8 x 8**
 5. Check "Embed in map" (keeps everything in one TMX file)
 6. Repeat for other tilesets you need
 
@@ -294,7 +294,7 @@ class MapManager:
 
 ### Map doesn't load
 - Check file path is correct (`assets/maps/your_map.tmx`)
-- Verify tile size is exactly 32x32
+- Verify tile size is exactly 8x8
 - Ensure tileset images are in `assets/maps/`
 
 ### Player can walk through walls
