@@ -193,10 +193,16 @@ class MapManager:
             return
         dest_x = self._coerce_int(obj.properties.get("dest_x"), 0)
         dest_y = self._coerce_int(obj.properties.get("dest_y"), 0)
-        tile_x, tile_y = self._object_tile_position(obj)
+        # Calculate warp bounds in metatile coordinates
+        min_tile_x = int(obj.x // constants.METATILE_SIZE)
+        max_tile_x = int((obj.x + obj.width - 1) // constants.METATILE_SIZE)
+        min_tile_y = int(obj.y // constants.METATILE_SIZE)
+        max_tile_y = int((obj.y + obj.height - 1) // constants.METATILE_SIZE)
         self.warps.append({
-            "tile_x": tile_x,
-            "tile_y": tile_y,
+            "min_tile_x": min_tile_x,
+            "max_tile_x": max_tile_x,
+            "min_tile_y": min_tile_y,
+            "max_tile_y": max_tile_y,
             "dest_map": dest_map,
             "dest_x": dest_x,
             "dest_y": dest_y
@@ -254,8 +260,10 @@ class MapManager:
                     metatile_x = x // 2
                     metatile_y = y // 2
                     self.warps.append({
-                        "tile_x": metatile_x,
-                        "tile_y": metatile_y,
+                        "min_tile_x": metatile_x,
+                        "max_tile_x": metatile_x,
+                        "min_tile_y": metatile_y,
+                        "max_tile_y": metatile_y,
                         "dest_map": entry,
                         "dest_x": -1,  # -1 means use destination map's playerStart
                         "dest_y": -1
@@ -290,7 +298,8 @@ class MapManager:
 
     def get_warp_at(self, tile_x: int, tile_y: int) -> dict[str, Any] | None:
         for warp in self.warps:
-            if warp["tile_x"] == tile_x and warp["tile_y"] == tile_y:
+            if (warp["min_tile_x"] <= tile_x <= warp["max_tile_x"] and
+                warp["min_tile_y"] <= tile_y <= warp["max_tile_y"]):
                 return warp
         return None
 

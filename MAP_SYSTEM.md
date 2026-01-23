@@ -126,14 +126,23 @@ For more control, use an object layer instead of/in addition to tile properties:
 
 ### Warp Object (alternative to `entry` tile property)
 ```xml
-<object name="to_route1" type="Warp" x="320" y="0" width="32" height="32">
+<object name="to_route1" type="warp" x="320" y="0" width="32" height="32">
   <properties>
     <property name="dest_map" value="route_1.tmx"/>
-    <property name="dest_x" type="int" value="5"/>
-    <property name="dest_y" type="int" value="29"/>
+    <property name="dest_x" value="5"/>
+    <property name="dest_y" value="29"/>
   </properties>
 </object>
 ```
+
+**Warp Object Properties:**
+| Property | Required | Description |
+|----------|----------|-------------|
+| `dest_map` | Yes | Destination map filename (e.g., `route_1.tmx`) |
+| `dest_x` | Yes | Destination X coordinate in metatiles |
+| `dest_y` | Yes | Destination Y coordinate in metatiles |
+
+**Note**: The warp rectangle (x, y, width, height) defines a trigger zone. When the player enters ANY metatile within this zone, the warp activates. This allows multi-tile warp areas (e.g., a large doorway or transition zone).
 
 ## Creating a New Map
 

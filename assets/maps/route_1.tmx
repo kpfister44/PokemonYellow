@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="72" tilewidth="8" tileheight="8" infinite="0" nextlayerid="7" nextobjectid="19">
- <tileset firstgid="1" name="triggers" tilewidth="32" tileheight="32" tilecount="12" columns="6">
-  <image source="triggers.png" width="192" height="64"/>
+ <tileset firstgid="1" name="triggers" tilewidth="8" tileheight="8" tilecount="12" columns="6">
+  <image source="triggers.png" width="48" height="16"/>
   <tile id="0">
    <properties>
     <property name="playerStart" value="up"/>
@@ -44,7 +44,7 @@
   </tile>
  </tileset>
  <tileset firstgid="13" name="overworld_new" tilewidth="16" tileheight="16" tilecount="24" columns="8">
-  <image source="../../../Desktop/overworld_new.png" width="128" height="48"/>
+  <image source="overworld_new.png" width="128" height="48"/>
  </tileset>
  <layer id="1" name="foreground" width="32" height="72">
   <data encoding="csv">

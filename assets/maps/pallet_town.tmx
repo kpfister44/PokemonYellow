@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="36" tilewidth="8" tileheight="8" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="36" tilewidth="8" tileheight="8" infinite="0" nextlayerid="6" nextobjectid="5">
  <tileset firstgid="1" name="objects_big" tilewidth="16" tileheight="16" tilecount="4" columns="4">
   <image source="objects_big.png" width="72" height="16"/>
   <tile id="0">
@@ -20,35 +20,208 @@
  </tileset>
  <tileset firstgid="5" name="ground_compiled_8x8" tilewidth="8" tileheight="8" tilecount="6" columns="6">
   <image source="ground_compiled_8x8.png" width="48" height="8"/>
+  <tile id="3">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="11" name="house_big" tilewidth="16" tileheight="16" tilecount="12" columns="4">
   <image source="house_big.png" width="64" height="48"/>
- </tileset>
- <tileset firstgid="23" name="lab_big" tilewidth="16" tileheight="16" tilecount="24" columns="6">
-  <image source="lab_big.png" width="96" height="64"/>
- </tileset>
- <tileset firstgid="47" name="sprites_big" tilewidth="16" tileheight="16" tilecount="2" columns="2">
-  <image source="sprites_big.png" width="32" height="16"/>
   <tile id="0">
    <properties>
-    <property name="src" value="assets/sprites/water.png"/>
-    <property name="frame_count" type="int" value="4"/>
-    <property name="mspf" type="int" value="350"/>
+    <property name="solid" value=""/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
-    <property name="src" value="assets/sprites/flower.png"/>
-    <property name="frame_count" type="int" value="4"/>
-    <property name="mspf" type="int" value="350"/>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="solid" value=""/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="49" name="triggers_big" tilewidth="16" tileheight="16" tilecount="3" columns="3">
+ <tileset firstgid="23" name="lab_big" tilewidth="16" tileheight="16" tilecount="24" columns="6">
+  <image source="lab_big.png" width="96" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="solid" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="47" name="triggers_big" tilewidth="16" tileheight="16" tilecount="3" columns="3">
   <image source="triggers.png" width="48" height="16"/>
   <tile id="0">
    <properties>
     <property name="playerStart" value="down"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="entry" value="player_house.tmx"/>
    </properties>
   </tile>
  </tileset>
@@ -62,14 +235,25 @@
    eJzty7kRgDAQBEH5vOLLP1ScjeEoFd3OWNMawDemdE6XdC36R7ele9rTo+gf3Zle6Z0+RT8AAAD8wQtr9wGN
   </data>
  </layer>
- <layer id="3" name="sprites" width="40" height="36" visible="0">
+ <layer id="4" name="triggers" width="40" height="36">
   <data encoding="base64" compression="zlib">
-   eJzt1LENACAIBEA30v2ns7I0Nipo7hpC9/kESgEAAOAnbbFHyZoLOGd19zv/QJ3MF93sbfipvwjZ+4vM1wEqggQV
+   eJztzjEBAAAIA6A1sn87O+zRAxKQAAB05joAAADAawuy5gAw
   </data>
  </layer>
- <layer id="4" name="triggers" width="40" height="36" visible="0">
-  <data encoding="base64" compression="zlib">
-   eJztzqENAEAIwEBWgv2He/8WAQl3prYRN9RXAKAvpwcAAABY7QE9rQCW
-  </data>
- </layer>
+ <objectgroup id="5" name="warps">
+  <object id="1" name="to_route_1" type="warp" x="144.961" y="2.32558" width="31.7829" height="11.6279">
+   <properties>
+    <property name="dest_map" value="route_1.tmx"/>
+    <property name="dest_x" value="8"/>
+    <property name="dest_y" value="34"/>
+   </properties>
+  </object>
+  <object id="4" name="to_player_house" type="warp" x="82.1705" y="82.1705" width="12.4031" height="10.8527">
+   <properties>
+    <property name="dest_map" value="player_house.tmx"/>
+    <property name="dest_x" value="3"/>
+    <property name="dest_y" value="6"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
